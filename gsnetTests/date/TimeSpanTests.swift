@@ -1,5 +1,5 @@
 //
-//  RandomTests.swift
+//  TimeSpanTests.swift
 //  gsnet
 //
 //  Created by Gabor Soulavy on 20/11/2015.
@@ -7,9 +7,8 @@
 //
 
 import XCTest
-@testable import gsnet
 
-class RandomTests: XCTestCase {
+class TimeSpanTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
@@ -21,30 +20,11 @@ class RandomTests: XCTestCase {
         super.tearDown()
     }
 
-    func testNext_return() {
-        
-        let r = Random()
-        var result: int = 0
-        for _ in 0..<10 {
-            result = r.Next()
-            XCTAssertGreaterThan(result, 0)
-            XCTAssertLessThan(result, int.max)
-        }
+    func testExample() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
-    func testSample_return() {
-        
-        let r = Random()
-        var result: double = 0
-        for _ in 0..<10 {
-            result = r.Sample()
-            XCTAssertGreaterThan(result, 0)
-            XCTAssertLessThan(result, 1)
-        }
-    }
-    
-    
-    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measureBlock {

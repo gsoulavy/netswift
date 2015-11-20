@@ -9,7 +9,7 @@
 public class Random {
     
     internal var _seed: uint = 0
-    let _isSeedProvided: Bool
+    internal let _isSeedProvided: Bool
     
     public init(){
         _isSeedProvided = false
@@ -22,5 +22,36 @@ public class Random {
     
     public func Next() -> int {
         return int(arc4random_uniform(uint(int.max)))
+    }
+    
+    func Next(upper: int) -> int{
+        return int(arc4random_uniform(uint(upper)))
+    }
+    
+    func Next(minValue: int, _ maxValue: int) -> int {
+        return self.Next(maxValue - minValue + 1) + minValue
+    }
+    
+    func Next(inout bytesArray: [byte]) -> [byte] {
+        for var index = 0; index < bytesArray.count; index++ {
+            bytesArray[index] = byte(arc4random_uniform(uint(255)))
+        }
+        return bytesArray
+    }
+    
+    public func Sample() -> double {
+        return double(Float(arc4random()) / Float(uint.max))
+    }
+    
+    func NextDouble() -> double {
+        return double(arc4random()) / 0xFFFFFFFF
+    }
+    
+    func NextFloat() -> float {
+        return float(arc4random())  / 0xFFFFFFFF
+    }
+    
+    func NextCGFloat() -> CGFloat {
+        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
     }
 }
