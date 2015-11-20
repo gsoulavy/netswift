@@ -10,6 +10,24 @@
 		4055FE361BFFBB6800A7D8FB /* gsnet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4055FE351BFFBB6800A7D8FB /* gsnet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4055FE3D1BFFBB6800A7D8FB /* gsnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4055FE321BFFBB6800A7D8FB /* gsnet.framework */; };
 		4055FE421BFFBB6800A7D8FB /* gsnetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE411BFFBB6800A7D8FB /* gsnetTests.swift */; };
+		4055FE511BFFBC4300A7D8FB /* Aliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE501BFFBC4300A7D8FB /* Aliases.swift */; };
+		4055FE571BFFBC5100A7D8FB /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE521BFFBC5100A7D8FB /* List.swift */; };
+		4055FE581BFFBC5100A7D8FB /* ListSequenceGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE531BFFBC5100A7D8FB /* ListSequenceGenerator.swift */; };
+		4055FE591BFFBC5100A7D8FB /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE541BFFBC5100A7D8FB /* Queue.swift */; };
+		4055FE5A1BFFBC5100A7D8FB /* ReadOnlyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE551BFFBC5100A7D8FB /* ReadOnlyList.swift */; };
+		4055FE5B1BFFBC5100A7D8FB /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE561BFFBC5100A7D8FB /* Stack.swift */; };
+		4055FE661BFFBC6600A7D8FB /* byte_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE5C1BFFBC6600A7D8FB /* byte_e.swift */; };
+		4055FE671BFFBC6600A7D8FB /* float_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE5D1BFFBC6600A7D8FB /* float_e.swift */; };
+		4055FE681BFFBC6600A7D8FB /* int_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE5E1BFFBC6600A7D8FB /* int_e.swift */; };
+		4055FE691BFFBC6600A7D8FB /* List_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE5F1BFFBC6600A7D8FB /* List_e.swift */; };
+		4055FE6A1BFFBC6600A7D8FB /* long_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE601BFFBC6600A7D8FB /* long_e.swift */; };
+		4055FE6B1BFFBC6600A7D8FB /* sbyte_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE611BFFBC6600A7D8FB /* sbyte_e.swift */; };
+		4055FE6C1BFFBC6600A7D8FB /* short_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE621BFFBC6600A7D8FB /* short_e.swift */; };
+		4055FE6D1BFFBC6600A7D8FB /* String_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE631BFFBC6600A7D8FB /* String_e.swift */; };
+		4055FE6E1BFFBC6600A7D8FB /* ulong_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE641BFFBC6600A7D8FB /* ulong_e.swift */; };
+		4055FE6F1BFFBC6600A7D8FB /* ushort_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE651BFFBC6600A7D8FB /* ushort_e.swift */; };
+		4055FE711BFFBC7500A7D8FB /* ValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE701BFFBC7500A7D8FB /* ValueType.swift */; };
+		4055FE741BFFBCCD00A7D8FB /* ListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE731BFFBCCD00A7D8FB /* ListTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +47,24 @@
 		4055FE3C1BFFBB6800A7D8FB /* gsnetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = gsnetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4055FE411BFFBB6800A7D8FB /* gsnetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gsnetTests.swift; sourceTree = "<group>"; };
 		4055FE431BFFBB6800A7D8FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4055FE501BFFBC4300A7D8FB /* Aliases.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Aliases.swift; path = gsnet/aliases/Aliases.swift; sourceTree = "<group>"; };
+		4055FE521BFFBC5100A7D8FB /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = List.swift; path = gsnet/collections/List.swift; sourceTree = "<group>"; };
+		4055FE531BFFBC5100A7D8FB /* ListSequenceGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListSequenceGenerator.swift; path = gsnet/collections/ListSequenceGenerator.swift; sourceTree = "<group>"; };
+		4055FE541BFFBC5100A7D8FB /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Queue.swift; path = gsnet/collections/Queue.swift; sourceTree = "<group>"; };
+		4055FE551BFFBC5100A7D8FB /* ReadOnlyList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReadOnlyList.swift; path = gsnet/collections/ReadOnlyList.swift; sourceTree = "<group>"; };
+		4055FE561BFFBC5100A7D8FB /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stack.swift; path = gsnet/collections/Stack.swift; sourceTree = "<group>"; };
+		4055FE5C1BFFBC6600A7D8FB /* byte_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = byte_e.swift; path = gsnet/extensions/byte_e.swift; sourceTree = "<group>"; };
+		4055FE5D1BFFBC6600A7D8FB /* float_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = float_e.swift; path = gsnet/extensions/float_e.swift; sourceTree = "<group>"; };
+		4055FE5E1BFFBC6600A7D8FB /* int_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = int_e.swift; path = gsnet/extensions/int_e.swift; sourceTree = "<group>"; };
+		4055FE5F1BFFBC6600A7D8FB /* List_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = List_e.swift; path = gsnet/extensions/List_e.swift; sourceTree = "<group>"; };
+		4055FE601BFFBC6600A7D8FB /* long_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = long_e.swift; path = gsnet/extensions/long_e.swift; sourceTree = "<group>"; };
+		4055FE611BFFBC6600A7D8FB /* sbyte_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = sbyte_e.swift; path = gsnet/extensions/sbyte_e.swift; sourceTree = "<group>"; };
+		4055FE621BFFBC6600A7D8FB /* short_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = short_e.swift; path = gsnet/extensions/short_e.swift; sourceTree = "<group>"; };
+		4055FE631BFFBC6600A7D8FB /* String_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = String_e.swift; path = gsnet/extensions/String_e.swift; sourceTree = "<group>"; };
+		4055FE641BFFBC6600A7D8FB /* ulong_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ulong_e.swift; path = gsnet/extensions/ulong_e.swift; sourceTree = "<group>"; };
+		4055FE651BFFBC6600A7D8FB /* ushort_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ushort_e.swift; path = gsnet/extensions/ushort_e.swift; sourceTree = "<group>"; };
+		4055FE701BFFBC7500A7D8FB /* ValueType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueType.swift; path = gsnet/protocols/ValueType.swift; sourceTree = "<group>"; };
+		4055FE731BFFBCCD00A7D8FB /* ListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListTests.swift; path = collections/ListTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +89,10 @@
 		4055FE281BFFBB6800A7D8FB = {
 			isa = PBXGroup;
 			children = (
+				4055FE4F1BFFBC3600A7D8FB /* protocols */,
+				4055FE4E1BFFBC2500A7D8FB /* extensions */,
+				4055FE4D1BFFBC1D00A7D8FB /* collections */,
+				4055FE4C1BFFBC1000A7D8FB /* aliases */,
 				4055FE341BFFBB6800A7D8FB /* gsnet */,
 				4055FE401BFFBB6800A7D8FB /* gsnetTests */,
 				4055FE331BFFBB6800A7D8FB /* Products */,
@@ -80,10 +120,64 @@
 		4055FE401BFFBB6800A7D8FB /* gsnetTests */ = {
 			isa = PBXGroup;
 			children = (
+				4055FE721BFFBC7D00A7D8FB /* collections */,
 				4055FE411BFFBB6800A7D8FB /* gsnetTests.swift */,
 				4055FE431BFFBB6800A7D8FB /* Info.plist */,
 			);
 			path = gsnetTests;
+			sourceTree = "<group>";
+		};
+		4055FE4C1BFFBC1000A7D8FB /* aliases */ = {
+			isa = PBXGroup;
+			children = (
+				4055FE501BFFBC4300A7D8FB /* Aliases.swift */,
+			);
+			name = aliases;
+			sourceTree = "<group>";
+		};
+		4055FE4D1BFFBC1D00A7D8FB /* collections */ = {
+			isa = PBXGroup;
+			children = (
+				4055FE521BFFBC5100A7D8FB /* List.swift */,
+				4055FE531BFFBC5100A7D8FB /* ListSequenceGenerator.swift */,
+				4055FE541BFFBC5100A7D8FB /* Queue.swift */,
+				4055FE551BFFBC5100A7D8FB /* ReadOnlyList.swift */,
+				4055FE561BFFBC5100A7D8FB /* Stack.swift */,
+			);
+			name = collections;
+			sourceTree = "<group>";
+		};
+		4055FE4E1BFFBC2500A7D8FB /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4055FE5C1BFFBC6600A7D8FB /* byte_e.swift */,
+				4055FE5D1BFFBC6600A7D8FB /* float_e.swift */,
+				4055FE5E1BFFBC6600A7D8FB /* int_e.swift */,
+				4055FE5F1BFFBC6600A7D8FB /* List_e.swift */,
+				4055FE601BFFBC6600A7D8FB /* long_e.swift */,
+				4055FE611BFFBC6600A7D8FB /* sbyte_e.swift */,
+				4055FE621BFFBC6600A7D8FB /* short_e.swift */,
+				4055FE631BFFBC6600A7D8FB /* String_e.swift */,
+				4055FE641BFFBC6600A7D8FB /* ulong_e.swift */,
+				4055FE651BFFBC6600A7D8FB /* ushort_e.swift */,
+			);
+			name = extensions;
+			sourceTree = "<group>";
+		};
+		4055FE4F1BFFBC3600A7D8FB /* protocols */ = {
+			isa = PBXGroup;
+			children = (
+				4055FE701BFFBC7500A7D8FB /* ValueType.swift */,
+			);
+			name = protocols;
+			sourceTree = "<group>";
+		};
+		4055FE721BFFBC7D00A7D8FB /* collections */ = {
+			isa = PBXGroup;
+			children = (
+				4055FE731BFFBCCD00A7D8FB /* ListTests.swift */,
+			);
+			name = collections;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +288,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4055FE6C1BFFBC6600A7D8FB /* short_e.swift in Sources */,
+				4055FE6E1BFFBC6600A7D8FB /* ulong_e.swift in Sources */,
+				4055FE6F1BFFBC6600A7D8FB /* ushort_e.swift in Sources */,
+				4055FE6A1BFFBC6600A7D8FB /* long_e.swift in Sources */,
+				4055FE511BFFBC4300A7D8FB /* Aliases.swift in Sources */,
+				4055FE571BFFBC5100A7D8FB /* List.swift in Sources */,
+				4055FE6B1BFFBC6600A7D8FB /* sbyte_e.swift in Sources */,
+				4055FE671BFFBC6600A7D8FB /* float_e.swift in Sources */,
+				4055FE581BFFBC5100A7D8FB /* ListSequenceGenerator.swift in Sources */,
+				4055FE591BFFBC5100A7D8FB /* Queue.swift in Sources */,
+				4055FE711BFFBC7500A7D8FB /* ValueType.swift in Sources */,
+				4055FE661BFFBC6600A7D8FB /* byte_e.swift in Sources */,
+				4055FE5B1BFFBC5100A7D8FB /* Stack.swift in Sources */,
+				4055FE5A1BFFBC5100A7D8FB /* ReadOnlyList.swift in Sources */,
+				4055FE681BFFBC6600A7D8FB /* int_e.swift in Sources */,
+				4055FE6D1BFFBC6600A7D8FB /* String_e.swift in Sources */,
+				4055FE691BFFBC6600A7D8FB /* List_e.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4055FE421BFFBB6800A7D8FB /* gsnetTests.swift in Sources */,
+				4055FE741BFFBCCD00A7D8FB /* ListTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +417,7 @@
 		4055FE471BFFBB6800A7D8FB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -317,12 +430,14 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.gsoulavy.gsnet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		4055FE481BFFBB6800A7D8FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
