@@ -28,6 +28,8 @@
 		4055FE6F1BFFBC6600A7D8FB /* ushort_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE651BFFBC6600A7D8FB /* ushort_e.swift */; };
 		4055FE711BFFBC7500A7D8FB /* ValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE701BFFBC7500A7D8FB /* ValueType.swift */; };
 		4055FE741BFFBCCD00A7D8FB /* ListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE731BFFBCCD00A7D8FB /* ListTests.swift */; };
+		4055FE7A1BFFC75F00A7D8FB /* RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE791BFFC75F00A7D8FB /* RandomTests.swift */; };
+		4055FE7C1BFFCB7F00A7D8FB /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE7B1BFFCB7F00A7D8FB /* Random.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		4055FE651BFFBC6600A7D8FB /* ushort_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ushort_e.swift; path = gsnet/extensions/ushort_e.swift; sourceTree = "<group>"; };
 		4055FE701BFFBC7500A7D8FB /* ValueType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueType.swift; path = gsnet/protocols/ValueType.swift; sourceTree = "<group>"; };
 		4055FE731BFFBCCD00A7D8FB /* ListTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListTests.swift; path = collections/ListTests.swift; sourceTree = "<group>"; };
+		4055FE791BFFC75F00A7D8FB /* RandomTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomTests.swift; path = numerics/RandomTests.swift; sourceTree = "<group>"; };
+		4055FE7B1BFFCB7F00A7D8FB /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Random.swift; path = gsnet/numerics/Random.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,7 @@
 		4055FE281BFFBB6800A7D8FB = {
 			isa = PBXGroup;
 			children = (
+				4055FE751BFFC6DD00A7D8FB /* numerics */,
 				4055FE4F1BFFBC3600A7D8FB /* protocols */,
 				4055FE4E1BFFBC2500A7D8FB /* extensions */,
 				4055FE4D1BFFBC1D00A7D8FB /* collections */,
@@ -120,6 +125,7 @@
 		4055FE401BFFBB6800A7D8FB /* gsnetTests */ = {
 			isa = PBXGroup;
 			children = (
+				4055FE781BFFC73400A7D8FB /* numerics */,
 				4055FE721BFFBC7D00A7D8FB /* collections */,
 				4055FE411BFFBB6800A7D8FB /* gsnetTests.swift */,
 				4055FE431BFFBB6800A7D8FB /* Info.plist */,
@@ -178,6 +184,22 @@
 				4055FE731BFFBCCD00A7D8FB /* ListTests.swift */,
 			);
 			name = collections;
+			sourceTree = "<group>";
+		};
+		4055FE751BFFC6DD00A7D8FB /* numerics */ = {
+			isa = PBXGroup;
+			children = (
+				4055FE7B1BFFCB7F00A7D8FB /* Random.swift */,
+			);
+			name = numerics;
+			sourceTree = "<group>";
+		};
+		4055FE781BFFC73400A7D8FB /* numerics */ = {
+			isa = PBXGroup;
+			children = (
+				4055FE791BFFC75F00A7D8FB /* RandomTests.swift */,
+			);
+			name = numerics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,6 +318,7 @@
 				4055FE571BFFBC5100A7D8FB /* List.swift in Sources */,
 				4055FE6B1BFFBC6600A7D8FB /* sbyte_e.swift in Sources */,
 				4055FE671BFFBC6600A7D8FB /* float_e.swift in Sources */,
+				4055FE7C1BFFCB7F00A7D8FB /* Random.swift in Sources */,
 				4055FE581BFFBC5100A7D8FB /* ListSequenceGenerator.swift in Sources */,
 				4055FE591BFFBC5100A7D8FB /* Queue.swift in Sources */,
 				4055FE711BFFBC7500A7D8FB /* ValueType.swift in Sources */,
@@ -312,6 +335,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4055FE7A1BFFC75F00A7D8FB /* RandomTests.swift in Sources */,
 				4055FE421BFFBB6800A7D8FB /* gsnetTests.swift in Sources */,
 				4055FE741BFFBCCD00A7D8FB /* ListTests.swift in Sources */,
 			);
