@@ -40,7 +40,7 @@ public class Random {
     }
     
     public func Sample() -> double {
-        return double(Float(arc4random()) / Float(uint.max))
+        return double(float(arc4random()) / float(uint.max))
     }
     
     func NextDouble() -> double {
