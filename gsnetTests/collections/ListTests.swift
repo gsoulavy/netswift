@@ -21,13 +21,13 @@ class ListTests: XCTestCase {
         super.tearDown()
     }
 
-    func testCreateListAndAddElement_CountIsOne() {
+    func testCount_OneElement_One() {
         let list: List<int> = List<int>()
         list.Add(42)
         XCTAssertEqual(list.Count, 1)
     }
     
-    func testCreateListAndRemoveElementFromThree_CountIsTwo() {
+    func testCount_TwoElements_CountIsTwo() {
         let list: List<int> = List<int>()
         list.Add(42); list.Add(32); list.Add(12)
         XCTAssertEqual(list.Count, 3)
@@ -67,11 +67,6 @@ class ListTests: XCTestCase {
             counter++
         }
         XCTAssertEqual(2, counter)
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
     func testPerformanceExample() {
