@@ -35,6 +35,40 @@ class ListTests: XCTestCase {
         XCTAssertEqual(list.Count, 2)
     }
     
+    func testStartIndex_ReturnsAlwaysZero(){
+        let list: List<int> = List<int>()
+        XCTAssertEqual(0, list.startIndex)
+        list.Add(1)
+        XCTAssertEqual(0, list.startIndex)
+    }
+    
+    func testEndIndex_WithEmptyList_ReturnsZero(){
+        let list: List<int> = List<int>()
+        XCTAssertEqual(0, list.endIndex)
+    }
+    
+    func testEndIndex_TwoElements_ReturnsTwo(){
+        let list: List<int> = List<int>()
+        list.Add(1)
+        list.Add(33)
+        XCTAssertEqual(2, list.endIndex)
+    }
+    
+    func testArray_TwoElements_RetursTwo(){
+        let list = [1,2]
+        XCTAssertEqual(2, list.endIndex)
+    }
+    
+    func testList_TwoElements_LoopsTwiceInForEach(){
+        let list = List<int>()
+        list.Add(23); list.Add(2)
+        var counter = 0
+        for _ in list {
+            counter++
+        }
+        XCTAssertEqual(2, counter)
+    }
+    
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
