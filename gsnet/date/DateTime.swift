@@ -6,7 +6,7 @@
 //  Copyright © 2015 Gabor Soulavy. All rights reserved.
 //
 
-struct DateTime {
+public struct DateTime {
     
     private static let TicksPerMillisecond : long = 10000;
     private static let TicksPerSecond: long = TicksPerMillisecond * 1000;
