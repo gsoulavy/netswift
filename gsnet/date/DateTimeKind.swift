@@ -7,12 +7,12 @@
 //
 
 public enum DateTimeKind : Int, CustomStringConvertible {
-    case UTC, Local, Unspecified
+    case Unspecified = 0, Utc = 1, Local = 2
     
     public var description: String {
         get {
             switch self {
-            case .UTC:
+            case .Utc:
                 return "UTC"
             case .Local:
                 return "Local"

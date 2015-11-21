@@ -9,6 +9,7 @@
 
 //INT -> DOUBLE
 //int -> double +
+/*
 func + (l: int, r: double) -> double {
     return double(l) + r
 }
@@ -80,6 +81,7 @@ func / (l: long, r: double) -> double {
 func / (l: double, r: long) -> double {
     return l / double(r)
 }
+*/
 /*
 //FLOAT -> DOUBLE
 //float -> double +
@@ -155,7 +157,8 @@ func / (l: int, r: long) -> long {
 func / (l: long, r: int) -> long {
     return l / long(r)
 }
-
+*/
+/*
 //UINT -> LONG
 //uint -> long +
 func + (l: uint, r: long) -> long {

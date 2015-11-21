@@ -6,82 +6,467 @@
 //  Copyright © 2015 Gabor Soulavy. All rights reserved.
 //
 
-public struct DateTime {
+public struct DateTime : Equatable, Comparable {
     
     private static let TicksPerMillisecond : long = 10000;
     private static let TicksPerSecond: long = TicksPerMillisecond * 1000;
-    private static let TicksPerMinute: long = TicksPerSecond * 60;
-    private static let TicksPerHour: long = TicksPerMinute * 60;
-    private static let TicksPerDay: long = TicksPerHour * 24;
+    private static let TicksPerMinute: long = TicksPerSecond * 60
+    private static let TicksPerHour: long = TicksPerMinute * 60
+    private static let TicksPerDay: long = TicksPerHour * 24
     
     // Number of milliseconds per time unit
-    private static let MillisPerSecond: int = 1000;
-    private static let MillisPerMinute: int = MillisPerSecond * 60;
-    private static let MillisPerHour: int = MillisPerMinute * 60;
-    private static let MillisPerDay: int = MillisPerHour * 24;
+    private static let MillisPerSecond: int = 1000
+    private static let MillisPerMinute: int = MillisPerSecond * 60
+    private static let MillisPerHour: int = MillisPerMinute * 60
+    private static let MillisPerDay: int = MillisPerHour * 24
     
     // Number of days in a non-leap year
-    private static let DaysPerYear: int = 365;
+    private static let DaysPerYear: int = 365
     // Number of days in 4 years
-    private static let DaysPer4Years: int = DaysPerYear * 4 + 1;       // 1461
+    private static let DaysPer4Years: int = DaysPerYear * 4 + 1       // 1461
     // Number of days in 100 years
-    private static let DaysPer100Years: int = DaysPer4Years * 25 - 1;  // 36524
+    private static let DaysPer100Years: int = DaysPer4Years * 25 - 1  // 36524
     // Number of days in 400 years
-    private static let DaysPer400Years: int = DaysPer100Years * 4 + 1; // 146097
+    private static let DaysPer400Years: int = DaysPer100Years * 4 + 1 // 146097
     
     // Number of days from 1/1/0001 to 12/31/1600
-    private static let DaysTo1601: int = DaysPer400Years * 4;          // 584388
+    private static let DaysTo1601: int = DaysPer400Years * 4          // 584388
     // Number of days from 1/1/0001 to 12/30/1899
-    private static let DaysTo1899: int = DaysPer400Years * 4 + DaysPer100Years * 3 - 367;
+    private static let DaysTo1899: int = DaysPer400Years * 4 + DaysPer100Years * 3 - 367
     // Number of days from 1/1/0001 to 12/31/1969
-    internal static let DaysTo1970: int = DaysPer400Years * 4 + DaysPer100Years * 3 + DaysPer4Years * 17 + DaysPerYear; // 719,162
+    internal static let DaysTo1970: int = DaysPer400Years * 4 + DaysPer100Years * 3 + DaysPer4Years * 17 + DaysPerYear // 719,162
     // Number of days from 1/1/0001 to 12/31/9999
-    private static let DaysTo10000: int = DaysPer400Years * 25 - 366;  // 3652059
+    private static let DaysTo10000: int = DaysPer400Years * 25 - 366  // 3652059
     
-    internal static let MinTicks: long = 0;
-    internal static let MaxTicks: long = long(DaysTo10000) * TicksPerDay - 1;
-    private static let MaxMillis: long = long(DaysTo10000 * MillisPerDay);
+    internal static let MinTicks: long = 0
+    internal static let MaxTicks: long = long(DaysTo10000) * long(TicksPerDay) - 1
+    private static let MaxMillis: long = long(DaysTo10000) * long(MillisPerDay)
     
-    private static let FileTimeOffset: long = long(DaysTo1601) * TicksPerDay;
-    private static let DoubleDateOffset: long = long(DaysTo1899) * TicksPerDay;
+    private static let FileTimeOffset: long = long(DaysTo1601) * TicksPerDay
+    private static let DoubleDateOffset: long = long(DaysTo1899) * TicksPerDay
     // The minimum OA date is 0100/01/01 (Note it's year 100).
     // The maximum OA date is 9999/12/31
-    private static let OADateMinAsTicks: long = (long(DaysPer100Years) - long(DaysPerYear)) * TicksPerDay;
+    private static let OADateMinAsTicks: long = (long(DaysPer100Years) - long(DaysPerYear)) * TicksPerDay
     // All OA dates must be greater than (not >=) OADateMinAsDouble
-    private static let OADateMinAsDouble: double = -657435.0;
+    private static let OADateMinAsDouble: double = -657435.0
     // All OA dates must be less than (not <=) OADateMaxAsDouble
-    private static let OADateMaxAsDouble: double = 2958466.0;
+    private static let OADateMaxAsDouble: double = 2958466.0
     
-    private static let DatePartYear: int = 0;
-    private static let DatePartDayOfYear: int = 1;
-    private static let DatePartMonth: int = 2;
-    private static let DatePartDay: int = 3;
+    private static let DatePartYear: int = 0
+    private static let DatePartDayOfYear: int = 1
+    private static let DatePartMonth: int = 2
+    private static let DatePartDay: int = 3
     
-    private static let DaysToMonth365: [int] = [
-    0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
-    private static let DaysToMonth366: [int] = [
-    0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
+    private static let DaysToMonth365: [Int] = [
+    0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365]
+    private static let DaysToMonth366: [Int] = [
+    0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366]
     
     public static let MinValue: DateTime = DateTime(ticks: MinTicks, dateTimeKind: DateTimeKind.Unspecified)
     public static let MaxValue: DateTime = DateTime(ticks: MaxTicks, dateTimeKind: DateTimeKind.Unspecified)
     
+    private static let TicksMask: ulong = 0x3FFFFFFFFFFFFFFF
+    private static let FlagsMask: ulong = 0xC000000000000000
+    private static let LocalMask: ulong = 0x8000000000000000
+    private static let TicksCeiling: long = 0x4000000000000000
+    private static let KindUnspecified: ulong = 0x0000000000000000
+    private static let KindUtc: ulong = 0x4000000000000000
+    private static let KindLocal: ulong = 0x8000000000000000
+    private static let KindLocalAmbiguousDst: ulong = 0xC000000000000000
+    private static let KindShift: int = 62
+    
+    private static let TicksField: String = "ticks"
+    private static let DateDataField: String = "dateData"
+    
+    // The data is stored as an unsigned 64-bit integeter
+    //   Bits 01-62: The value of 100-nanosecond ticks where 0 represents 1/1/0001 12:00am, up until the value
+    //               12/31/9999 23:59:59.9999999
+    //   Bits 63-64: A four-state value that describes the DateTimeKind value of the date time, with a 2nd
+    //               value for the rare case where the date time is local, but is in an overlapped daylight
+    //               savings time hour and it is in daylight savings time. This allows distinction of these
+    //               otherwise ambiguous local times and prevents data loss when round tripping from Local to
+    //               UTC time.
     var _dateData: ulong
     var _dateTimeKind: DateTimeKind
     
-    public init(ticks: long) {
+    // Constructs a DateTime from a tick count. The ticks
+    // argument specifies the date as the number of 100-nanosecond intervals
+    // that have elapsed since 1/1/0001 12:00am.
+    public init(ticks: long)
+    {
         self.init(ticks: ticks, dateTimeKind: DateTimeKind.Unspecified)
     }
     
-    public init(ticks: long, dateTimeKind: DateTimeKind){
-        _dateData = ulong(DateTime.range(variable: ticks, min: DateTime.MinTicks, max: DateTime.MinTicks))
+    private init(dateData: ulong)
+    {
+        self.init(dateData: dateData, dateTimeKind: DateTimeKind.Unspecified)
+    }
+    
+    private init(dateData: ulong, dateTimeKind: DateTimeKind)
+    {
+        _dateData = dateData
         _dateTimeKind = dateTimeKind
     }
     
-    private static func range(variable variable: long, min: long, max: long) -> long {
-        let floor = (variable < min) ? min : variable
+    public init(ticks: long, dateTimeKind: DateTimeKind)
+    {
+        let ticks = ulong(DateTime.range(variable: ticks, min: DateTime.MinTicks, max: DateTime.MaxTicks))
+        _dateData = (ulong(ticks) | ulong(dateTimeKind.rawValue) << ulong(DateTime.KindShift))
+        _dateTimeKind = dateTimeKind
+    }
+   
+    internal init(ticks: long, dateTimeKind: DateTimeKind, isAmbiguousDst: Bool)
+    {
+        let tick = ulong(DateTime.range(variable: ticks, min: DateTime.MinTicks, max: DateTime.MaxTicks))
+        _dateData = tick | (isAmbiguousDst ? DateTime.KindLocalAmbiguousDst : DateTime.KindLocal)
+        _dateTimeKind = dateTimeKind
+    }
+
+    public init(year: int, month: int, day: int)
+    {
+        self.init(year: year, month: month, day: day, dateTimeKind: DateTimeKind.Unspecified)
+    }
+    
+    // TODO: Create constructor with calendar object
+    /*
+    public init(year: int, month: int, day: int, calendar: Calendar){
+        _dateData = 0
+        _dateTimeKind = .Unspecified
+    }
+    */
+    
+    public init(year: int, month: int, day: int, dateTimeKind: DateTimeKind)
+    {
+        _dateData = DateTime.DateToTicks(year, month: month, day: day)
+        _dateTimeKind = dateTimeKind
+    }
+    
+    public init(year: int, month: int, day: int, hour: int, minute: int, second: int, dateTimeKind: DateTimeKind)
+    {
+        let ticks = DateTime.DateToTicks(year, month: month, day: day) + DateTime.TimeToTicks(hour, minute: minute, second: second)
+        _dateData = (ulong(ticks) | ulong(dateTimeKind.rawValue) << ulong(DateTime.KindShift))
+        _dateTimeKind = dateTimeKind
+    }
+    
+    //TODO: Create constructor with calendar object
+    /*
+    // Constructs a DateTime from a given year, month, day, hour,
+    // minute, and second for the specified calendar.
+    //
+    public DateTime(int year, int month, int day, int hour, int minute, int second, Calendar calendar) {
+    if (calendar == null)
+    throw new ArgumentNullException("calendar");
+    Contract.EndContractBlock();
+    this.dateData = (UInt64)calendar.ToDateTime(year, month, day, hour, minute, second, 0).Ticks;
+    }
+    */
+    
+    // Constructs a DateTime from a given year, month, day, hour,
+    // minute, and second.
+    //
+    public init(year: int, month: int, day: int, hour: int, minute: int, second: int, millisecond: int)
+    {
+        self.init(year: year, month: month, day: day, hour: hour, minute: minute, second: second, millisecond: millisecond, dateTimeKind: DateTimeKind.Unspecified)
+    }
+    
+    public init(year: int, month: int, day: int, hour: int, minute: int, second: int, millisecond: int, dateTimeKind: DateTimeKind)
+    {
+        let validatedMillisecond = DateTime.range(variable: millisecond, min: 0, max: DateTime.MillisPerSecond)
+        let ticks = DateTime.DateToTicks(year, month: month, day: day) + DateTime.TimeToTicks(hour, minute: minute, second: second) + ulong(validatedMillisecond) * ulong(DateTime.TicksPerMillisecond)
+        let validatedTicks = DateTime.range(variable: ticks, min: ulong(DateTime.MinTicks), max: ulong(DateTime.MaxTicks))
+        _dateData = (ulong(validatedTicks) | ulong(dateTimeKind.rawValue) << ulong(DateTime.KindShift))
+        _dateTimeKind = dateTimeKind
+    }
+    
+    //TODO: Create constructor with calendar object
+    /*
+    // Constructs a DateTime from a given year, month, day, hour,
+    // minute, and second for the specified calendar.
+    //
+    public DateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, Calendar calendar) {
+    */
+    
+    // Returns the tick count corresponding to the given year, month, and day.
+    // Will check the if the parameters are valid.
+    private static func DateToTicks(year: int, month: int, day: int) -> ulong
+    {
+        let validatedYear = DateTime.range(variable: year, min: 1, max: 9999)
+        let validatedMonth = DateTime.range(variable: month, min: 1, max: 12)
+        let validatedDays = DateTime.range(variable: day, min: 1, max: DateTime.DaysInMonth(year: validatedYear, month: validatedMonth))
+        let days = DateTime.IsLeapYear(year: validatedYear) ? DaysToMonth366 : DaysToMonth365
+        
+        let y: int = validatedYear - 1;
+        let n: int = y * 365 + y / 4 - y / 100 + y / 400 + days[Int(month) - 1] + validatedDays - 1;
+        return ulong(n) * ulong(TicksPerDay);
+    }
+
+    
+    // Return the tick count corresponding to the given hour, minute, second.
+    // Will check the if the parameters are valid.
+    private static func TimeToTicks(hour: int, minute: int, second: int) -> ulong
+    {
+        //TimeSpan.TimeToTicks is a family access function which does no error checking, so
+        //we need to put some error checking out here.
+        let validatedHour = DateTime.range(variable: hour, min: 0, max: 23)
+        let validatedMinute = DateTime.range(variable: minute, min: 0, max: 59)
+        let validatedSecond = DateTime.range(variable: second, min: 0, max: 59)
+        let totalSeconds: long = long(validatedHour) * long(3600) + long(validatedMinute) * 60 + long(validatedSecond)
+        return ulong(totalSeconds) * ulong(TicksPerSecond)
+
+    }
+    
+    private static func range<T where T:Equatable, T:Comparable> (variable variable: T, min: T, max: T) -> T
+    {
+        let floor = (variable < min ) ? min : variable
         let ceiling = (floor > max) ? max : floor
         return ceiling
     }
+    
+    // Checks whether a given year is a leap year. This method returns true if
+    // year is a leap year, or false if not.
+    //
+    public static func IsLeapYear(year year: int) -> Bool
+    {
+        let validatedYear = DateTime.range(variable: year, min: 1, max: 9999)
+        return validatedYear % 4 == 0 && (validatedYear % 100 != 0 || validatedYear % 400 == 0)
+    }
+    
+    public static func DaysInMonth(year year: int, month: int) -> int
+    {
+        let validatedYear = DateTime.range(variable: year, min: 1, max: 9999)
+        let validatedMonth = DateTime.range(variable: month, min: 1, max: 12)
+
+    // IsLeapYear checks the year argument
+        let days: [Int]  = IsLeapYear(year: validatedYear) ? DaysToMonth366 : DaysToMonth365
+        return int(days[Int(validatedMonth)] - days[Int(validatedMonth) - 1]);
+    }
+    
+    internal var InternalTicks: long {
+        get {
+            return long(_dateData & DateTime.TicksMask)
+        }
+    }
+    
+    private var InternalKind: ulong {
+        get {
+            return (_dateData & DateTime.FlagsMask);
+        }
+    }
+    
+    private func Add(value: double, scale: int) -> DateTime
+    {
+        let millis: long = long(value * double(scale) + (value >= 0 ? 0.5 : -0.5))
+        let validatedMillis = DateTime.range(variable: millis, min: 0, max: DateTime.MaxMillis)
+        return AddTicks(validatedMillis * DateTime.TicksPerMillisecond)
+    }
+    
+    public func Add(value value: TimeSpan) -> DateTime
+    {
+        return AddTicks(long(value.Ticks))
+    }
+    
+    public func AddTicks(value: long) -> DateTime
+    {
+        let ticks = DateTime.range(variable: InternalTicks, min: DateTime.MinTicks, max: DateTime.MaxTicks)
+        return DateTime(dateData: ulong(ticks + value) | InternalKind);
+    }
+    
+    public func AddDays(value: double) -> DateTime
+    {
+        return Add(value, scale: DateTime.MillisPerDay)
+    }
+    
+    public func AddHours(value: double) -> DateTime
+    {
+        return Add(value, scale: DateTime.MillisPerHour)
+    }
+    
+    public func AddMilliseconds(value: double) -> DateTime
+    {
+        return Add(value, scale: 1)
+    }
+    
+    public func AddMinutes(value: double) -> DateTime
+    {
+        return Add(value, scale: DateTime.MillisPerMinute)
+    }
+    
+    public func AddMonths(months: int) -> DateTime
+    {
+        let validatedMonth = DateTime.range(variable: months, min: -120000, max: 120000)
+
+        var y: int = GetDatePart(DateTime.DatePartYear);
+        var m: int = GetDatePart(DateTime.DatePartMonth);
+        var d: int = GetDatePart(DateTime.DatePartDay);
+        let i: int = m - 1 + validatedMonth;
+        if (i >= 0) {
+            m = i % 12 + 1;
+            y = y + i / 12;
+        }
+        else {
+            m = 12 + (i + 1) % 12;
+            y = y + (i - 11) / 12;
+        }
+        let validatedY = DateTime.range(variable: y, min: 1, max: 9999)
+        let days: int = DateTime.DaysInMonth(year: validatedY, month: m);
+        if (d > days) {
+            d = days
+        }
+        let ticks: ulong = (ulong(
+                                DateTime.DateToTicks(validatedY, month: m, day: d)
+                                    + ulong(InternalTicks)
+                                    % ulong(DateTime.TicksPerDay)
+                                ) | InternalKind)
+        return DateTime(dateData: ticks)
+    }
+    
+    public func AddSeconds(value: double) -> DateTime {
+        return Add(value, scale: DateTime.MillisPerSecond)
+    }
+    
+    public func AddYears(value: int) -> DateTime {
+        let validatedValue = DateTime.range(variable: value, min: -10000, max: 10000)
+        return AddMonths(validatedValue * 12)
+    }
+    
+    // Creates a DateTime from a Windows filetime. A Windows filetime is
+    // a long representing the date and time as the number of
+    // 100-nanosecond intervals that have elapsed since 1/1/1601 12:00am.
+    //
+    public static func FromFileTime(fileTime: long) -> DateTime
+    {
+        return FromFileTimeUtc(fileTime).ToLocalTime();
+    }
+    
+    public func ToLocalTime() -> DateTime
+    {
+        return ToLocalTime(false);
+    }
+    
+    public var Kind: DateTimeKind {
+        get {
+            switch (self.InternalKind){
+            case DateTime.KindUnspecified:
+                return DateTimeKind.Unspecified
+            case DateTime.KindUtc:
+                return DateTimeKind.Utc
+            default:
+                return DateTimeKind.Local
+            }
+        }
+    }
+    
+    internal func ToLocalTime(throwOnOverflow: Bool) -> DateTime
+    {
+        if (Kind == DateTimeKind.Local) {
+            return self;
+        }
+        let isDaylightSavings: Bool = false;
+        let isAmbiguousLocalDst: Bool = false;
+        let offset: long = TimeZoneInfo.GetUtcOffsetFromUtc(this, TimeZoneInfo.Local, out isDaylightSavings, out isAmbiguousLocalDst).Ticks;
+        long tick = Ticks + offset;
+        if (tick > DateTime.MaxTicks)
+        {
+        if (throwOnOverflow)
+        throw new ArgumentException(Environment.GetResourceString("Arg_ArgumentOutOfRangeException"));
+        else
+        return new DateTime(DateTime.MaxTicks, DateTimeKind.Local);
+        }
+        if (tick < DateTime.MinTicks)
+        {
+        if (throwOnOverflow)
+        throw new ArgumentException(Environment.GetResourceString("Arg_ArgumentOutOfRangeException"));
+        else
+        return new DateTime(DateTime.MinTicks, DateTimeKind.Local);
+        }
+        return new DateTime(tick, DateTimeKind.Local, isAmbiguousLocalDst);
+    }
+    
+    public static func FromFileTimeUtc(fileTime: long) -> DateTime
+    {
+        let validatedFileTime = DateTime.range(variable: fileTime, min: 0, max: DateTime.MaxTicks - DateTime.FileTimeOffset)
+    
+        // This is the ticks in Universal time for this fileTime.
+        let universalTicks: long = validatedFileTime + FileTimeOffset;
+        return DateTime(ticks: universalTicks, dateTimeKind: DateTimeKind.Utc);
+    }
+
+    // Returns a given date part of this DateTime. This method is used
+    // to compute the year, day-of-year, month, or day part.
+    private func GetDatePart(part: int) -> int {
+        let ticks = InternalTicks
+        // n = number of days since 1/1/0001
+        var daysSince0001 : int = int(ticks / DateTime.TicksPerDay)
+        // y400 = number of whole 400-year periods since 1/1/0001
+        let y400: int = daysSince0001 / DateTime.DaysPer400Years
+        // n = day number within 400-year period
+        daysSince0001 -= y400 * DateTime.DaysPer400Years
+        // y100 = number of whole 100-year periods within 400-year period
+        var y100: int = daysSince0001 / DateTime.DaysPer100Years
+        // Last 100-year period has an extra day, so decrement result if 4
+        if (y100 == 4) {
+            y100 = 3
+        }
+        // n = day number within 100-year period
+        daysSince0001 -= y100 * DateTime.DaysPer100Years
+        // y4 = number of whole 4-year periods within 100-year period
+        let y4: int = daysSince0001 / DateTime.DaysPer4Years
+        // n = day number within 4-year period
+        daysSince0001 -= y4 * DateTime.DaysPer4Years
+        // y1 = number of whole years within 4-year period
+        var y1: int = daysSince0001 / DateTime.DaysPerYear
+        // Last year has an extra day, so decrement result if 4
+        if (y1 == 4) {
+           y1 = 3
+        }
+        // If year was requested, compute and return it
+        if (part == DateTime.DatePartYear) {
+            return y400 * 400 + y100 * 100 + y4 * 4 + y1 + 1;
+        }
+        // n = day number within year
+        daysSince0001 -= y1 * DateTime.DaysPerYear;
+        // If day-of-year was requested, return it
+        if (part == DateTime.DatePartDayOfYear) {
+            return daysSince0001 + 1;
+        }
+        // Leap year calculation looks different from IsLeapYear since y1, y4,
+        // and y100 are relative to year 1, not year 0
+        let leapYear: Bool = y1 == 3 && (y4 != 24 || y100 == 3)
+        let days: [Int] = leapYear ?  DateTime.DaysToMonth366: DateTime.DaysToMonth365
+        // All months have less than 32 days, so n >> 5 is a good conservative
+        // estimate for the month
+        var m: Int = Int(daysSince0001) >> 5 + 1
+        // m = 1-based month number
+        while (Int(daysSince0001) >= days[m]) {
+            m++
+        }
+        // If month was requested, return it
+        if (part == DateTime.DatePartMonth) {
+            return int(m)
+        }
+        // Return 1-based day-of-month
+        return daysSince0001 - days[m - 1] + 1;
+    }
+}
+
+public func == (l: DateTime, r: DateTime) -> Bool {
+    return l._dateData == r._dateData
+}
+
+public func < (l: DateTime, r: DateTime) -> Bool {
+    return l._dateData < r._dateData
+}
+
+public func <= (l: DateTime, r: DateTime) -> Bool {
+    return l._dateData <= r._dateData
+}
+
+public func > (l: DateTime, r: DateTime) -> Bool {
+    return l._dateData > r._dateData
+}
+
+public func >= (l: DateTime, r: DateTime) -> Bool {
+    return l._dateData >= r._dateData
 }
 
 /*
@@ -93,11 +478,11 @@ struct DateTime {
     private static let FILETIME_ZERO: Int = 50491123200000
 
     private static let MACTIME_ZERO: Int = 60052751925000
-    
+
     private static let WINTIME_ZERO: Int = 59926435125000
-    
+
     private static let MIN_TO_ABSOLUTE: Int = 63113903925000
-    
+
     enum DateTimeKind : Int, CustomStringConvertible {
         case UTC, Local, Unspecified
         
