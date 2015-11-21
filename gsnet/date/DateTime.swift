@@ -39,8 +39,8 @@ public struct DateTime {
     private static let DaysTo10000: int = DaysPer400Years * 25 - 366;  // 3652059
     
     internal static let MinTicks: long = 0;
-    internal static let MaxTicks: long = long(DaysTo10000) * long(TicksPerDay) - 1;
-    private static let MaxMillis: long = long(DaysTo10000) * long(MillisPerDay);
+    internal static let MaxTicks: long = long(DaysTo10000) * TicksPerDay - 1;
+    private static let MaxMillis: long = long(DaysTo10000 * MillisPerDay);
     
     private static let FileTimeOffset: long = long(DaysTo1601) * TicksPerDay;
     private static let DoubleDateOffset: long = long(DaysTo1899) * TicksPerDay;
@@ -62,6 +62,26 @@ public struct DateTime {
     private static let DaysToMonth366: [int] = [
     0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
     
+    public static let MinValue: DateTime = DateTime(ticks: MinTicks, dateTimeKind: DateTimeKind.Unspecified)
+    public static let MaxValue: DateTime = DateTime(ticks: MaxTicks, dateTimeKind: DateTimeKind.Unspecified)
+    
+    var _dateData: ulong
+    var _dateTimeKind: DateTimeKind
+    
+    public init(ticks: long) {
+        self.init(ticks: ticks, dateTimeKind: DateTimeKind.Unspecified)
+    }
+    
+    public init(ticks: long, dateTimeKind: DateTimeKind){
+        _dateData = ulong(DateTime.range(variable: ticks, min: DateTime.MinTicks, max: DateTime.MinTicks))
+        _dateTimeKind = dateTimeKind
+    }
+    
+    private static func range(variable variable: long, min: long, max: long) -> long {
+        let floor = (variable < min) ? min : variable
+        let ceiling = (floor > max) ? max : floor
+        return ceiling
+    }
 }
 
 /*

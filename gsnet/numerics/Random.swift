@@ -40,18 +40,18 @@ public class Random {
     }
     
     public func Sample() -> double {
-        return double(float(arc4random()) / float(uint.max))
+        return double(float(arc4random()) / float(uint.max))  
     }
     
     func NextDouble() -> double {
-        return double(arc4random()) / 0xFFFFFFFF
+        return double(arc4random()) / double(0xFFFFFFFF)
     }
     
     func NextFloat() -> float {
-        return float(arc4random())  / 0xFFFFFFFF
+        return float(arc4random())  / float(0xFFFFFFFF)
     }
     
     func NextCGFloat() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+        return CGFloat(float(arc4random()) / float(0xFFFFFFFF))
     }
 }
