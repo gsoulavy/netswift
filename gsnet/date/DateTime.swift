@@ -6,14 +6,72 @@
 //  Copyright © 2015 Gabor Soulavy. All rights reserved.
 //
 
+struct DateTime {
+    
+    private static let TicksPerMillisecond : long = 10000;
+    private static let TicksPerSecond: long = TicksPerMillisecond * 1000;
+    private static let TicksPerMinute: long = TicksPerSecond * 60;
+    private static let TicksPerHour: long = TicksPerMinute * 60;
+    private static let TicksPerDay: long = TicksPerHour * 24;
+    
+    // Number of milliseconds per time unit
+    private static let MillisPerSecond: int = 1000;
+    private static let MillisPerMinute: int = MillisPerSecond * 60;
+    private static let MillisPerHour: int = MillisPerMinute * 60;
+    private static let MillisPerDay: int = MillisPerHour * 24;
+    
+    // Number of days in a non-leap year
+    private static let DaysPerYear: int = 365;
+    // Number of days in 4 years
+    private static let DaysPer4Years: int = DaysPerYear * 4 + 1;       // 1461
+    // Number of days in 100 years
+    private static let DaysPer100Years: int = DaysPer4Years * 25 - 1;  // 36524
+    // Number of days in 400 years
+    private static let DaysPer400Years: int = DaysPer100Years * 4 + 1; // 146097
+    
+    // Number of days from 1/1/0001 to 12/31/1600
+    private static let DaysTo1601: int = DaysPer400Years * 4;          // 584388
+    // Number of days from 1/1/0001 to 12/30/1899
+    private static let DaysTo1899: int = DaysPer400Years * 4 + DaysPer100Years * 3 - 367;
+    // Number of days from 1/1/0001 to 12/31/1969
+    internal static let DaysTo1970: int = DaysPer400Years * 4 + DaysPer100Years * 3 + DaysPer4Years * 17 + DaysPerYear; // 719,162
+    // Number of days from 1/1/0001 to 12/31/9999
+    private static let DaysTo10000: int = DaysPer400Years * 25 - 366;  // 3652059
+    
+    internal static let MinTicks: long = 0;
+    internal static let MaxTicks: long = long(DaysTo10000) * long(TicksPerDay) - 1;
+    private static let MaxMillis: long = long(DaysTo10000) * long(MillisPerDay);
+    
+    private static let FileTimeOffset: long = long(DaysTo1601) * TicksPerDay;
+    private static let DoubleDateOffset: long = long(DaysTo1899) * TicksPerDay;
+    // The minimum OA date is 0100/01/01 (Note it's year 100).
+    // The maximum OA date is 9999/12/31
+    private static let OADateMinAsTicks: long = (long(DaysPer100Years) - long(DaysPerYear)) * TicksPerDay;
+    // All OA dates must be greater than (not >=) OADateMinAsDouble
+    private static let OADateMinAsDouble: double = -657435.0;
+    // All OA dates must be less than (not <=) OADateMaxAsDouble
+    private static let OADateMaxAsDouble: double = 2958466.0;
+    
+    private static let DatePartYear: int = 0;
+    private static let DatePartDayOfYear: int = 1;
+    private static let DatePartMonth: int = 2;
+    private static let DatePartDay: int = 3;
+    
+    private static let DaysToMonth365: [int] = [
+    0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
+    private static let DaysToMonth366: [int] = [
+    0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366];
+    
+}
+
 /*
 struct DateTime {
     var _date: NSDate?
-    
+
     private var _kind: DateTimeKind
-    
+
     private static let FILETIME_ZERO: Int = 50491123200000
-    
+
     private static let MACTIME_ZERO: Int = 60052751925000
     
     private static let WINTIME_ZERO: Int = 59926435125000
