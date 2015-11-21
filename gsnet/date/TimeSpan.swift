@@ -6,7 +6,7 @@
 //  Copyright © 2015 Gabor Soulavy. All rights reserved.
 //
 
-struct TimeSpan {
+public struct TimeSpan {
     private var _tick: Double
     
     private var _days: Double = 0
@@ -24,11 +24,11 @@ struct TimeSpan {
     private static let MINUTE: Double = 60
     private static let HOUR: Double = 24
     
-    private static let TicksPerDay: Double = 86400000
+    internal static let TicksPerDay: Double = 86400000
     internal static let TicksPerHour: Double = TimeSpan.TicksPerDay / TimeSpan.HOUR
-    private static let TicksPerMinute : Double = TimeSpan.TicksPerHour / TimeSpan.MINUTE
-    private static let TicksPerSecond: Double = TimeSpan.TicksPerMinute / TimeSpan.SECOND
-    private static let TicksPerMilisecond : Double = TimeSpan.TicksPerSecond / TimeSpan.MILISECOND
+    internal static let TicksPerMinute : Double = TimeSpan.TicksPerHour / TimeSpan.MINUTE
+    internal static let TicksPerSecond: Double = TimeSpan.TicksPerMinute / TimeSpan.SECOND
+    internal static let TicksPerMilisecond : Double = TimeSpan.TicksPerSecond / TimeSpan.MILISECOND
     
     var Days : Int {
         get {
@@ -96,14 +96,14 @@ struct TimeSpan {
         }
     }
     
-    var Tick: Int {
+    public var Ticks: Int {
         get {
-            return Int(_tick)
+            return Int(_tick) * 10000
         }
     }
     
-    init(ticks: Int){
-        _tick = Double(ticks)
+    public init(ticks: Int){
+        _tick = Double(ticks/10000)
         
         let days = TimeSpan.GetUnitsAndReminder(_tick, unit: TimeSpan.TicksPerDay)
         _days = days.whole
@@ -123,16 +123,16 @@ struct TimeSpan {
         
     }
     
-    init(hours: Int, minutes: Int, seconds: Int){
+    public init(hours: Int, minutes: Int, seconds: Int){
         self.init(ticks: hours * Int(TimeSpan.TicksPerHour) + minutes * Int(TimeSpan.TicksPerMinute) + seconds * Int(TimeSpan.TicksPerSecond))
     }
     
-    init(days: Int, hours: Int, minutes: Int, seconds: Int){
+    public init(days: Int, hours: Int, minutes: Int, seconds: Int){
         self.init(ticks: days * Int(TimeSpan.TicksPerDay) +
             hours * Int(TimeSpan.TicksPerHour) + minutes * Int(TimeSpan.TicksPerMinute) + seconds * Int(TimeSpan.TicksPerSecond))
     }
     
-    init(days: Int, hours: Int, minutes: Int, seconds: Int, miliseconds: Int){
+    public init(days: Int, hours: Int, minutes: Int, seconds: Int, miliseconds: Int){
         self.init(ticks: days * Int(TimeSpan.TicksPerDay) +
             hours * Int(TimeSpan.TicksPerHour) + minutes * Int(TimeSpan.TicksPerMinute) + seconds * Int(TimeSpan.TicksPerSecond) + miliseconds * Int(TimeSpan.TicksPerMilisecond))
     }
@@ -144,7 +144,7 @@ struct TimeSpan {
     }
     
     func Add(ts: TimeSpan) -> TimeSpan {
-        return TimeSpan(ticks: ts.Tick + Int(_tick))
+        return TimeSpan(ticks: ts.Ticks + Int(_tick))
     }
     
     static func Compare(ts1: TimeSpan, _ ts2: TimeSpan) -> Int {
@@ -153,9 +153,9 @@ struct TimeSpan {
     
     func CompareTo(ts: TimeSpan) -> Int {
         switch (self, ts){
-        case _ where self.Tick < ts.Tick:
+        case _ where self.Ticks < ts.Ticks:
             return -1
-        case _ where self.Tick == ts.Tick:
+        case _ where self.Ticks == ts.Ticks:
             return 0
         default:
             return 1
@@ -163,15 +163,15 @@ struct TimeSpan {
     }
     
     func Duration() -> TimeSpan {
-        return TimeSpan(ticks: abs(self.Tick))
+        return TimeSpan(ticks: abs(self.Ticks))
     }
     
     func Negative() -> TimeSpan {
-        return TimeSpan(ticks: -self.Tick)
+        return TimeSpan(ticks: -self.Ticks)
     }
     
     func Equals(ts: TimeSpan) -> Bool{
-        return (self.Tick == ts.Tick)
+        return (self.Ticks == ts.Ticks)
     }
     
     static func Equals(ts1: TimeSpan, ts2: TimeSpan) -> Bool {
@@ -208,60 +208,60 @@ struct TimeSpan {
     }
     
     func Subtract(ts: TimeSpan) -> TimeSpan {
-        return TimeSpan(ticks: self.Tick - ts.Tick)
+        return TimeSpan(ticks: self.Ticks - ts.Ticks)
     }
 }
 
 func + (left: TimeSpan, right: TimeSpan) -> TimeSpan {
-    return TimeSpan(ticks: left.Tick + right.Tick)
+    return TimeSpan(ticks: left.Ticks + right.Ticks)
 }
 
 func - (left: TimeSpan, right: TimeSpan) -> TimeSpan {
-    return TimeSpan(ticks: left.Tick - right.Tick)
+    return TimeSpan(ticks: left.Ticks - right.Ticks)
 }
 
 func * (left: TimeSpan, right: Double) -> TimeSpan {
-    return TimeSpan(ticks: Int(Double(left.Tick) * right))
+    return TimeSpan(ticks: Int(Double(left.Ticks) * right))
 }
 
 func * (left: Double, right: TimeSpan) -> TimeSpan {
-    return TimeSpan(ticks: Int(left * Double(right.Tick)))
+    return TimeSpan(ticks: Int(left * Double(right.Ticks)))
 }
 
 func / (left: TimeSpan, right: TimeSpan) -> Double {
-    return Double(left.Tick / right.Tick)
+    return Double(left.Ticks / right.Ticks)
 }
 
 func / (left: TimeSpan, right: Double) -> TimeSpan {
-    return TimeSpan(ticks: Int(Double(left.Tick) / right))
+    return TimeSpan(ticks: Int(Double(left.Ticks) / right))
 }
 
 func == (left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Tick == right.Tick)
+    return (left.Ticks == right.Ticks)
 }
 
 func != (left: TimeSpan, right: TimeSpan) -> Bool {
-    return !(left.Tick == right.Tick)
+    return !(left.Ticks == right.Ticks)
 }
 
 func < (left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Tick < right.Tick)
+    return (left.Ticks < right.Ticks)
 }
 
 func > (left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Tick > right.Tick)
+    return (left.Ticks > right.Ticks)
 }
 
 func <= (left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Tick <= right.Tick)
+    return (left.Ticks <= right.Ticks)
 }
 
 func >= (left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Tick >= right.Tick)
+    return (left.Ticks >= right.Ticks)
 }
 
 prefix func - (timeSpan: TimeSpan) -> TimeSpan {
-    return TimeSpan(ticks: -timeSpan.Tick)
+    return TimeSpan(ticks: -timeSpan.Ticks)
 }
 
 func += (inout left: TimeSpan, right: TimeSpan) {
