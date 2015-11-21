@@ -37,6 +37,7 @@
 		4055FE8B1BFFDE0D00A7D8FB /* DateTimeFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE8A1BFFDE0D00A7D8FB /* DateTimeFormat.swift */; };
 		4055FE8E1BFFE40700A7D8FB /* TimeSpanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE8D1BFFE40700A7D8FB /* TimeSpanTests.swift */; };
 		4055FE901BFFE52A00A7D8FB /* Matix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE8F1BFFE52A00A7D8FB /* Matix.swift */; };
+		4055FE921BFFF15800A7D8FB /* DateTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE911BFFF15800A7D8FB /* DateTimeTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		4055FE8A1BFFDE0D00A7D8FB /* DateTimeFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTimeFormat.swift; path = gsnet/date/DateTimeFormat.swift; sourceTree = "<group>"; };
 		4055FE8D1BFFE40700A7D8FB /* TimeSpanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSpanTests.swift; path = date/TimeSpanTests.swift; sourceTree = "<group>"; };
 		4055FE8F1BFFE52A00A7D8FB /* Matix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Matix.swift; path = gsnet/numerics/Matix.swift; sourceTree = "<group>"; };
+		4055FE911BFFF15800A7D8FB /* DateTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTimeTests.swift; path = date/DateTimeTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				4055FE8D1BFFE40700A7D8FB /* TimeSpanTests.swift */,
+				4055FE911BFFF15800A7D8FB /* DateTimeTests.swift */,
 			);
 			name = date;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				4055FE421BFFBB6800A7D8FB /* gsnetTests.swift in Sources */,
 				4055FE8E1BFFE40700A7D8FB /* TimeSpanTests.swift in Sources */,
 				4055FE741BFFBCCD00A7D8FB /* ListTests.swift in Sources */,
+				4055FE921BFFF15800A7D8FB /* DateTimeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
