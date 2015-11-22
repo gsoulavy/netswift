@@ -21,9 +21,10 @@ class DateTimeTests: XCTestCase {
         super.tearDown()
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testDateTime_MyBirthDayCheckTicks() {
+        let myBirthday: DateTime = DateTime(year: 1977, month: 12, day: 02)
+        
+        XCTAssertEqual(myBirthday.Ticks, 623854656000000000)
     }
 
     func testPerformanceExample() {
