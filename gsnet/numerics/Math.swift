@@ -6,34 +6,34 @@
 //  Copyright © 2015 Gabor Soulavy. All rights reserved.
 //
 
-enum MidpointRounding {
+public enum MidpointRounding {
     case ToEven
     case AwayFromZero
 }
 
-class Math {
+public class Math {
     
-    static let PI: Double = M_PI
-    static let π: Double = PI
-    static let E: Double = M_E
+    public static let PI: Double = M_PI
+    public static let π: Double = PI
+    public static let E: Double = M_E
     
-    class func Sqrt(x: Int) -> Double {
+    public class func Sqrt(x: Int) -> Double {
         return sqrt(Double(x))
     }
     
-    class func Sqrt(x: Double) -> Double {
+    public class func Sqrt(x: Double) -> Double {
         return sqrt(x)
     }
     
-    class func Sqrt(x: Float) -> Float {
+    public class func Sqrt(x: Float) -> Float {
         return sqrt(x)
     }
     
-    class func Sqrt(x: CGFloat) -> CGFloat {
+    public class func Sqrt(x: CGFloat) -> CGFloat {
         return sqrt(x)
     }
     
-    class func Abs<T : SignedNumberType>(x: T) -> T {
+    public class func Abs<T : SignedNumberType>(x: T) -> T {
         return abs(x)
     }
     
@@ -51,7 +51,7 @@ class Math {
         return result
     }
     
-    class func Round(value: Double, _ digits: Int, _ midpointRounding : MidpointRounding = .ToEven) -> Double{
+    public class func Round(value: Double, _ digits: Int, _ midpointRounding : MidpointRounding = .ToEven) -> Double {
         let multiplier = Math.decimalPlaces(digits)
         var result: Int
         switch(midpointRounding){
@@ -68,7 +68,7 @@ class Math {
         }
     }
     
-    class func Round(value: Float, _ digits: Int, _ midpointRounding : MidpointRounding = .ToEven) -> Float {
+    public class func Round(value: Float, _ digits: Int, _ midpointRounding : MidpointRounding = .ToEven) -> Float {
         let multiplier = Math.decimalPlaces(digits)
         var result: Int
         switch(midpointRounding){
@@ -86,7 +86,7 @@ class Math {
     }
     
     
-    class func Round(value: CGFloat, _ digits: Int, _ midpointRounding : MidpointRounding = .ToEven) -> CGFloat {
+    public class func Round(value: CGFloat, _ digits: Int, _ midpointRounding : MidpointRounding = .ToEven) -> CGFloat {
         let multiplier = Math.decimalPlaces(digits)
         var result: Int
         switch(midpointRounding){
@@ -103,247 +103,247 @@ class Math {
         }
     }
     
-    class func Log(x: Int) -> Double {
+    public class func Log(x: Int) -> Double {
         return log(Double(x))
     }
     
-    class func Log(x: Double) -> Double {
+    public class func Log(x: Double) -> Double {
         return log(x)
     }
     
-    class func Log(x: Float) -> Float {
+    public class func Log(x: Float) -> Float {
         return log(x)
     }
     
-    class func Log(x: CGFloat) -> CGFloat {
+    public class func Log(x: CGFloat) -> CGFloat {
         return log(x)
     }
     
-    class func Log10(x: Int) -> Double {
+    public class func Log10(x: Int) -> Double {
         return log10(Double(x))
     }
     
-    class func Log10(x: Double) -> Double {
+    public class func Log10(x: Double) -> Double {
         return log10(x)
     }
     
-    class func Log10(x: Float) -> Float {
+    public class func Log10(x: Float) -> Float {
         return log10(x)
     }
     
-    class func Log10(x: CGFloat) -> CGFloat {
+    public class func Log10(x: CGFloat) -> CGFloat {
         return log10(x)
     }
     
-    class func Log2(x: Int) -> Double {
+    public class func Log2(x: Int) -> Double {
         return log2(Double(x))
     }
     
-    class func Log2(x: Double) -> Double {
+    public class func Log2(x: Double) -> Double {
         return log2(x)
     }
     
-    class func Log2(x: Float) -> Float {
+    public class func Log2(x: Float) -> Float {
         return log2(x)
     }
     
-    class func Log2(x: CGFloat) -> CGFloat {
+    public class func Log2(x: CGFloat) -> CGFloat {
         return log2(x)
     }
     
-    class func Exp(x: Int) -> Double {
+    public class func Exp(x: Int) -> Double {
         return exp(Double(x))
     }
     
-    class func Exp(x: Double) -> Double {
+    public class func Exp(x: Double) -> Double {
         return exp(x)
     }
     
-    class func Exp(x: Float) -> Float {
+    public class func Exp(x: Float) -> Float {
         return exp(x)
     }
     
-    class func Exp(x: CGFloat) -> CGFloat {
+    public class func Exp(x: CGFloat) -> CGFloat {
         return exp(x)
     }
     
-    class func Floor(x: Int) -> Double {
+    public class func Floor(x: Int) -> Double {
         return floor(Double(x))
     }
     
-    class func Floor(x: Double) -> Double {
+    public class func Floor(x: Double) -> Double {
         return floor(x)
     }
     
-    class func Floor(x: Float) -> Float {
+    public class func Floor(x: Float) -> Float {
         return floor(x)
     }
     
-    class func Floor(x: CGFloat) -> CGFloat {
+    public class func Floor(x: CGFloat) -> CGFloat {
         return floor(x)
     }
     
-    class func Ceiling(x: Int) -> Double {
+    public class func Ceiling(x: Int) -> Double {
         return ceil(Double(x))
     }
     
-    class func Ceiling(x: Double) -> Double {
+    public class func Ceiling(x: Double) -> Double {
         return ceil(x)
     }
     
-    class func Ceiling(x: Float) -> Float {
+    public class func Ceiling(x: Float) -> Float {
         return ceil(x)
     }
     
-    class func Ceiling(x: CGFloat) -> CGFloat {
+    public class func Ceiling(x: CGFloat) -> CGFloat {
         return ceil(x)
     }
     
-    class func Pow(value: Int, _ power: Int) -> Double {
+    public class func Pow(value: Int, _ power: Int) -> Double {
         return pow(Double(value), Double(power))
     }
     
-    class func Pow(value: Double, _ power: Double) -> Double {
+    public class func Pow(value: Double, _ power: Double) -> Double {
         return pow(value, power)
     }
     
-    class func Pow(value: Float, _ power: Float) -> Float {
+    public class func Pow(value: Float, _ power: Float) -> Float {
         return pow(value, power)
     }
     
-    class func Pow(value: CGFloat, _ power: CGFloat) -> CGFloat {
+    public class func Pow(value: CGFloat, _ power: CGFloat) -> CGFloat {
         return pow(value, power)
     }
     
-    class func Sin(angle: Double) -> Double {
+    public class func Sin(angle: Double) -> Double {
         return sin(angle)
     }
     
-    class func Sin(angle: Float) -> Float {
+    public class func Sin(angle: Float) -> Float {
         return sin(angle)
     }
     
-    class func Sin(angle: CGFloat) -> CGFloat {
+    public class func Sin(angle: CGFloat) -> CGFloat {
         return sin(angle)
     }
     
-    class func Sinh(angle: Double) -> Double {
+    public class func Sinh(angle: Double) -> Double {
         return sinh(angle)
     }
     
-    class func Sinh(angle: Float) -> Float {
+    public class func Sinh(angle: Float) -> Float {
         return sinh(angle)
     }
     
-    class func Singh(angle: CGFloat) -> CGFloat {
+    public class func Singh(angle: CGFloat) -> CGFloat {
         return sinh(angle)
     }
     
-    class func Asin(x: Double) -> Double {
+    public class func Asin(x: Double) -> Double {
         return asin(x)
     }
     
-    class func Asin(x: Float) -> Float {
+    public class func Asin(x: Float) -> Float {
         return asin(x)
     }
     
-    class func Asin(x: CGFloat) -> CGFloat {
+    public class func Asin(x: CGFloat) -> CGFloat {
         return asin(x)
     }
     
-    class func Cos(angle: Double) -> Double {
+    public class func Cos(angle: Double) -> Double {
         return cos(angle)
     }
     
-    class func Cos(angle: Float) -> Float {
+    public class func Cos(angle: Float) -> Float {
         return cos(angle)
     }
     
-    class func Cos(angle: CGFloat) -> CGFloat {
+    public class func Cos(angle: CGFloat) -> CGFloat {
         return cos(angle)
     }
     
-    class func Cosh(angle: Double) -> Double {
+    public class func Cosh(angle: Double) -> Double {
         return cosh(angle)
     }
     
-    class func Cosh(angle: Float) -> Float {
+    public class func Cosh(angle: Float) -> Float {
         return cosh(angle)
     }
     
-    class func Cosh(angle: CGFloat) -> CGFloat {
+    public class func Cosh(angle: CGFloat) -> CGFloat {
         return cosh(angle)
     }
     
-    class func Acos(x: Double) -> Double {
+    public class func Acos(x: Double) -> Double {
         return acos(x)
     }
     
-    class func Acos(x: Float) -> Float {
+    public class func Acos(x: Float) -> Float {
         return acos(x)
     }
     
-    class func Acos(x: CGFloat) -> CGFloat {
+    public class func Acos(x: CGFloat) -> CGFloat {
         return acos(x)
     }
     
-    class func Tan(angle: Double) -> Double {
+    public class func Tan(angle: Double) -> Double {
         return tan(angle)
     }
     
-    class func Tan(angle: Float) -> Float {
+    public class func Tan(angle: Float) -> Float {
         return tan(angle)
     }
     
-    class func Tan(angle: CGFloat) -> CGFloat {
+    public class func Tan(angle: CGFloat) -> CGFloat {
         return tan(angle)
     }
     
-    class func Tanh(angle: Double) -> Double {
+    public class func Tanh(angle: Double) -> Double {
         return tanh(angle)
     }
     
-    class func Tanh(angle: Float) -> Float {
+    public class func Tanh(angle: Float) -> Float {
         return tanh(angle)
     }
     
-    class func Tanh(angle: CGFloat) -> CGFloat {
+    public class func Tanh(angle: CGFloat) -> CGFloat {
         return tanh(angle)
     }
     
-    class func Atan(x: Double) -> Double {
+    public class func Atan(x: Double) -> Double {
         return atan(x)
     }
     
-    class func Atan(x: Float) -> Float {
+    public class func Atan(x: Float) -> Float {
         return atan(x)
     }
     
-    class func Atan(x: CGFloat) -> CGFloat {
+    public class func Atan(x: CGFloat) -> CGFloat {
         return atan(x)
     }
     
-    class func Atan2(x: Double, _ y: Double) -> Double {
+    public class func Atan2(x: Double, _ y: Double) -> Double {
         return atan2(x, y)
     }
     
-    class func Truncate(x: Double) -> Double {
+    public class func Truncate(x: Double) -> Double {
         return trunc(x)
     }
     
-    class func Truncate(x: Float) -> Float {
+    public class func Truncate(x: Float) -> Float {
         return trunc(x)
     }
     
-    class func Truncate(x: CGFloat) -> CGFloat {
+    public class func Truncate(x: CGFloat) -> CGFloat {
         return trunc(x)
     }
     
-    class func Max<T : Comparable>(x: T, _ y: T) -> T {
+    public class func Max<T : Comparable>(x: T, _ y: T) -> T {
         return max(x, y)
     }
     
-    class func Min<T : Comparable>(x: T, _ y: T) -> T {
+    public class func Min<T : Comparable>(x: T, _ y: T) -> T {
         return min(x, y)
     }
 }

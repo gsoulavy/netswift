@@ -11,7 +11,7 @@ import Foundation
 public struct DateTime: Equatable, Comparable {
     var _date: NSDate?
 
-    private var _kind: DateTimeKind
+    private var _kind: DateTimeKind! = nil
 
     private static let FILETIME_ZERO: Int = 50491123200000
 
@@ -27,11 +27,39 @@ public struct DateTime: Equatable, Comparable {
     
     private static let SECONDS_WITH_TICKLEADINGZEROS: Int = 10000
     
-    private static let TICKS_PER_MILISECOND : Int = 10000;
-    private static let TICKS_PER_SECOND: Int = TICKS_PER_MILISECOND * 1000;
+    private static let TICKS_PER_MILLISECOND : Int = 10000;
+    private static let TICKS_PER_SECOND: Int = TICKS_PER_MILLISECOND * 1000;
     private static let TICKS_PER_MINUTE: Int = TICKS_PER_SECOND * 60
     private static let TICKS_PER_HOUR: Int = TICKS_PER_MINUTE * 60
     private static let TICKS_PER_DAY: Int = TICKS_PER_HOUR * 24
+    
+    private static let DatePartYear: Int = 0
+    private static let DatePartDayOfYear: Int = 1
+    private static let DatePartMonth: Int = 2
+    private static let DatePartDay: Int = 3
+    
+    // Number of days in a non-leap year
+    private static let DAYS_PER_YEAR: Int = 365
+    // Number of days in 4 years
+    private static let DAYS_PER_4YEARS: Int = DAYS_PER_YEAR * 4 + 1       // 1461
+    // Number of days in 100 years
+    private static let DAYS_PER_100YEARS: Int = DAYS_PER_4YEARS * 25 - 1  // 36524
+    // Number of days in 400 years
+    private static let DAYS_PER_400YEARS: Int = DAYS_PER_100YEARS * 4 + 1 // 146097
+    
+    // Number of days from 1/1/0001 to 12/31/1600
+    private static let DaysTo1601: Int = DAYS_PER_400YEARS * 4          // 584388
+    // Number of days from 1/1/0001 to 12/30/1899
+    private static let DaysTo1899: Int = DAYS_PER_400YEARS * 4 + DAYS_PER_100YEARS * 3 - 367
+    // Number of days from 1/1/0001 to 12/31/1969
+    internal static let DaysTo1970: Int = DAYS_PER_400YEARS * 4 + DAYS_PER_100YEARS * 3 + DAYS_PER_4YEARS * 17 + DAYS_PER_YEAR // 719,162
+    // Number of days from 1/1/0001 to 12/31/9999
+    private static let DaysTo10000: Int = DAYS_PER_400YEARS * 25 - 366  // 3652059
+    
+    private static let DaysToMonth365: [Int] = [
+        0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365]
+    private static let DaysToMonth366: [Int] = [
+        0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366]
   
     public var IsDaylightSavingTime : Bool {
         get {
@@ -119,7 +147,7 @@ public struct DateTime: Equatable, Comparable {
         }
     }
     
-    var Milisecond: Int {
+    var Millisecond: Int {
         get {
             return components.nanosecond/1000000
         }
@@ -215,7 +243,7 @@ public struct DateTime: Equatable, Comparable {
     public var Ticks: Int {
         get {
             if (self.Kind == .Utc){
-                return DateTime.DateToTicksForUtc(components.year, month: components.month, day: components.day) + DateTime.TimeToTicksForUtc(components.hour, minute: components.minute, second: components.second) + components.nanosecond/1000000 * DateTime.TICKS_PER_MILISECOND
+                return DateTime.DateToTicksForUtc(components.year, month: components.month, day: components.day) + DateTime.TimeToTicksForUtc(components.hour, minute: components.minute, second: components.second) + components.nanosecond/1000000 * DateTime.TICKS_PER_MILLISECOND
             } else {
             
             }
@@ -414,25 +442,25 @@ public struct DateTime: Equatable, Comparable {
     }
     
     /**
-    Mutates the DateTime object with miliseconds
+    Mutates the DateTime object with milliseconds
     
-    :param: miliseconds: Int
+    :param: milliseconds: Int
     
     :returns: new DateTime
     */
-    mutating func AddMutatingMiliseconds(miliseconds miliseconds: Int) {
-        self.AddMutatingNanoseconds(nanoseconds: miliseconds * 1000000)
+    mutating func AddMutatingMilliseconds(milliseconds milliseconds: Int) {
+        self.AddMutatingNanoseconds(nanoseconds: milliseconds * 1000000)
     }
     /**
-    Returns a new clone DateTime mutated with miliseconds
+    Returns a new clone DateTime mutated with milliseconds
     
-    :param: milisecond: Int
+    :param: millisecond: Int
     
     :returns: new DateTime
     */
-    func AddMiliseconds(miliseconds miliseconds: Int) -> DateTime {
+    func AddMilliseconds(milliseconds milliseconds: Int) -> DateTime {
         var date = self.Clone()
-        date.AddMutatingMiliseconds(miliseconds: miliseconds)
+        date.AddMutatingMilliseconds(milliseconds: milliseconds)
         return date
     }
     
@@ -563,10 +591,23 @@ public struct DateTime: Equatable, Comparable {
     }
     
     init(ticks: Int, fromDateTimeKind: DateTimeKind = .Local){
-        let ticksToEpoch: Int = ticks - DateTime.DATETIMETICK_TO_NSDATE_TICK
-        let ticksToSecond: NSTimeInterval = Double(ticksToEpoch / DateTime.TICKS_PER_SECOND)
-        _date = NSDate(timeIntervalSinceReferenceDate: ticksToSecond)
-        _kind = fromDateTimeKind
+        var date: NSDate? = nil
+        let component: NSDateComponents? = nil
+        if fromDateTimeKind != .Utc {
+            let ticksToEpoch: Int = ticks - DateTime.DATETIMETICK_TO_NSDATE_TICK
+            let ticksToSecond: NSTimeInterval = Double(ticksToEpoch / DateTime.TICKS_PER_SECOND)
+            date = NSDate(timeIntervalSinceReferenceDate: ticksToSecond)
+        } else {
+            let component = NSDateComponents()
+            component.year = DateTime.GetDatePartForUtc(.Year, ticks: ticks)
+            component.month = DateTime.GetDatePartForUtc(.Month, ticks: ticks)
+            component.day = DateTime.GetDatePartForUtc(.Day, ticks: ticks)
+            component.hour = DateTime.GetDatePartForUtc(.Hour, ticks: ticks)
+            component.minute = DateTime.GetDatePartForUtc(.Minute, ticks: ticks)
+            component.second = DateTime.GetDatePartForUtc(.Second, ticks: ticks)
+            component.nanosecond = DateTime.GetDatePartForUtc(.Nanosecond, ticks: ticks)
+        }
+        self.init(components: component, fromDateTimeKind, date)
     }
     
     init(ticksInEpoch: Double, fromDateTimeKind: DateTimeKind = .Local){
@@ -583,14 +624,14 @@ public struct DateTime: Equatable, Comparable {
     }
     
     init(year: Int, month: Int, day: Int, dateTimeKind: DateTimeKind = .Local){
-        self.init(year: year, month: month, day: day, hour: 0, minute: 0, second: 0, milisecond: 0, dateTimeKind: dateTimeKind)
+        self.init(year: year, month: month, day: day, hour: 0, minute: 0, second: 0, millisecond: 0, dateTimeKind: dateTimeKind)
     }
     
     init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, dateTimeKind: DateTimeKind = .Local) {
-        self.init(year: year, month: month, day: day, hour: hour, minute: minute, second: second, milisecond: 0, dateTimeKind: dateTimeKind)
+        self.init(year: year, month: month, day: day, hour: hour, minute: minute, second: second, millisecond: 0, dateTimeKind: dateTimeKind)
     }
     
-    init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, milisecond: Int, dateTimeKind: DateTimeKind = .Local) {
+    init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, millisecond: Int, dateTimeKind: DateTimeKind = .Local) {
         let component = NSDateComponents()
         let validatedYear = DateTime.moveToRange(variable: year, min: 1, max: 9999)
         component.year = validatedYear
@@ -601,7 +642,7 @@ public struct DateTime: Equatable, Comparable {
         component.hour = DateTime.moveToRange(variable: hour, min: 0, max: 23)
         component.minute = DateTime.moveToRange(variable: minute, min: 0, max: 59)
         component.second = DateTime.moveToRange(variable: second, min: 0, max: 59)
-        component.nanosecond = DateTime.moveToRange(variable: milisecond, min: 0, max: 999)*1000000
+        component.nanosecond = DateTime.moveToRange(variable: millisecond, min: 0, max: 999)*1000000
         self.init(components: component, dateTimeKind)
     }
     
@@ -610,9 +651,15 @@ public struct DateTime: Equatable, Comparable {
         _kind = fromDateTimeKind
     }
     
-    init(components: NSDateComponents, _ dateTimeKind: DateTimeKind = .Local){
-        _date = DateTime.Calendar.dateFromComponents(components)
-        _kind = dateTimeKind
+    init(components: NSDateComponents?, _ dateTimeKind: DateTimeKind = .Local, _ nonUtcDate: NSDate? = nil){
+        if (dateTimeKind == .Utc && components != nil) || components != nil {
+            _date = DateTime.Calendar.dateFromComponents(components!)
+            _kind = dateTimeKind
+        } else {
+            _kind = dateTimeKind
+            _date = nonUtcDate
+        }
+
     }
     
     private static func DateToTicksForUtc(year: Int, month: Int, day: Int) -> Int
@@ -632,6 +679,76 @@ public struct DateTime: Equatable, Comparable {
         let validatedSecond = DateTime.moveToRange(variable: second, min: 0, max: 59)
         let totalSeconds: Int = validatedHour * 3600 + validatedMinute * 60 + validatedSecond
         return totalSeconds * DateTime.TICKS_PER_SECOND
+    }
+    
+    internal static func GetDatePartForUtc(part: DatePart, ticks: Int) -> Int {
+        if part == DatePart.Hour {
+            return (ticks / TICKS_PER_HOUR) % 24
+        }
+        if part == DatePart.Minute {
+            return (ticks / TICKS_PER_MINUTE) % 60
+        }
+        if part == DatePart.Second {
+            return Int(Math.Round((Double(ticks) / Double(DateTime.TICKS_PER_SECOND) % 60.0), 0))
+        }
+        if part == DatePart.Millisecond {
+            return (ticks / DateTime.TICKS_PER_MILLISECOND) % 1000
+        }
+        if part == DatePart.Nanosecond {
+            return (ticks / DateTime.TICKS_PER_MILLISECOND) % 1000 * 1000000
+        }
+        
+        // n = number of days since 1/1/0001
+        var daysSince0001 : Int = ticks / DateTime.TICKS_PER_DAY
+        // y400 = number of whole 400-year periods since 1/1/0001
+        let y400: Int = daysSince0001 / DateTime.DAYS_PER_400YEARS
+        // n = day number within 400-year period
+        daysSince0001 -= y400 * DateTime.DAYS_PER_400YEARS
+        // y100 = number of whole 100-year periods within 400-year period
+        var y100: Int = daysSince0001 / DateTime.DAYS_PER_100YEARS
+        // Last 100-year period has an extra day, so decrement result if 4
+        if (y100 == 4) {
+            y100 = 3
+        }
+        // n = day number within 100-year period
+        daysSince0001 -= y100 * DateTime.DAYS_PER_100YEARS
+        // y4 = number of whole 4-year periods within 100-year period
+        let y4: Int = daysSince0001 / DateTime.DAYS_PER_4YEARS
+        // n = day number within 4-year period
+        daysSince0001 -= y4 * DateTime.DAYS_PER_4YEARS
+        // y1 = number of whole years within 4-year period
+        var y1: Int = daysSince0001 / DateTime.DAYS_PER_YEAR
+        // Last year has an extra day, so decrement result if 4
+        if (y1 == 4) {
+            y1 = 3
+        }
+        // If year was requested, compute and return it
+        if (part == DatePart.Year) {
+            return y400 * 400 + y100 * 100 + y4 * 4 + y1 + 1;
+        }
+        // n = day number within year
+        daysSince0001 -= y1 * DateTime.DAYS_PER_YEAR;
+        // If day-of-year was requested, return it
+        if (part == DatePart.DayOfYear) {
+            return daysSince0001 + 1;
+        }
+        // Leap year calculation looks different from IsLeapYear since y1, y4,
+        // and y100 are relative to year 1, not year 0
+        let leapYear: Bool = y1 == 3 && (y4 != 24 || y100 == 3)
+        let days: [Int] = leapYear ?  DateTime.DaysToMonth366: DateTime.DaysToMonth365
+        // All months have less than 32 days, so n >> 5 is a good conservative
+        // estimate for the month
+        var m: Int = Int(daysSince0001) >> 5 + 1
+        // m = 1-based month number
+        while (Int(daysSince0001) >= days[m]) {
+            m++
+        }
+        // If month was requested, return it
+        if (part == DatePart.Month) {
+            return Int(m)
+        }
+        // Return 1-based day-of-month
+        return daysSince0001 - days[m - 1] + 1;
     }
     
     /**
@@ -707,4 +824,8 @@ public func > (l: DateTime, r: DateTime) -> Bool {
 
 public func >= (l: DateTime, r: DateTime) -> Bool {
     return l.Kind == r.Kind && l.Ticks >= r.Ticks
+}
+
+internal enum DatePart {
+    case Year, DayOfYear, Month, Day, Hour, Minute, Second, Millisecond, Nanosecond
 }

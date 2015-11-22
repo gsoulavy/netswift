@@ -24,6 +24,8 @@ class DateTime_Tests: XCTestCase {
     var localNonSaving: DateTime! = nil
     var utcNonSaving: DateTime! = nil
     
+    let tickConstant: Int = 629003389310050000
+    
     let YEAR: Int = 1994
     let YEAR_LEAP: Int = 2008
     let YEAR_NON_LEAP: Int = 2005
@@ -38,18 +40,18 @@ class DateTime_Tests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        leap = DateTime(year: YEAR_LEAP, month: MONTH, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL)
-        nonLeap = DateTime(year: YEAR_NON_LEAP, month: MONTH, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL)
-        saving = DateTime(year: YEAR, month: MONTH_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL)
-        nonSaving = DateTime(year: YEAR, month: MONTH_NON_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL)
+        leap = DateTime(year: YEAR_LEAP, month: MONTH, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL)
+        nonLeap = DateTime(year: YEAR_NON_LEAP, month: MONTH, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL)
+        saving = DateTime(year: YEAR, month: MONTH_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL)
+        nonSaving = DateTime(year: YEAR, month: MONTH_NON_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL)
         
-        unspecSaving = DateTime(year: YEAR, month: MONTH_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL, dateTimeKind: .Unspecified)
-        localSaving = DateTime(year: YEAR, month: MONTH_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL, dateTimeKind: .Local)
-        utcSaving = DateTime(year: YEAR, month: MONTH_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL, dateTimeKind: .Utc)
+        unspecSaving = DateTime(year: YEAR, month: MONTH_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL, dateTimeKind: .Unspecified)
+        localSaving = DateTime(year: YEAR, month: MONTH_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL, dateTimeKind: .Local)
+        utcSaving = DateTime(year: YEAR, month: MONTH_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL, dateTimeKind: .Utc)
         
-        unspecNonSaving = DateTime(year: YEAR, month: MONTH_NON_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL, dateTimeKind: .Unspecified)
-        localNonSaving = DateTime(year: YEAR, month: MONTH_NON_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL, dateTimeKind: .Local)
-        utcNonSaving = DateTime(year: YEAR, month: MONTH_NON_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, milisecond: MIL, dateTimeKind: .Utc)
+        unspecNonSaving = DateTime(year: YEAR, month: MONTH_NON_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL, dateTimeKind: .Unspecified)
+        localNonSaving = DateTime(year: YEAR, month: MONTH_NON_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL, dateTimeKind: .Local)
+        utcNonSaving = DateTime(year: YEAR, month: MONTH_NON_SAVING, day: DAY, hour: HOUR, minute: MIN, second: SEC, millisecond: MIL, dateTimeKind: .Utc)
     }
     
     override func tearDown() {
@@ -120,7 +122,7 @@ class DateTime_Tests: XCTestCase {
     }
     
     func test_Milisec() {
-        XCTAssertEqual(utcSaving.Milisecond, MIL)
+        XCTAssertEqual(utcSaving.Millisecond, MIL)
     }
     
     func test_DayOfWeek() {
@@ -136,9 +138,61 @@ class DateTime_Tests: XCTestCase {
         XCTAssertEqual(valMin, 0)
     }
     
-    func test_Tickfunctionality() {
+    func test_GetDatePartForUtc_Year() {
+        let year = DateTime.GetDatePartForUtc(DatePart.Year, ticks: tickConstant)
+        XCTAssertEqual(year, 1994)
+    }
+    
+    func test_GetDatePartForUtc_Month() {
+        let month = DateTime.GetDatePartForUtc(DatePart.Month, ticks: tickConstant)
+        XCTAssertEqual(month, 3)
+    }
+    
+    func test_GetDatePartForUtc_Day() {
+        let day = DateTime.GetDatePartForUtc(DatePart.Day, ticks: tickConstant)
+        XCTAssertEqual(day, 27)
+    }
+    
+    func test_GetDatePartForUtc_Hour() {
+        let hour = DateTime.GetDatePartForUtc(DatePart.Hour, ticks: tickConstant)
+        XCTAssertEqual(hour, 4)
+    }
+    
+    func test_GetDatePartForUtc_Minute() {
+        let minute = DateTime.GetDatePartForUtc(DatePart.Minute, ticks: tickConstant)
+        XCTAssertEqual(minute, 22)
+    }
+    
+    func test_GetDatePartForUtc_Second() {
+        let second = DateTime.GetDatePartForUtc(DatePart.Second, ticks: tickConstant)
+        XCTAssertEqual(second, 11)
+    }
+    
+    func test_GetDatePartForUtc_Millisec() {
+        let mil = DateTime.GetDatePartForUtc(DatePart.Millisecond, ticks: tickConstant)
+        XCTAssertEqual(mil, 5)
+    }
+    
+    func test_GetDatePartForUtc_Nanosec() {
+        let nano = DateTime.GetDatePartForUtc(DatePart.Nanosecond, ticks: tickConstant)
+        XCTAssertEqual(nano, 5000000)
+    }
+    
+    func test_TickfunctionalityUtc() {
         let startTick = 629055972000000000
         let dateTime = DateTime(ticks: startTick, fromDateTimeKind: .Utc)
+        XCTAssertEqual(dateTime.Ticks, startTick)
+    }
+    
+    func test_TickFunctionalityLocal() {
+        let startTick = 629055972000000000
+        let dateTime = DateTime(ticks: startTick, fromDateTimeKind: .Local)
+        XCTAssertEqual(dateTime.Ticks, startTick)
+    }
+    
+    func test_TickFUnctionalityUnspecified() {
+        let startTick = 629055972000000000
+        let dateTime = DateTime(ticks: startTick, fromDateTimeKind: .Unspecified)
         XCTAssertEqual(dateTime.Ticks, startTick)
     }
     
@@ -154,7 +208,7 @@ class DateTime_Tests: XCTestCase {
         XCTAssertEqual(date.Hour, 0)
         XCTAssertEqual(date.Minute, 0)
         XCTAssertEqual(date.Second, 0)
-        XCTAssertEqual(date.Milisecond, 0)
+        XCTAssertEqual(date.Millisecond, 0)
         XCTAssertEqual(date.nanosecond, 0)
     }
     
@@ -173,15 +227,15 @@ class DateTime_Tests: XCTestCase {
 //    }
     
     func test_DateTime_DatePartsFunctionality() {
-        let year = 1942, month = 6, day = 11, hour = 12, minute = 45, second = 32, milisecond = 555
-        let date = DateTime(year: year, month: month, day: day, hour: hour, minute: minute, second: second, milisecond: milisecond)
+        let year = 1942, month = 6, day = 11, hour = 12, minute = 45, second = 32, millisecond = 555
+        let date = DateTime(year: year, month: month, day: day, hour: hour, minute: minute, second: second, millisecond: millisecond)
         XCTAssertEqual(date.Year, year)
         XCTAssertEqual(date.Month, month)
         XCTAssertEqual(date.Day, day)
         XCTAssertEqual(date.Hour, hour)
         XCTAssertEqual(date.Minute, minute)
         XCTAssertEqual(date.Second, second)
-        XCTAssertEqual(date.Milisecond, milisecond)
+        XCTAssertEqual(date.Millisecond, millisecond)
     }
 
     func testPerformanceExample() {
