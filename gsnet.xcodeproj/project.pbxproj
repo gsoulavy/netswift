@@ -89,6 +89,7 @@
 		4055FE911BFFF15800A7D8FB /* DateTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTimeTests.swift; path = date/DateTimeTests.swift; sourceTree = "<group>"; };
 		4055FE931C006F1500A7D8FB /* DateTimeKind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTimeKind.swift; path = gsnet/date/DateTimeKind.swift; sourceTree = "<group>"; };
 		4055FE951C00781000A7D8FB /* AritmOverloads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AritmOverloads.swift; path = gsnet/aliases/AritmOverloads.swift; sourceTree = "<group>"; };
+		4055FE971C01FD1100A7D8FB /* gsnet.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = gsnet.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +114,7 @@
 		4055FE281BFFBB6800A7D8FB = {
 			isa = PBXGroup;
 			children = (
+				4055FE971C01FD1100A7D8FB /* gsnet.playground */,
 				4055FE831BFFDB3D00A7D8FB /* date */,
 				4055FE751BFFC6DD00A7D8FB /* numerics */,
 				4055FE4F1BFFBC3600A7D8FB /* protocols */,

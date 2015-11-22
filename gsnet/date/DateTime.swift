@@ -19,40 +19,35 @@ public struct DateTime: Equatable, Comparable {
 
     private static let WINTIME_ZERO: Int = 59926435125000
 
-    private static let MIN_TO_ABSOLUTE: Int = 63113903925000
-
-    enum DateTimeKind : Int, CustomStringConvertible {
-        case UTC, Local, Unspecified
-        
-        var description: String {
-            get {
-                switch self {
-                case .UTC:
-                    return "UTC"
-                case .Local:
-                    return "Local"
-                case .Unspecified:
-                    return "Unspecified"
-                }
-            }
-        }
-    }
+    private static let DATETIMETICK_TO_NSDATETICK: Int = 63113903925000
     
-    var IsDaylightSavingTime : Bool {
+    private static let DATETIMETICK_TO_UNIX_EPOCH: Int = 621355968000000000
+    
+    private static let DATETIMETICK_TO_NSDATE_TICK: Int = 631139040000000000
+    
+    private static let SECONDS_WITH_TICKLEADINGZEROS: Int = 10000
+    
+    private static let TICKS_PER_MILISECOND : Int = 10000;
+    private static let TICKS_PER_SECOND: Int = TICKS_PER_MILISECOND * 1000;
+    private static let TICKS_PER_MINUTE: Int = TICKS_PER_SECOND * 60
+    private static let TICKS_PER_HOUR: Int = TICKS_PER_MINUTE * 60
+    private static let TICKS_PER_DAY: Int = TICKS_PER_HOUR * 24
+  
+    public var IsDaylightSavingTime : Bool {
         get {
             let timeZone = NSTimeZone.defaultTimeZone()
             return timeZone.isDaylightSavingTimeForDate(_date!)
         }
     }
     
-    var IsLeapYear : Bool {
+    public var IsLeapYear : Bool {
         get {
             let year = self.Year
             return (( year % 100 != 0)) && (year%4 == 0) || year % 400 == 0
         }
     }
     
-    var DaylightSavingTime : Int {
+    internal var DaylightSavingTime : Int {
         get {
             if (self.IsDaylightSavingTime) {
                 return Int(TimeSpan.TicksPerHour)
@@ -61,34 +56,34 @@ public struct DateTime: Equatable, Comparable {
         }
     }
     
-    var UTCDaylightSavingFactor : Double {
+    internal var UTCDaylightSavingFactor : Double {
         get {
-            if (self.Kind == .UTC && self.IsDaylightSavingTime) {
+            if (self.Kind == .Utc && self.IsDaylightSavingTime) {
                 return TimeSpan.TicksPerHour
             }
             return 0
         }
     }
     
-    private var _nsUnitComp : NSCalendarUnit {
+    internal var _nsUnitComp : NSCalendarUnit {
         get {
             return [.Year, .Month, .Day, .Hour, .Minute, .Second, .Nanosecond, .TimeZone, .Weekday, .WeekOfYear, .WeekdayOrdinal, .Quarter]
         }
     }
     
-    static var Calendar : NSCalendar {
+    internal static var Calendar : NSCalendar {
         get {
             return NSCalendar.currentCalendar()
         }
     }
     
-    var components : NSDateComponents {
+    internal var components : NSDateComponents {
         get {
             return DateTime.Calendar.components(self._nsUnitComp, fromDate: _date!)
         }
     }
     
-    var Year: Int {
+    public var Year: Int {
         get {
             return components.year
         }
@@ -130,7 +125,7 @@ public struct DateTime: Equatable, Comparable {
         }
     }
     
-    private var nanosecond: Int {
+    internal var nanosecond: Int {
         get {
             return components.nanosecond
         }
@@ -144,7 +139,7 @@ public struct DateTime: Equatable, Comparable {
     
     var DayOfYear: Int? {
         get {
-            return DateTime.Calendar.ordinalityOfUnit(.Day, inUnit: .Year, forDate: NSDate())
+            return DateTime.Calendar.ordinalityOfUnit(.Day, inUnit: .Year, forDate: _date!)
         }
     }
     
@@ -165,7 +160,7 @@ public struct DateTime: Equatable, Comparable {
     Returns the date part of the DateTime object [13 Jun 2015 12:09]
     
     */
-    var Date : DateTime {
+    public var Date : DateTime {
         get {
             return DateTime(year: components.year, month: self.Month, day: self.Day)
         }
@@ -217,34 +212,40 @@ public struct DateTime: Equatable, Comparable {
         }
     }
     
-    var Ticks: Int {
+    public var Ticks: Int {
         get {
-            return Int(Double(DateTime.MIN_TO_ABSOLUTE) + _date!.timeIntervalSinceReferenceDate * 1000 + UTCDaylightSavingFactor) * 10000
+            if (self.Kind == .Utc){
+                return DateTime.DateToTicksForUtc(components.year, month: components.month, day: components.day) + DateTime.TimeToTicksForUtc(components.hour, minute: components.minute, second: components.second) + components.nanosecond/1000000 * DateTime.TICKS_PER_MILISECOND
+            } else {
+            
+            }
+            return Int(_date!.timeIntervalSinceReferenceDate) * DateTime.TICKS_PER_SECOND + DateTime.DATETIMETICK_TO_NSDATE_TICK
+            //return Int(Double(DateTime.DATETIMETICK_TO_NSDATETICK) + _date!.timeIntervalSinceReferenceDate * 1000 + UTCDaylightSavingFactor) * DateTime.SECONDS_WITH_TICKLEADINGZEROS
         }
     }
     
-    var TicksInFileTime: Int {
-        get {
-            let utcDateTime = self.ToUTC()
-            return (utcDateTime.Ticks - DateTime.FILETIME_ZERO) * 10000
-        }
-    }
-    
-    var TicksInMacTime: Int {
-        get {
-            let totalticks = (self.Ticks - DateTime.MACTIME_ZERO)
-            let ts = TimeSpan(ticks: totalticks)
-            return Int(ts.TotalSeconds)
-        }
-    }
-    
-    var TicksInWinTime: Double {
-        get {
-            let totalticks = (self.Ticks - DateTime.WINTIME_ZERO)
-            let ts = TimeSpan(ticks: totalticks)
-            return ts.TotalDays
-        }
-    }
+//    var TicksInFileTime: Int {
+//        get {
+//            let utcDateTime = self.ToUTC()
+//            return (utcDateTime.Ticks - DateTime.FILETIME_ZERO) * 10000
+//        }
+//    }
+//    
+//    var TicksInMacTime: Int {
+//        get {
+//            let totalticks = (self.Ticks - DateTime.MACTIME_ZERO)
+//            let ts = TimeSpan(ticks: totalticks)
+//            return Int(ts.TotalSeconds)
+//        }
+//    }
+//    
+//    var TicksInWinTime: Double {
+//        get {
+//            let totalticks = (self.Ticks - DateTime.WINTIME_ZERO)
+//            let ts = TimeSpan(ticks: totalticks)
+//            return ts.TotalDays
+//        }
+//    }
     
     var TimeOfDay : TimeSpan {
         get {
@@ -493,7 +494,7 @@ public struct DateTime: Equatable, Comparable {
             let secondsFromGMT = !timeZone.isDaylightSavingTimeForDate(_date!) ? timeZone.secondsFromGMT - 3600 : timeZone.secondsFromGMT
             let seconds: NSTimeInterval = Double(secondsFromGMT)
             let date = NSDate(timeInterval: -seconds, sinceDate: _date!)
-            return DateTime(nsdate: date, fromDateTimeKind: .UTC)
+            return DateTime(nsdate: date, fromDateTimeKind: .Utc)
         } else {
             return self.Clone()
         }
@@ -520,7 +521,7 @@ public struct DateTime: Equatable, Comparable {
     */
     
     static func FromFileTimeUTC(fileTime fileTime : Int) -> DateTime {
-        return DateTime(ticks: (DateTime.FILETIME_ZERO + fileTime/10000), fromDateTimeKind: .UTC)
+        return DateTime(ticks: (DateTime.FILETIME_ZERO + fileTime/10000), fromDateTimeKind: .Utc)
     }
     
     /**
@@ -532,8 +533,8 @@ public struct DateTime: Equatable, Comparable {
     */
     static func DaysInMonth(year year : Int, month : Int) -> Int {
         let component = NSDateComponents()
-        component.year = DateTime.range(variable: year, min: 1, max: 9999)
-        component.month = DateTime.range(variable: month, min: 0, max: 12)
+        component.year = year
+        component.month = month
         let calendar = DateTime.Calendar
         let nsdate = calendar.dateFromComponents(component)
         let days = calendar.rangeOfUnit(NSCalendarUnit.Day, inUnit: NSCalendarUnit.Month, forDate: nsdate!)
@@ -552,7 +553,7 @@ public struct DateTime: Equatable, Comparable {
     static func Parse(string string: String, format : DateTimeFormat = DateTimeFormat.FULL) -> DateTime {
         let df = NSDateFormatter()
         df.dateFormat = format.rawValue
-        return DateTime(nsdate: df.dateFromString(string)!, fromDateTimeKind: DateTimeKind.UTC)
+        return DateTime(nsdate: df.dateFromString(string)!, fromDateTimeKind: .Utc)
     }
     
     func ToString(format: DateTimeFormat = .FULL) -> String {
@@ -562,18 +563,16 @@ public struct DateTime: Equatable, Comparable {
     }
     
     init(ticks: Int, fromDateTimeKind: DateTimeKind = .Local){
-        let offset = (ticks - DateTime.MIN_TO_ABSOLUTE)/1000/10000
-        _date = NSDate(timeIntervalSinceReferenceDate: Double(offset))
+        let ticksToEpoch: Int = ticks - DateTime.DATETIMETICK_TO_NSDATE_TICK
+        let ticksToSecond: NSTimeInterval = Double(ticksToEpoch / DateTime.TICKS_PER_SECOND)
+        _date = NSDate(timeIntervalSinceReferenceDate: ticksToSecond)
         _kind = fromDateTimeKind
-        if (fromDateTimeKind == .UTC && self.IsDaylightSavingTime){
-            self.AddMutatingHours(hours: -1)
-        }
     }
     
     init(ticksInEpoch: Double, fromDateTimeKind: DateTimeKind = .Local){
         _date = NSDate(timeIntervalSince1970: ticksInEpoch)
         _kind = fromDateTimeKind
-        if (fromDateTimeKind == .UTC && self.IsDaylightSavingTime){
+        if (fromDateTimeKind == .Utc && self.IsDaylightSavingTime){
             self.AddMutatingHours(hours: -1)
         }
     }
@@ -593,16 +592,16 @@ public struct DateTime: Equatable, Comparable {
     
     init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, milisecond: Int, dateTimeKind: DateTimeKind = .Local) {
         let component = NSDateComponents()
-        let validatedYear = DateTime.range(variable: year, min: 1, max: 9999)
+        let validatedYear = DateTime.moveToRange(variable: year, min: 1, max: 9999)
         component.year = validatedYear
-        let validatedMonth = DateTime.range(variable: month, min: 1, max: 12)
+        let validatedMonth = DateTime.moveToRange(variable: month, min: 1, max: 12)
         component.month = validatedMonth
         let daysInMonth = DateTime.DaysInMonth(year: validatedYear, month: validatedMonth)
-        component.day = DateTime.range(variable: day, min: 1, max: daysInMonth)
-        component.hour = DateTime.range(variable: hour, min: 0, max: 23)
-        component.minute = DateTime.range(variable: minute, min: 0, max: 59)
-        component.second = DateTime.range(variable: second, min: 0, max: 59)
-        component.nanosecond = DateTime.range(variable: milisecond, min: 0, max: 999)*1000000
+        component.day = DateTime.moveToRange(variable: day, min: 1, max: daysInMonth)
+        component.hour = DateTime.moveToRange(variable: hour, min: 0, max: 23)
+        component.minute = DateTime.moveToRange(variable: minute, min: 0, max: 59)
+        component.second = DateTime.moveToRange(variable: second, min: 0, max: 59)
+        component.nanosecond = DateTime.moveToRange(variable: milisecond, min: 0, max: 999)*1000000
         self.init(components: component, dateTimeKind)
     }
     
@@ -616,12 +615,30 @@ public struct DateTime: Equatable, Comparable {
         _kind = dateTimeKind
     }
     
+    private static func DateToTicksForUtc(year: Int, month: Int, day: Int) -> Int
+    {
+        let validatedYear = DateTime.moveToRange(variable: year, min: 1, max: 9999)
+        let validatedMonth = DateTime.moveToRange(variable: month, min: 1, max: 12)
+        let validatedDays = DateTime.moveToRange(variable: day, min: 1, max: DateTime.DaysInMonth(year: validatedYear, month: validatedMonth))
+        let years: Int = validatedYear - 1;
+        let totalDays: Int = years * 365 + years / 4 - years / 100 + years / 400 + validatedDays
+        return totalDays * TICKS_PER_DAY;
+    }
+    
+    private static func TimeToTicksForUtc(hour: Int, minute: Int, second: Int) -> Int
+    {
+        let validatedHour = DateTime.moveToRange(variable: hour, min: 0, max: 23)
+        let validatedMinute = DateTime.moveToRange(variable: minute, min: 0, max: 59)
+        let validatedSecond = DateTime.moveToRange(variable: second, min: 0, max: 59)
+        let totalSeconds: Int = validatedHour * 3600 + validatedMinute * 60 + validatedSecond
+        return totalSeconds * DateTime.TICKS_PER_SECOND
+    }
     
     /**
     Validates the input fields at object creation
     
     */
-    private static func range(variable variable: Int, min: Int, max: Int) -> Int {
+    internal static func moveToRange<T where T:Equatable, T: Comparable>(variable variable: T, min: T, max: T) -> T {
         let floor = (variable < min) ? min : variable
         let ceiling = (floor > max) ? max : floor
         return ceiling
