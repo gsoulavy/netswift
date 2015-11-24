@@ -347,3 +347,12 @@ public class Math {
         return min(x, y)
     }
 }
+
+public extension Math
+{
+    public static func MoveToRange<T where T:Equatable, T:Comparable>(x variable: T, min: T, max: T) -> T {
+        let floor = (variable < min) ? min : variable
+        let ceiling = (floor > max) ? max : floor
+        return ceiling
+    }
+}

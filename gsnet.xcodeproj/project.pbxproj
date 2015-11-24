@@ -31,15 +31,15 @@
 		4055FE7A1BFFC75F00A7D8FB /* RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE791BFFC75F00A7D8FB /* RandomTests.swift */; };
 		4055FE7C1BFFCB7F00A7D8FB /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE7B1BFFCB7F00A7D8FB /* Random.swift */; };
 		4055FE801BFFDABE00A7D8FB /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE7F1BFFDABE00A7D8FB /* Math.swift */; };
-		4055FE851BFFDB8C00A7D8FB /* DateTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE841BFFDB8C00A7D8FB /* DateTime.swift */; };
+		4055FE851BFFDB8C00A7D8FB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE841BFFDB8C00A7D8FB /* Date.swift */; };
 		4055FE871BFFDD4300A7D8FB /* TimeSpan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE861BFFDD4300A7D8FB /* TimeSpan.swift */; };
 		4055FE891BFFDDAC00A7D8FB /* DayOfWeeks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE881BFFDDAC00A7D8FB /* DayOfWeeks.swift */; };
 		4055FE8B1BFFDE0D00A7D8FB /* DateTimeFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE8A1BFFDE0D00A7D8FB /* DateTimeFormat.swift */; };
-		4055FE8E1BFFE40700A7D8FB /* TimeSpanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE8D1BFFE40700A7D8FB /* TimeSpanTests.swift */; };
 		4055FE901BFFE52A00A7D8FB /* Matix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE8F1BFFE52A00A7D8FB /* Matix.swift */; };
-		4055FE921BFFF15800A7D8FB /* DateTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE911BFFF15800A7D8FB /* DateTimeTests.swift */; };
+		4055FE921BFFF15800A7D8FB /* DateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE911BFFF15800A7D8FB /* DateTests.swift */; };
 		4055FE941C006F1500A7D8FB /* DateTimeKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE931C006F1500A7D8FB /* DateTimeKind.swift */; };
 		4055FE961C00781000A7D8FB /* AritmOverloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE951C00781000A7D8FB /* AritmOverloads.swift */; };
+		4055FE991C050DE100A7D8FB /* NSDate_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE981C050DE100A7D8FB /* NSDate_e.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,16 +80,16 @@
 		4055FE791BFFC75F00A7D8FB /* RandomTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomTests.swift; path = numerics/RandomTests.swift; sourceTree = "<group>"; };
 		4055FE7B1BFFCB7F00A7D8FB /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Random.swift; path = gsnet/numerics/Random.swift; sourceTree = "<group>"; };
 		4055FE7F1BFFDABE00A7D8FB /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Math.swift; path = gsnet/numerics/Math.swift; sourceTree = "<group>"; };
-		4055FE841BFFDB8C00A7D8FB /* DateTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTime.swift; path = gsnet/date/DateTime.swift; sourceTree = "<group>"; };
+		4055FE841BFFDB8C00A7D8FB /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Date.swift; path = gsnet/date/Date.swift; sourceTree = "<group>"; };
 		4055FE861BFFDD4300A7D8FB /* TimeSpan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSpan.swift; path = gsnet/date/TimeSpan.swift; sourceTree = "<group>"; };
 		4055FE881BFFDDAC00A7D8FB /* DayOfWeeks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DayOfWeeks.swift; path = gsnet/date/DayOfWeeks.swift; sourceTree = "<group>"; };
 		4055FE8A1BFFDE0D00A7D8FB /* DateTimeFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTimeFormat.swift; path = gsnet/date/DateTimeFormat.swift; sourceTree = "<group>"; };
-		4055FE8D1BFFE40700A7D8FB /* TimeSpanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSpanTests.swift; path = date/TimeSpanTests.swift; sourceTree = "<group>"; };
 		4055FE8F1BFFE52A00A7D8FB /* Matix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Matix.swift; path = gsnet/numerics/Matix.swift; sourceTree = "<group>"; };
-		4055FE911BFFF15800A7D8FB /* DateTimeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTimeTests.swift; path = date/DateTimeTests.swift; sourceTree = "<group>"; };
+		4055FE911BFFF15800A7D8FB /* DateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTests.swift; path = date/DateTests.swift; sourceTree = "<group>"; };
 		4055FE931C006F1500A7D8FB /* DateTimeKind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTimeKind.swift; path = gsnet/date/DateTimeKind.swift; sourceTree = "<group>"; };
 		4055FE951C00781000A7D8FB /* AritmOverloads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AritmOverloads.swift; path = gsnet/aliases/AritmOverloads.swift; sourceTree = "<group>"; };
 		4055FE971C01FD1100A7D8FB /* gsnet.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = gsnet.playground; sourceTree = "<group>"; };
+		4055FE981C050DE100A7D8FB /* NSDate_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSDate_e.swift; path = gsnet/extensions/NSDate_e.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +191,7 @@
 				4055FE631BFFBC6600A7D8FB /* String_e.swift */,
 				4055FE641BFFBC6600A7D8FB /* ulong_e.swift */,
 				4055FE651BFFBC6600A7D8FB /* ushort_e.swift */,
+				4055FE981C050DE100A7D8FB /* NSDate_e.swift */,
 			);
 			name = extensions;
 			sourceTree = "<group>";
@@ -232,7 +233,7 @@
 		4055FE831BFFDB3D00A7D8FB /* date */ = {
 			isa = PBXGroup;
 			children = (
-				4055FE841BFFDB8C00A7D8FB /* DateTime.swift */,
+				4055FE841BFFDB8C00A7D8FB /* Date.swift */,
 				4055FE861BFFDD4300A7D8FB /* TimeSpan.swift */,
 				4055FE881BFFDDAC00A7D8FB /* DayOfWeeks.swift */,
 				4055FE8A1BFFDE0D00A7D8FB /* DateTimeFormat.swift */,
@@ -244,8 +245,7 @@
 		4055FE8C1BFFE3DE00A7D8FB /* date */ = {
 			isa = PBXGroup;
 			children = (
-				4055FE8D1BFFE40700A7D8FB /* TimeSpanTests.swift */,
-				4055FE911BFFF15800A7D8FB /* DateTimeTests.swift */,
+				4055FE911BFFF15800A7D8FB /* DateTests.swift */,
 			);
 			name = date;
 			sourceTree = "<group>";
@@ -377,12 +377,13 @@
 				4055FE661BFFBC6600A7D8FB /* byte_e.swift in Sources */,
 				4055FE5B1BFFBC5100A7D8FB /* Stack.swift in Sources */,
 				4055FE801BFFDABE00A7D8FB /* Math.swift in Sources */,
+				4055FE991C050DE100A7D8FB /* NSDate_e.swift in Sources */,
 				4055FE5A1BFFBC5100A7D8FB /* ReadOnlyList.swift in Sources */,
 				4055FE681BFFBC6600A7D8FB /* int_e.swift in Sources */,
 				4055FE6D1BFFBC6600A7D8FB /* String_e.swift in Sources */,
 				4055FE891BFFDDAC00A7D8FB /* DayOfWeeks.swift in Sources */,
 				4055FE8B1BFFDE0D00A7D8FB /* DateTimeFormat.swift in Sources */,
-				4055FE851BFFDB8C00A7D8FB /* DateTime.swift in Sources */,
+				4055FE851BFFDB8C00A7D8FB /* Date.swift in Sources */,
 				4055FE691BFFBC6600A7D8FB /* List_e.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -393,9 +394,8 @@
 			files = (
 				4055FE7A1BFFC75F00A7D8FB /* RandomTests.swift in Sources */,
 				4055FE421BFFBB6800A7D8FB /* gsnetTests.swift in Sources */,
-				4055FE8E1BFFE40700A7D8FB /* TimeSpanTests.swift in Sources */,
 				4055FE741BFFBCCD00A7D8FB /* ListTests.swift in Sources */,
-				4055FE921BFFF15800A7D8FB /* DateTimeTests.swift in Sources */,
+				4055FE921BFFF15800A7D8FB /* DateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
