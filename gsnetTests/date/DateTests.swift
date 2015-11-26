@@ -46,7 +46,7 @@ class Date_Tests: XCTestCase {
         let min = 15
         let sec = 11
         let millisecond = 555
-        let dt: Date = Date(year: year, month: month, day: day, hour: hour, minute: min, second: sec, millisecond: millisecond, .Local)
+        let dt: Date = Date(year: year, month: month, day: day, hour: hour, minute: min, second: sec, millisecond: millisecond, kind: .Local)
         XCTAssertEqual(dt.Year, year)
         XCTAssertEqual(dt.Month, month)
         XCTAssertEqual(dt.Day, day)
@@ -55,6 +55,17 @@ class Date_Tests: XCTestCase {
         XCTAssertEqual(dt.Second, sec)
         XCTAssertEqual(dt.Millisecond, millisecond)
     }
+    
+    func test_GetKindFromDate() {
+        let dt: Date = Date(year: 2001, month: 01, day: 01, kind: .Local)
+        XCTAssertEqual(dt.Kind, DateTimeKind.Local)
+        let dt2: Date = Date(year: 2001, month: 02, day: 02, kind: .Utc)
+        XCTAssertEqual(dt2.Kind, DateTimeKind.Utc)
+        let dt3: Date = Date(year: 2001, month: 03, day: 04)
+        XCTAssertEqual(dt3.Kind, DateTimeKind.Local)
+    }
+    
+    
 
 //    func test_UtcNonSaving_Ticks(){
 //        XCTAssertEqual(utcNonSaving.Ticks, 629219697824000000)

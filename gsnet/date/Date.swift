@@ -14,25 +14,48 @@ public struct Date
     private var _date: NSDate?
     private var _kind: DateTimeKind = .Unspecified
     
-    public init(year: Int, month: Int, day: Int, hour: Int = 0, minute: Int = 0, second: Int = 0, millisecond: Int = 0, kind: DateTimeKind = DateTimeKind.Local) {
-        let cal = NSCalendar.currentCalendar()
-        let comp = NSDateComponents()
-        if kind == .Utc { comp.timeZone = NSTimeZone(abbreviation: "UTC") }
-        let movedYear = Math.MoveToRange(x: year, min: 1, max: 9999)
-        comp.year = movedYear
-        let movedMonth = Math.MoveToRange(x: month, min: 1, max: 12)
-        comp.month = movedMonth
-        comp.day = Math.MoveToRange(x: day, min: 1, max: Date.DaysInMonth(year: movedYear, month: movedMonth))
-        comp.hour = Math.MoveToRange(x: hour, min: 0, max: 23)
-        comp.minute = Math.MoveToRange(x: minute, min: 0, max: 59)
-        comp.second = Math.MoveToRange(x: second, min: 0, max: 59)
-        comp.nanosecond = (millisecond * Date.NANOSECONDS_IN_MILLISECOND)
-        _date = cal.dateFromComponents(comp)
+    public init(year: Int, month: Int, day: Int, hour: Int? = nil, minute: Int? = nil, second: Int? = nil, millisecond: Int? = nil, kind: DateTimeKind = .Local)
+    {
+        let component = NSDateComponents()
+        var timeZone: String? = nil
+        var d: Int? = nil
+        var ns: Int? = nil
+        if kind == .Utc
+        {
+            timeZone = "UTC"
+        }
+        
+        let y = Math.MoveToRange(x: year, min: 1, max: 9999)
+        //comp.year = movedYear
+        let m = Math.MoveToRange(x: month, min: 1, max: 12)
+        //comp.month = movedMonth
+
+        if y != nil && m != nil {
+            d = Math.MoveToRange(x: day, min: 1, max: Date.DaysInMonth(year: y!, month: m!)!)
+        }
+        if millisecond != nil {
+            ns = (millisecond! * Date.NANOSECONDS_IN_MILLISECOND)
+        }
+        
+        _date = component.nSDateFromComponents(
+            year: y,
+            month: m,
+            day: d,
+            hour: Math.MoveToRange(x: hour, min: 0, max: 23),
+            minute: Math.MoveToRange(x: minute, min: 0, max: 59),
+            second: Math.MoveToRange(x: second, min: 0, max: 59),
+            nanosecond: ns,
+            timeZone: timeZone)
+        _kind = kind
+    }
+    
+    public init(nsdate: NSDate, kind: DateTimeKind = .Local) {
+        _date = nsdate
         _kind = kind
     }
 }
 
-//MARK: PUBLIC DATETIME PROPERTIES
+//MARK: PUBLIC DATETIME GETTERS PROPERTIES
 public extension Date
 {
     /// Get the year component of the date
@@ -73,14 +96,48 @@ public extension Date
         dateFormatter.timeZone = NSTimeZone.localTimeZone()
         return dateFormatter.stringFromDate(_date!)
     }
+    
+    /**
+    Read-only: the kind of the date
+     - Returns: DateTimeKind
+        - Values: **Utc, Local, Unspecified**
+    */
+    public var Kind: DateTimeKind    { return _kind }
+    
+    /**
+    Read-only: the NSDate core type
+     - Returns: **original** NSDate object (will mutate the original Date object)
+    */
+    public var AsDate: NSDate? { return _date }
+    
+    /**
+    Read-only: the NSDate core type
+     - Returns: **copy** NSDate object
+    */
+    public var ToNSDate: NSDate? {
+//        components
+        let component = NSCalendar.currentCalendar().components(Date.componentFlags(), fromDate: _date!)
+        return component.nSDateFromComponents(
+            year: component.year,
+            month: component.month,
+            day: component.day,
+            hour: component.hour,
+            minute: component.minute,
+            second: component.second,
+            nanosecond: component.nanosecond,
+            timeZone: component.timeZone!.abbreviation
+            )
+    }
+    
 }
 
 public extension Date
 {
-    static func DaysInMonth(year year : Int, month : Int) -> Int {
+    static func DaysInMonth(year year : Int? = nil, month : Int? = nil) -> Int? {
+        if year == nil || month == nil { return nil }
         let comp = NSDateComponents()
-        comp.year = Math.MoveToRange(x: year, min: 1, max: 9999)
-        comp.month = Math.MoveToRange(x: month, min: 0, max: 12)
+        comp.year = Math.MoveToRange(x: year!, min: 1, max: 9999)!
+        comp.month = Math.MoveToRange(x: month!, min: 0, max: 12)!
         let cal = NSCalendar.currentCalendar()
         let nsdate = cal.dateFromComponents(comp)
         let days = cal.rangeOfUnit(.Day, inUnit: .Month, forDate: nsdate!)
@@ -164,5 +221,32 @@ private extension Date
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
             return dateFormatter
         }
+    }
+}
+
+internal extension NSDateComponents {
+    
+    internal func nSDateFromComponents(year year: Int? = nil, month: Int? = nil, day: Int? = nil, hour: Int? = nil, minute: Int? = nil, second: Int? = nil, nanosecond: Int? = nil, timeZone: String? = nil) -> NSDate!
+    {
+        if year != nil { self.year = year! }
+        if month != nil { self.month = month! }
+        if day != nil { self.day = day! }
+        if hour != nil { self.hour = hour! }
+        if minute != nil { self.minute = minute! }
+        if second != nil { self.second = second! }
+        if nanosecond != nil { self.nanosecond = nanosecond! }
+        self.timeZone = (timeZone != nil ? NSTimeZone(abbreviation: timeZone!) : NSTimeZone.defaultTimeZone())
+        
+        // Set weekday stuff to undefined to prevent dateFromComponents to get confused
+        self.yearForWeekOfYear = NSDateComponentUndefined
+        self.weekOfYear = NSDateComponentUndefined
+        self.weekday = NSDateComponentUndefined
+        self.weekdayOrdinal = NSDateComponentUndefined
+        
+        // Set calendar time zone to desired time zone
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = self.timeZone!
+        
+        return calendar.dateFromComponents(self)
     }
 }

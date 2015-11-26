@@ -350,7 +350,8 @@ public class Math {
 
 public extension Math
 {
-    public static func MoveToRange<T where T:Equatable, T:Comparable>(x variable: T, min: T, max: T) -> T {
+    public static func MoveToRange<T where T:Equatable, T:Comparable>(x variable: T? = nil, min: T?, max: T?) -> T? {
+        if variable == nil || min == nil || max == nil { return nil }
         let floor = (variable < min) ? min : variable
         let ceiling = (floor > max) ? max : floor
         return ceiling
