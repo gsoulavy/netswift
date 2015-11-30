@@ -91,6 +91,29 @@ class Date_Tests: XCTestCase {
         XCTAssertNotNil(dt2 as Date)
     }
     
+    func test_Tick_Reference_Utc() {
+        let dt1: Date = Date(year: 2011, month: 04, day: 4, hour: 11, minute: 22, second: 11, millisecond: 888, kind: .Utc)
+        let dt2: Date = Date(ticks: dt1.Ticks, kind: .Utc)
+        XCTAssertEqual(dt1.Year, dt2.Year)
+        XCTAssertEqual(dt1.Month, dt2.Month)
+        XCTAssertEqual(dt1.Day, dt2.Day)
+        XCTAssertEqual(dt1.Hour, dt2.Hour)
+        XCTAssertEqual(dt1.Minute, dt2.Minute)
+        XCTAssertEqual(dt1.Second, dt2.Second)
+        XCTAssertEqual(dt1.Millisecond, dt2.Millisecond)
+    }
+    
+    func test_Tick_Reference_Local() {
+        let dt1: Date = Date(year: 2011, month: 04, day: 4, hour: 11, minute: 22, second: 11, millisecond: 888, kind: .Local)
+        let dt2: Date = Date(ticks: dt1.Ticks, kind: .Local)
+        XCTAssertEqual(dt1.Year, dt2.Year)
+        XCTAssertEqual(dt1.Month, dt2.Month)
+        XCTAssertEqual(dt1.Day, dt2.Day)
+        XCTAssertEqual(dt1.Hour, dt2.Hour)
+        XCTAssertEqual(dt1.Minute, dt2.Minute)
+        XCTAssertEqual(dt1.Second, dt2.Second)
+        XCTAssertEqual(dt1.Millisecond, dt2.Millisecond)
+    }
 
 //    func test_UtcNonSaving_Ticks(){
 //        XCTAssertEqual(utcNonSaving.Ticks, 629219697824000000)

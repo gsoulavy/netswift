@@ -47,6 +47,11 @@ public struct Date
         _kind = kind
         _date = nsdate
     }
+    
+    public init(ticks: Double, kind: DateTimeKind = .Local) {
+        _date = NSDate(timeIntervalSinceReferenceDate: ticks)
+        _kind = kind
+    }
 }
 
 //MARK: PUBLIC DATETIME GETTERS PROPERTIES
@@ -113,8 +118,20 @@ public extension Date
         return _date!.copy() as? NSDate
     }
     
-    public var Ticks: Int {
-        return Int(_date!.timeIntervalSinceReferenceDate) * Date.MILLISECONDS_IN_SECOND
+    /**
+    Read-only: Double ticks since reference (**2001-01-01**)
+     - Returns: Double in second
+    */
+    public var Ticks: Double {
+        return _date!.timeIntervalSinceReferenceDate
+    }
+    
+    /**
+     Read-only: Int ticks since fileTime zero (**0001-01-01**)
+     - Returns: Int
+     */
+    public var FileTimeTicks: Int {
+        return Int(self.Ticks) * Date.TICKSINSECOND + Date.TICKS_BETWEEN_REFERENCEZERO_AND_FILETIMEZERO_IN_MILLISECONDS
     }
     
 }
@@ -136,8 +153,10 @@ public extension Date
 //MARK: INTERNAL DATETIME CONSTANTS
 internal extension Date
 {
-    internal static let MILLISECONDS_IN_SECOND: Int = 1000
+    internal static let TICKSINSECOND: Int = 1000
     internal static let NANOSECONDS_IN_MILLISECOND: Int = 1000000
+    
+    internal static let TICKS_BETWEEN_REFERENCEZERO_AND_FILETIMEZERO_IN_MILLISECONDS: Int = 63113904000000
 }
 
 internal extension Date
