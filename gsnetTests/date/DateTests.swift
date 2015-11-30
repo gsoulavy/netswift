@@ -65,6 +65,31 @@ class Date_Tests: XCTestCase {
         XCTAssertEqual(dt3.Kind, DateTimeKind.Local)
     }
     
+    func test_AsDate() {
+        let dt: Date = Date(year: 2001, month: 02, day: 03)
+        XCTAssertNotNil(dt.AsDate! as NSDate)
+    }
+    
+    func test_ToNSDate() {
+        let dt: Date = Date(year: 1255, month: 03, day: 4)
+        XCTAssertNotNil(dt.ToNSDate! as NSDate)
+        let dt2: Date = Date(year: 1244, month: 02, day: 5, kind: .Utc)
+        XCTAssertNotNil(dt2.ToNSDate! as NSDate)
+    }
+    
+    func test_ToNSDate_Into_New_DateObject_Utc() {
+        let dt1: Date = Date(year: 1266, month: 03, day: 5, kind: .Utc)
+        let nsdate: NSDate = dt1.ToNSDate!
+        let dt2: Date = Date(nsdate: nsdate)
+        XCTAssertNotNil(dt2 as Date)
+    }
+    
+    func test_ToNSDate_Into_New_DateObject_Non_Utc() {
+        let dt1: Date = Date(year: 1266, month: 03, day: 5)
+        let nsdate: NSDate = dt1.ToNSDate!
+        let dt2: Date = Date(nsdate: nsdate)
+        XCTAssertNotNil(dt2 as Date)
+    }
     
 
 //    func test_UtcNonSaving_Ticks(){
