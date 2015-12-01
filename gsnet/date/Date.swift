@@ -11,12 +11,12 @@ import Foundation
 
 public struct Date
 {
-    private var _date: NSDate?
+    private var _date: NSDate
+    private var _components: NSDateComponents?
     private var _kind: DateTimeKind = .Unspecified
     
     public init(year: Int, month: Int, day: Int, hour: Int? = nil, minute: Int? = nil, second: Int? = nil, millisecond: Int? = nil, kind: DateTimeKind = .Local)
     {
-        let component = NSDateComponents()
         var d: Int? = nil
         var ns: Int? = nil
         let y = Math.MoveToRange(x: year, min: 1, max: 9999)
@@ -30,8 +30,8 @@ public struct Date
         {
             ns = (millisecond! * Date.NANOSECONDS_IN_MILLISECOND)
         }
-        
-        _date = component.nSDateFromComponents(
+        _components = NSDateComponents()
+        _date = _components!.nSDateFromComponents(
             year: y,
             month: m,
             day: d,
@@ -49,7 +49,14 @@ public struct Date
     }
     
     public init(ticks: Double, kind: DateTimeKind = .Local) {
-        _date = NSDate(timeIntervalSinceReferenceDate: ticks)
+        
+        if kind == .Utc
+        {
+            _date = NSDate(timeIntervalSince1970: ticks + Date.TICKS_BETWEEN_REFERENCEZERO_AND_EPOCH_IN_SECONDS)
+        } else
+        {
+            _date = NSDate(timeIntervalSinceReferenceDate: ticks)
+        }
         _kind = kind
     }
 }
@@ -58,29 +65,29 @@ public struct Date
 public extension Date
 {
     /// Get the year component of the date
-    public var Year : Int			{ return components.year }
+    public var Year : Int			{ return Components.year }
     /// Get the month component of the date
-    public var Month : Int			{ return components.month }
+    public var Month : Int			{ return Components.month }
     /// Get the week of the month component of the date
-    var WeekOfMonth: Int	{ return components.weekOfMonth }
+    var WeekOfMonth: Int	{ return Components.weekOfMonth }
     /// Get the week of the month component of the date
-    var WeekOfYear: Int		{ return components.weekOfYear }
+    var WeekOfYear: Int		{ return Components.weekOfYear }
     /// Get the weekday component of the date
-    var Weekday: Int		{ return components.weekday }
+    var Weekday: Int		{ return Components.weekday }
     /// Get the weekday ordinal component of the date
-    var WeekdayOrdinal: Int	{ return components.weekdayOrdinal }
+    var WeekdayOrdinal: Int	{ return Components.weekdayOrdinal }
     /// Get the day component of the date
-    var Day: Int			{ return components.day }
+    var Day: Int			{ return Components.day }
     /// Get the hour component of the date
-    var Hour: Int			{ return components.hour }
+    var Hour: Int           { return Components.hour }
     /// Get the minute component of the date
-    var Minute: Int			{ return components.minute }
+    var Minute: Int			{ return Components.minute }
     /// Get the second component of the date
-    var Second: Int			{ return components.second }
+    var Second: Int			{ return Components.second }
     /// Get the millisecond component of the Date
-    var Millisecond: Int    { return components.nanosecond / Date.NANOSECONDS_IN_MILLISECOND }
+    var Millisecond: Int    { return Components.nanosecond / Date.NANOSECONDS_IN_MILLISECOND }
     /// Get the era component of the date
-    var Era: Int			{ return components.era }
+    var Era: Int			{ return Components.era }
     /// Get the current month name based upon current locale
     var MonthName: String {
         let dateFormatter = Date.localThreadDateFormatter()
@@ -93,7 +100,7 @@ public extension Date
         dateFormatter.locale = NSLocale.autoupdatingCurrentLocale()
         dateFormatter.dateFormat = "EEEE"
         dateFormatter.timeZone = NSTimeZone.localTimeZone()
-        return dateFormatter.stringFromDate(_date!)
+        return dateFormatter.stringFromDate(_date)
     }
     
     /**
@@ -115,7 +122,7 @@ public extension Date
     */
     public var ToNSDate: NSDate? {
         
-        return _date!.copy() as? NSDate
+        return _date.copy() as? NSDate
     }
     
     /**
@@ -123,7 +130,11 @@ public extension Date
      - Returns: Double in second
     */
     public var Ticks: Double {
-        return _date!.timeIntervalSinceReferenceDate
+        return _date.timeIntervalSinceReferenceDate
+    }
+    
+    public var TicksEpoch: Double {
+        return _date.timeIntervalSince1970
     }
     
     /**
@@ -131,7 +142,7 @@ public extension Date
      - Returns: Int
      */
     public var FileTimeTicks: Int {
-        return Int(self.Ticks) * Date.TICKSINSECOND + Date.TICKS_BETWEEN_REFERENCEZERO_AND_FILETIMEZERO_IN_MILLISECONDS
+        return Int(self.Ticks) * Date.TICKSINSECOND + Date.TICKS_BETWEEN_REFERENCEZERO_AND_DATETIMEZERO_IN_MILLISECONDS
     }
     
 }
@@ -156,7 +167,8 @@ internal extension Date
     internal static let TICKSINSECOND: Int = 1000
     internal static let NANOSECONDS_IN_MILLISECOND: Int = 1000000
     
-    internal static let TICKS_BETWEEN_REFERENCEZERO_AND_FILETIMEZERO_IN_MILLISECONDS: Int = 63113904000000
+    internal static let TICKS_BETWEEN_REFERENCEZERO_AND_DATETIMEZERO_IN_MILLISECONDS: Int = 63113904000000
+    internal static let TICKS_BETWEEN_REFERENCEZERO_AND_EPOCH_IN_SECONDS: Double = 978307200
 }
 
 internal extension Date
@@ -187,15 +199,25 @@ private extension Date
     
     private func addComponents(components: NSDateComponents) -> NSDate? {
         let calendar = NSCalendar.currentCalendar()
-        return calendar.dateByAddingComponents(components, toDate: _date!, options: [])
+        return calendar.dateByAddingComponents(components, toDate: _date, options: [])
     }
     
-    /// Return the NSDateComponents which represent current date
+    /// Retun timeZone sensitive components
     private var components: NSDateComponents {
+        return NSCalendar.currentCalendar().components(Date.componentFlags(), fromDate: _date)
+    }
+    
+    private var Components: NSDateComponents {
+        if _components != nil { return _components! }
+        return components
+    }
+    
+    /// Return the NSDateComponents
+    private var componentsWithTimeZone: NSDateComponents {
         let timeZone = Date.DateTimeKindToNSTimeZone(_kind)
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = timeZone
-        let component = NSCalendar.currentCalendar().components(Date.componentFlags(), fromDate: _date!)
+        let component = NSCalendar.currentCalendar().components(Date.componentFlags(), fromDate: _date)
         component.timeZone = timeZone
         return component
     }
