@@ -12,7 +12,7 @@ import Foundation
 public struct Date
 {
     private var _date: NSDate
-    private var _components: NSDateComponents?
+    private var _components: NSDateComponents
     private var _kind: DateTimeKind = .Unspecified
     
     public init(year: Int, month: Int, day: Int, hour: Int? = nil, minute: Int? = nil, second: Int? = nil, millisecond: Int? = nil, kind: DateTimeKind = .Local)
@@ -31,7 +31,7 @@ public struct Date
             ns = (millisecond! * Date.NANOSECONDS_IN_MILLISECOND)
         }
         _components = NSDateComponents()
-        _date = _components!.nSDateFromComponents(
+        _date = _components.nSDateFromComponents(
             year: y,
             month: m,
             day: d,
@@ -44,20 +44,21 @@ public struct Date
     }
     
     public init(nsdate: NSDate, kind: DateTimeKind = .Local) {
-        _kind = kind
+        let timeZone: NSTimeZone = Date.DateTimeKindToNSTimeZone(kind)
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = timeZone
         _date = nsdate
+        _kind = kind
+        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
     
     public init(ticks: Double, kind: DateTimeKind = .Local) {
-        
-        if kind == .Utc
-        {
-            _date = NSDate(timeIntervalSince1970: ticks + Date.TICKS_BETWEEN_REFERENCEZERO_AND_EPOCH_IN_SECONDS)
-        } else
-        {
-            _date = NSDate(timeIntervalSinceReferenceDate: ticks)
-        }
+        let timeZone: NSTimeZone = Date.DateTimeKindToNSTimeZone(kind)
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = timeZone
+        _date = NSDate(timeIntervalSince1970: ticks + Date.TICKS_BETWEEN_REFERENCEZERO_AND_EPOCH_IN_SECONDS)
         _kind = kind
+        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
 }
 
@@ -145,6 +146,14 @@ public extension Date
         return Int(self.Ticks) * Date.TICKSINSECOND + Date.TICKS_BETWEEN_REFERENCEZERO_AND_DATETIMEZERO_IN_MILLISECONDS
     }
     
+    /**
+     Read-only: Returns NSDateComponent belonging to Date
+     - Returns: NSDateComponent
+     */
+    public var Components: NSDateComponents {
+        return _components
+    }
+    
 }
 
 public extension Date
@@ -205,11 +214,6 @@ private extension Date
     /// Retun timeZone sensitive components
     private var components: NSDateComponents {
         return NSCalendar.currentCalendar().components(Date.componentFlags(), fromDate: _date)
-    }
-    
-    private var Components: NSDateComponents {
-        if _components != nil { return _components! }
-        return components
     }
     
     /// Return the NSDateComponents
