@@ -39,12 +39,12 @@ public struct Date
             minute: Math.MoveToRange(x: minute, min: 0, max: 59),
             second: Math.MoveToRange(x: second, min: 0, max: 59),
             nanosecond: ns,
-            timeZone: Date.DateTimeKindToNSTimeZone(kind))
+            timeZone: Date.dateTimeKindToNSTimeZone(kind))
         _kind = kind
     }
     
     public init(nsdate: NSDate, kind: DateTimeKind = .Local) {
-        let timeZone: NSTimeZone = Date.DateTimeKindToNSTimeZone(kind)
+        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = timeZone
         _date = nsdate
@@ -53,10 +53,10 @@ public struct Date
     }
     
     public init(ticks: Double, kind: DateTimeKind = .Local) {
-        let timeZone: NSTimeZone = Date.DateTimeKindToNSTimeZone(kind)
+        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = timeZone
-        _date = NSDate(timeIntervalSince1970: ticks + Date.TICKS_BETWEEN_REFERENCEZERO_AND_EPOCH_IN_SECONDS)
+        _date = NSDate(timeIntervalSinceReferenceDate: ticks)
         _kind = kind
         _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
@@ -218,7 +218,7 @@ private extension Date
     
     /// Return the NSDateComponents
     private var componentsWithTimeZone: NSDateComponents {
-        let timeZone = Date.DateTimeKindToNSTimeZone(_kind)
+        let timeZone = Date.dateTimeKindToNSTimeZone(_kind)
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = timeZone
         let component = NSCalendar.currentCalendar().components(Date.componentFlags(), fromDate: _date)
@@ -263,7 +263,7 @@ private extension Date
         }
     }
     
-    private static func DateTimeKindToNSTimeZone(kind: DateTimeKind) -> NSTimeZone
+    private static func dateTimeKindToNSTimeZone(kind: DateTimeKind) -> NSTimeZone
     {
         if kind == .Utc
         {
