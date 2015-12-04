@@ -52,11 +52,49 @@ public struct Date
         _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
     
-    public init(ticks: Double, kind: DateTimeKind = .Local) {
+    public init(rDTicks: Double, kind: DateTimeKind = .Local) {
         let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = timeZone
-        _date = NSDate(timeIntervalSinceReferenceDate: ticks)
+        _date = NSDate(timeIntervalSinceReferenceDate: rDTicks)
+        _kind = kind
+        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
+    }
+    
+    public init(epoch: Double, kind: DateTimeKind = .Local) {
+        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = timeZone
+        _date = NSDate(timeIntervalSince1970: epoch)
+        _kind = kind
+        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
+    }
+    
+    public init(ldap: Int, kind: DateTimeKind = .Local) {
+        self.init(ticks: ldap, kind: kind, interval: Date.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS)
+//        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
+//        let calendar = NSCalendar.currentCalendar()
+//        calendar.timeZone = timeZone
+//        _date = NSDate(timeIntervalSinceReferenceDate: Double(ldap)/Date.LDAP_TICKS_IN_SECOND - Date.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS)
+//        _kind = kind
+//        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
+    }
+    
+    public init(dTTicks: Int, kind: DateTimeKind = .Local) {
+        self.init(ticks: dTTicks, kind: kind, interval: Date.TICKS_BETWEEN_REFERENCEZERO_AND_DTZERO_IN_SECONDS)
+//        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
+//        let calendar = NSCalendar.currentCalendar()
+//        calendar.timeZone = timeZone
+//        _date = NSDate(timeIntervalSinceReferenceDate: Double(dTTicks)/Date.LDAP_TICKS_IN_SECOND - Date.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS)
+//        _kind = kind
+//        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
+    }
+    
+    private init(ticks: Int, kind: DateTimeKind, interval: Double){
+        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
+        let calendar = NSCalendar.currentCalendar()
+        calendar.timeZone = timeZone
+        _date = NSDate(timeIntervalSinceReferenceDate: Double(ticks)/Date.LDAP_TICKS_IN_SECOND - interval)
         _kind = kind
         _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
@@ -130,20 +168,34 @@ public extension Date
     Read-only: Double ticks since reference (**2001-01-01**)
      - Returns: Double in second
     */
-    public var Ticks: Double {
+    public var RDTicks: Double {
         return _date.timeIntervalSinceReferenceDate
     }
     
-    public var TicksEpoch: Double {
+    /**
+     Read-only: Double ticks since epoch zero (**1970-01-01**)
+     - Returns: Double in second
+     */
+    public var Epoch: Double {
         return _date.timeIntervalSince1970
     }
+    
+    /**
+     Read-only: Double ticks since epoch zero (**1601-01-01**)
+     - Returns: Double in second
+     */
+    public var LDAP: Int {
+        return Int((_date.timeIntervalSinceReferenceDate + Date.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS) * Date.LDAP_TICKS_IN_SECOND)
+    }
+    
+
     
     /**
      Read-only: Int ticks since fileTime zero (**0001-01-01**)
      - Returns: Int
      */
-    public var FileTimeTicks: Int {
-        return Int(self.Ticks) * Date.TICKSINSECOND + Date.TICKS_BETWEEN_REFERENCEZERO_AND_DATETIMEZERO_IN_MILLISECONDS
+    public var DTTicks: Int {
+        return Int((self.RDTicks + Date.TICKS_BETWEEN_REFERENCEZERO_AND_DTZERO_IN_SECONDS) * Date.LDAP_TICKS_IN_SECOND)
     }
     
     /**
@@ -173,11 +225,13 @@ public extension Date
 //MARK: INTERNAL DATETIME CONSTANTS
 internal extension Date
 {
-    internal static let TICKSINSECOND: Int = 1000
+    internal static let LDAP_TICKS_IN_SECOND: Double = 10000000
+    
     internal static let NANOSECONDS_IN_MILLISECOND: Int = 1000000
     
-    internal static let TICKS_BETWEEN_REFERENCEZERO_AND_DATETIMEZERO_IN_MILLISECONDS: Int = 63113904000000
-    internal static let TICKS_BETWEEN_REFERENCEZERO_AND_EPOCH_IN_SECONDS: Double = 978307200
+    internal static let TICKS_BETWEEN_REFERENCEZERO_AND_DTZERO_IN_SECONDS: Double = 63113904000
+    internal static let TICKS_BETWEEN_REFERENCEZERO_AND_EPOCHZERO_IN_SECONDS: Double = 978307200
+    internal static let TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS: Double = 12622780800
 }
 
 internal extension Date
