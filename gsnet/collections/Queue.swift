@@ -12,24 +12,25 @@
 /// - Dequeue
 /// - Peek
 /// - Clear
+
 public class Queue<Element> {
     private var items = [Element]()
-    
+
     public func Enqueue(item: Element) {
         items.append(item)
     }
-    
+
     public func Dequeue() -> Element? {
-        if let _ = Peek(){
+        if let _ = Peek() {
             return items.removeFirst()
         }
         return nil
     }
-    
+
     public func Peek() -> Element? {
         return items.first
     }
-    
+
     public func Clear() {
         items.removeAll()
     }

@@ -6,12 +6,12 @@
 //  Copyright © 2015 Gabor Soulavy. All rights reserved.
 //
 
-extension ulong : ValueType {
-    
-    public static func Parse(s:String) -> ulong?{
+extension ulong: ValueType {
+
+    public static func Parse(s: String) -> ulong? {
         return ulong(s)
     }
-    
+
     public func ToString() -> String {
         return String(self)
     }

@@ -7,7 +7,7 @@
 //
 
 public protocol ValueType {
-    
-	func ToString() -> String
-    
+
+    func ToString() -> String
+
 }

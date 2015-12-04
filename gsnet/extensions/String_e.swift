@@ -6,14 +6,13 @@
 //  Copyright © 2015 Gabor Soulavy. All rights reserved.
 //
 
-extension String
-{    
+extension String {
     public var Length: Int {
         get {
             return self.characters.count
         }
     }
-    
+
     func Reverse() -> String {
         let chars = Array(self.characters).reverse()
         var reversed = ""

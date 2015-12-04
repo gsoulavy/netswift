@@ -15,7 +15,7 @@ class ListTests: XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
@@ -26,7 +26,7 @@ class ListTests: XCTestCase {
         list.Add(42)
         XCTAssertEqual(list.Count, 1)
     }
-    
+
     func testCount_TwoElements_CountIsTwo() {
         let list: List<int> = List<int>()
         list.Add(42); list.Add(32); list.Add(12)
@@ -34,32 +34,32 @@ class ListTests: XCTestCase {
         list.RemoveAt(1)
         XCTAssertEqual(list.Count, 2)
     }
-    
-    func testStartIndex_ReturnsAlwaysZero(){
+
+    func testStartIndex_ReturnsAlwaysZero() {
         let list: List<int> = List<int>()
         XCTAssertEqual(0, list.startIndex)
         list.Add(1)
         XCTAssertEqual(0, list.startIndex)
     }
-    
-    func testEndIndex_WithEmptyList_ReturnsZero(){
+
+    func testEndIndex_WithEmptyList_ReturnsZero() {
         let list: List<int> = List<int>()
         XCTAssertEqual(0, list.endIndex)
     }
-    
-    func testEndIndex_TwoElements_ReturnsTwo(){
+
+    func testEndIndex_TwoElements_ReturnsTwo() {
         let list: List<int> = List<int>()
         list.Add(1)
         list.Add(33)
         XCTAssertEqual(2, list.endIndex)
     }
-    
-    func testArray_TwoElements_RetursTwo(){
-        let list = [1,2]
+
+    func testArray_TwoElements_RetursTwo() {
+        let list = [1, 2]
         XCTAssertEqual(2, list.endIndex)
     }
-    
-    func testList_TwoElements_LoopsTwiceInForEach(){
+
+    func testList_TwoElements_LoopsTwiceInForEach() {
         let list = List<int>()
         list.Add(23); list.Add(2)
         var counter = 0

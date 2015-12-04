@@ -15,22 +15,22 @@
 
 public class Stack<Element> {
     private var items = [Element]()
-    
+
     public func Push(item: Element) {
         items.append(item)
     }
-    
+
     public func Pop() -> Element? {
-        if let _ = Peek(){
+        if let _ = Peek() {
             return items.removeLast()
         }
         return nil
     }
-    
-    public func Peek() -> Element?{
+
+    public func Peek() -> Element? {
         return items.last
     }
-    
+
     public func Clear() {
         items.removeAll()
     }

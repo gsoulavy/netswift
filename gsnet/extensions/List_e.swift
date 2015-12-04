@@ -6,8 +6,8 @@
 //  Copyright © 2015 Gabor Soulavy. All rights reserved.
 //
 
-extension List where T: Equatable {
-    
+extension List where T:Equatable {
+
     public func Where(function: (T) -> Bool) -> List<T> {
         let result = List<T>()
         for item in self.items {
