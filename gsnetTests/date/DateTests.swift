@@ -124,12 +124,27 @@ class Date_Tests: XCTestCase {
         XCTAssertEqual(dt.Minute, 6)
         XCTAssertEqual(dt.Second, 40)
         XCTAssertEqual(dt.Millisecond, 0)
-        
     }
     
     func test_DtTicks_Prop_Utc() {
         let dt: Date = Date(year: 1961, month: 8, day: 1, hour: 23, minute: 6, second: 40, millisecond: 0, kind: .Utc)
         XCTAssertEqual(dt.DTTicks, 618700000000000000)
+    }
+    
+    func test_InitLDapTick_Utc(){
+        let dt: Date = Date(ldap: 113682993225550000, kind: .Utc)
+        XCTAssertEqual(dt.Year, 1961)
+        XCTAssertEqual(dt.Month, 4)
+        XCTAssertEqual(dt.Day, 1)
+        XCTAssertEqual(dt.Hour, 12)
+        XCTAssertEqual(dt.Minute, 55)
+        XCTAssertEqual(dt.Second, 22)
+        XCTAssertEqual(dt.Millisecond, 555)
+    }
+    
+    func test_LDAPTicks_Prop_Utc() {
+        let dt = Date(year: 1961, month: 04, day: 01, hour: 12, minute: 55, second: 22, millisecond: 555, kind: DateTimeKind.Utc);
+        XCTAssertEqual(dt.LDAP, 113682993225550000)
     }
 
 //    func test_UtcNonSaving_Ticks(){

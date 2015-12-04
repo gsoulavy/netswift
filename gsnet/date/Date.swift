@@ -72,22 +72,10 @@ public struct Date
     
     public init(ldap: Int, kind: DateTimeKind = .Local) {
         self.init(ticks: ldap, kind: kind, interval: Date.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS)
-//        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
-//        let calendar = NSCalendar.currentCalendar()
-//        calendar.timeZone = timeZone
-//        _date = NSDate(timeIntervalSinceReferenceDate: Double(ldap)/Date.LDAP_TICKS_IN_SECOND - Date.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS)
-//        _kind = kind
-//        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
     
     public init(dTTicks: Int, kind: DateTimeKind = .Local) {
         self.init(ticks: dTTicks, kind: kind, interval: Date.TICKS_BETWEEN_REFERENCEZERO_AND_DTZERO_IN_SECONDS)
-//        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
-//        let calendar = NSCalendar.currentCalendar()
-//        calendar.timeZone = timeZone
-//        _date = NSDate(timeIntervalSinceReferenceDate: Double(dTTicks)/Date.LDAP_TICKS_IN_SECOND - Date.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS)
-//        _kind = kind
-//        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
     
     private init(ticks: Int, kind: DateTimeKind, interval: Double){
