@@ -9,7 +9,7 @@
 import Foundation
 
 
-public struct Date {
+public struct DateTime {
     private var _date: NSDate
     private var _components: NSDateComponents
     private var _kind: DateTimeKind = .Unspecified
@@ -21,10 +21,10 @@ public struct Date {
         let m = Math.MoveToRange(x: month, min: 1, max: 12)
 
         if y != nil && m != nil {
-            d = Math.MoveToRange(x: day, min: 1, max: Date.DaysInMonth(year: y!, month: m!)!)
+            d = Math.MoveToRange(x: day, min: 1, max: DateTime.DaysInMonth(year: y!, month: m!)!)
         }
         if millisecond != nil {
-            ns = (millisecond! * Date.NANOSECONDS_IN_MILLISECOND)
+            ns = (millisecond! * DateTime.NANOSECONDS_IN_MILLISECOND)
         }
         _components = NSDateComponents()
         _date = _components.nSDateFromComponents(
@@ -35,12 +35,12 @@ public struct Date {
                 minute: Math.MoveToRange(x: minute, min: 0, max: 59),
                 second: Math.MoveToRange(x: second, min: 0, max: 59),
                 nanosecond: ns,
-                timeZone: Date.dateTimeKindToNSTimeZone(kind))
+                timeZone: DateTime.dateTimeKindToNSTimeZone(kind))
         _kind = kind
     }
 
     public init(nsdate: NSDate, kind: DateTimeKind = .Local) {
-        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
+        let timeZone: NSTimeZone = DateTime.dateTimeKindToNSTimeZone(kind)
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = timeZone
         _date = nsdate
@@ -53,19 +53,19 @@ public struct Date {
     }
 
     public init(epoch: Double, kind: DateTimeKind = .Local) {
-        self.init(ticks: epoch, kind: kind, interval: Date.TICKS_BETWEEN_REFERENCEZERO_AND_EPOCHZERO_IN_SECONDS)
+        self.init(ticks: epoch, kind: kind, interval: DateTime.TICKS_BETWEEN_REFERENCEZERO_AND_EPOCHZERO_IN_SECONDS)
     }
     
     public init(ldap: Int, kind: DateTimeKind = .Local) {
-        self.init(ticks: ldap, kind: kind, interval: Date.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS)
+        self.init(ticks: ldap, kind: kind, interval: DateTime.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS)
     }
 
     public init(dTTicks: Int, kind: DateTimeKind = .Local) {
-        self.init(ticks: dTTicks, kind: kind, interval: Date.TICKS_BETWEEN_REFERENCEZERO_AND_DTZERO_IN_SECONDS)
+        self.init(ticks: dTTicks, kind: kind, interval: DateTime.TICKS_BETWEEN_REFERENCEZERO_AND_DTZERO_IN_SECONDS)
     }
     
     private init(ticks: Double, kind: DateTimeKind, interval: Double) {
-        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
+        let timeZone: NSTimeZone = DateTime.dateTimeKindToNSTimeZone(kind)
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = timeZone
         _date = NSDate(timeIntervalSinceReferenceDate: ticks + interval)
@@ -74,10 +74,10 @@ public struct Date {
     }
 
     private init(ticks: Int, kind: DateTimeKind, interval: Double) {
-        let timeZone: NSTimeZone = Date.dateTimeKindToNSTimeZone(kind)
+        let timeZone: NSTimeZone = DateTime.dateTimeKindToNSTimeZone(kind)
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = timeZone
-        _date = NSDate(timeIntervalSinceReferenceDate: Double(ticks) / Date.LDAP_TICKS_IN_SECOND - interval)
+        _date = NSDate(timeIntervalSinceReferenceDate: Double(ticks) / DateTime.LDAP_TICKS_IN_SECOND - interval)
         _kind = kind
         _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
@@ -85,7 +85,7 @@ public struct Date {
 
 //MARK: PUBLIC DATETIME GETTERS PROPERTIES
 
-public extension Date {
+public extension DateTime {
     /// Get the year component of the date
     public var Year: Int {
         return Components.year
@@ -128,7 +128,7 @@ public extension Date {
     }
     /// Get the millisecond component of the Date
     var Millisecond: Int {
-        return Components.nanosecond / Date.NANOSECONDS_IN_MILLISECOND
+        return Components.nanosecond / DateTime.NANOSECONDS_IN_MILLISECOND
     }
     /// Get the era component of the date
     var Era: Int {
@@ -136,13 +136,13 @@ public extension Date {
     }
     /// Get the current month name based upon current locale
     var MonthName: String {
-        let dateFormatter = Date.localThreadDateFormatter()
+        let dateFormatter = DateTime.localThreadDateFormatter()
         dateFormatter.locale = NSLocale.autoupdatingCurrentLocale()
         return dateFormatter.monthSymbols[Month - 1] as String
     }
     /// Get the current weekday name
     var WeekdayName: String {
-        let dateFormatter = Date.localThreadDateFormatter()
+        let dateFormatter = DateTime.localThreadDateFormatter()
         dateFormatter.locale = NSLocale.autoupdatingCurrentLocale()
         dateFormatter.dateFormat = "EEEE"
         dateFormatter.timeZone = NSTimeZone.localTimeZone()
@@ -196,7 +196,7 @@ public extension Date {
      - Returns: Double in second
      */
     public var LDAP: Int {
-        return Int((_date.timeIntervalSinceReferenceDate + Date.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS) * Date.LDAP_TICKS_IN_SECOND)
+        return Int((_date.timeIntervalSinceReferenceDate + DateTime.TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS) * DateTime.LDAP_TICKS_IN_SECOND)
     }
 
     /**
@@ -204,7 +204,7 @@ public extension Date {
      - Returns: Int
      */
     public var DTTicks: Int {
-        return Int((self.RDTicks + Date.TICKS_BETWEEN_REFERENCEZERO_AND_DTZERO_IN_SECONDS) * Date.LDAP_TICKS_IN_SECOND)
+        return Int((self.RDTicks + DateTime.TICKS_BETWEEN_REFERENCEZERO_AND_DTZERO_IN_SECONDS) * DateTime.LDAP_TICKS_IN_SECOND)
     }
 
     /**
@@ -214,10 +214,13 @@ public extension Date {
     public var Components: NSDateComponents {
         return _components
     }
-
+    
+    public var DatePart: DateTime {
+        return DateTime(year: self.Year, month: self.Month, day: self.Day, kind: self._kind)
+    }
 }
 
-public extension Date {
+public extension DateTime {
     static func DaysInMonth(year year: Int? = nil, month: Int? = nil) -> Int? {
         if year == nil || month == nil {
             return nil
@@ -234,7 +237,7 @@ public extension Date {
 
 //MARK: INTERNAL DATETIME CONSTANTS
 
-internal extension Date {
+internal extension DateTime {
     internal static let LDAP_TICKS_IN_SECOND: Double = 10000000
 
     internal static let NANOSECONDS_IN_MILLISECOND: Int = 1000000
@@ -244,13 +247,13 @@ internal extension Date {
     internal static let TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS: Double = 12622780800
 }
 
-internal extension Date {
+internal extension DateTime {
 
 }
 
 //MARK: PRIVATE DATETIME MEMBERS
 
-private extension Date {
+private extension DateTime {
 
     private static func componentFlags() -> NSCalendarUnit {
         return [.Era,
@@ -276,15 +279,15 @@ private extension Date {
 
     /// Retun timeZone sensitive components
     private var components: NSDateComponents {
-        return NSCalendar.currentCalendar().components(Date.componentFlags(), fromDate: _date)
+        return NSCalendar.currentCalendar().components(DateTime.componentFlags(), fromDate: _date)
     }
 
     /// Return the NSDateComponents
     private var componentsWithTimeZone: NSDateComponents {
-        let timeZone = Date.dateTimeKindToNSTimeZone(_kind)
+        let timeZone = DateTime.dateTimeKindToNSTimeZone(_kind)
         let calendar = NSCalendar.currentCalendar()
         calendar.timeZone = timeZone
-        let component = NSCalendar.currentCalendar().components(Date.componentFlags(), fromDate: _date)
+        let component = NSCalendar.currentCalendar().components(DateTime.componentFlags(), fromDate: _date)
         component.timeZone = timeZone
         return component
     }
@@ -318,7 +321,7 @@ private extension Date {
      :returns: instance of NSDateFormatter
      */
     private static func localThreadDateFormatter() -> NSDateFormatter {
-        return Date.cachedObjectInCurrentThread("com.library.swiftdate.dateformatter") {
+        return DateTime.cachedObjectInCurrentThread("com.library.swiftdate.dateformatter") {
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
             return dateFormatter

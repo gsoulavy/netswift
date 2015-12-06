@@ -25,15 +25,15 @@ class Date_Tests: XCTestCase {
 
     func test_CreateDateTimeWith_Year_Month_Day() {
 
-        let dt: Date = Date(year: 2001, month: 01, day: 01)
-        XCTAssertNotNil(dt as Date)
+        let dt: DateTime = DateTime(year: 2001, month: 01, day: 01)
+        XCTAssertNotNil(dt as DateTime)
     }
 
     func test_GetYear_Month_Day_BackFromInit() {
         let year = 2001
         let month = 02
         let day = 03
-        let dt: Date = Date(year: year, month: month, day: day)
+        let dt: DateTime = DateTime(year: year, month: month, day: day)
         XCTAssertEqual(dt.Year, year)
         XCTAssertEqual(dt.Month, month)
         XCTAssertEqual(dt.Day, day)
@@ -47,7 +47,7 @@ class Date_Tests: XCTestCase {
         let min = 15
         let sec = 11
         let millisecond = 555
-        let dt: Date = Date(year: year, month: month, day: day, hour: hour, minute: min, second: sec, millisecond: millisecond, kind: .Local)
+        let dt: DateTime = DateTime(year: year, month: month, day: day, hour: hour, minute: min, second: sec, millisecond: millisecond, kind: .Local)
         XCTAssertEqual(dt.Year, year)
         XCTAssertEqual(dt.Month, month)
         XCTAssertEqual(dt.Day, day)
@@ -58,43 +58,43 @@ class Date_Tests: XCTestCase {
     }
 
     func test_GetKindFromDate() {
-        let dt: Date = Date(year: 2001, month: 01, day: 01, kind: .Local)
+        let dt: DateTime = DateTime(year: 2001, month: 01, day: 01, kind: .Local)
         XCTAssertEqual(dt.Kind, DateTimeKind.Local)
-        let dt2: Date = Date(year: 2001, month: 02, day: 02, kind: .Utc)
+        let dt2: DateTime = DateTime(year: 2001, month: 02, day: 02, kind: .Utc)
         XCTAssertEqual(dt2.Kind, DateTimeKind.Utc)
-        let dt3: Date = Date(year: 2001, month: 03, day: 04)
+        let dt3: DateTime = DateTime(year: 2001, month: 03, day: 04)
         XCTAssertEqual(dt3.Kind, DateTimeKind.Local)
     }
 
     func test_AsDate() {
-        let dt: Date = Date(year: 2001, month: 02, day: 03)
+        let dt: DateTime = DateTime(year: 2001, month: 02, day: 03)
         XCTAssertNotNil(dt.AsDate! as NSDate)
     }
 
     func test_ToNSDate() {
-        let dt: Date = Date(year: 1255, month: 03, day: 4)
+        let dt: DateTime = DateTime(year: 1255, month: 03, day: 4)
         XCTAssertNotNil(dt.ToNSDate! as NSDate)
-        let dt2: Date = Date(year: 1244, month: 02, day: 5, kind: .Utc)
+        let dt2: DateTime = DateTime(year: 1244, month: 02, day: 5, kind: .Utc)
         XCTAssertNotNil(dt2.ToNSDate! as NSDate)
     }
 
     func test_ToNSDate_Into_New_DateObject_Utc() {
-        let dt1: Date = Date(year: 1266, month: 03, day: 5, kind: .Utc)
+        let dt1: DateTime = DateTime(year: 1266, month: 03, day: 5, kind: .Utc)
         let nsdate: NSDate = dt1.ToNSDate!
-        let dt2: Date = Date(nsdate: nsdate)
-        XCTAssertNotNil(dt2 as Date)
+        let dt2: DateTime = DateTime(nsdate: nsdate)
+        XCTAssertNotNil(dt2 as DateTime)
     }
 
     func test_ToNSDate_Into_New_DateObject_Non_Utc() {
-        let dt1: Date = Date(year: 1266, month: 03, day: 5)
+        let dt1: DateTime = DateTime(year: 1266, month: 03, day: 5)
         let nsdate: NSDate = dt1.ToNSDate!
-        let dt2: Date = Date(nsdate: nsdate)
-        XCTAssertNotNil(dt2 as Date)
+        let dt2: DateTime = DateTime(nsdate: nsdate)
+        XCTAssertNotNil(dt2 as DateTime)
     }
 
     func test_Tick_Reference_Utc() {
-        let dt1: Date = Date(year: 2011, month: 04, day: 1, hour: 0, minute: 0, second: 0, millisecond: 888, kind: .Utc)
-        let dt2: Date = Date(rDTicks: dt1.RDTicks, kind: .Utc)
+        let dt1: DateTime = DateTime(year: 2011, month: 04, day: 1, hour: 0, minute: 0, second: 0, millisecond: 888, kind: .Utc)
+        let dt2: DateTime = DateTime(rDTicks: dt1.RDTicks, kind: .Utc)
         XCTAssertEqual(dt1.Year, dt2.Year)
         XCTAssertEqual(dt1.Month, dt2.Month)
         XCTAssertEqual(dt1.Day, dt2.Day)
@@ -105,8 +105,8 @@ class Date_Tests: XCTestCase {
     }
 
     func test_Tick_Reference_Local() {
-        let dt1: Date = Date(year: 2011, month: 04, day: 4, hour: 11, minute: 22, second: 11, millisecond: 888, kind: .Local)
-        let dt2: Date = Date(rDTicks: dt1.RDTicks, kind: .Local)
+        let dt1: DateTime = DateTime(year: 2011, month: 04, day: 4, hour: 11, minute: 22, second: 11, millisecond: 888, kind: .Local)
+        let dt2: DateTime = DateTime(rDTicks: dt1.RDTicks, kind: .Local)
         XCTAssertEqual(dt1.Year, dt2.Year)
         XCTAssertEqual(dt1.Month, dt2.Month)
         XCTAssertEqual(dt1.Day, dt2.Day)
@@ -117,7 +117,7 @@ class Date_Tests: XCTestCase {
     }
 
     func test_InitDtTick_Utc() {
-        let dt: Date = Date(dTTicks: 618700000000000000, kind: .Utc)
+        let dt: DateTime = DateTime(dTTicks: 618700000000000000, kind: .Utc)
         XCTAssertEqual(dt.Year, 1961)
         XCTAssertEqual(dt.Month, 8)
         XCTAssertEqual(dt.Day, 1)
@@ -128,12 +128,12 @@ class Date_Tests: XCTestCase {
     }
 
     func test_DtTicks_Prop_Utc() {
-        let dt: Date = Date(year: 1961, month: 8, day: 1, hour: 23, minute: 6, second: 40, millisecond: 0, kind: .Utc)
+        let dt: DateTime = DateTime(year: 1961, month: 8, day: 1, hour: 23, minute: 6, second: 40, millisecond: 0, kind: .Utc)
         XCTAssertEqual(dt.DTTicks, 618700000000000000)
     }
 
     func test_InitLDapTick_Utc() {
-        let dt: Date = Date(ldap: 113682993225550000, kind: .Utc)
+        let dt: DateTime = DateTime(ldap: 113682993225550000, kind: .Utc)
         XCTAssertEqual(dt.Year, 1961)
         XCTAssertEqual(dt.Month, 4)
         XCTAssertEqual(dt.Day, 1)
@@ -144,7 +144,7 @@ class Date_Tests: XCTestCase {
     }
 
     func test_LDAPTicks_Prop_Utc() {
-        let dt = Date(year: 1961, month: 04, day: 01, hour: 12, minute: 55, second: 22, millisecond: 555, kind: DateTimeKind.Utc);
+        let dt = DateTime(year: 1961, month: 04, day: 01, hour: 12, minute: 55, second: 22, millisecond: 555, kind: DateTimeKind.Utc);
         XCTAssertEqual(dt.LDAP, 113682993225550000)
     }
 
