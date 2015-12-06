@@ -31,7 +31,7 @@
 		4055FE7A1BFFC75F00A7D8FB /* RandomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE791BFFC75F00A7D8FB /* RandomTests.swift */; };
 		4055FE7C1BFFCB7F00A7D8FB /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE7B1BFFCB7F00A7D8FB /* Random.swift */; };
 		4055FE801BFFDABE00A7D8FB /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE7F1BFFDABE00A7D8FB /* Math.swift */; };
-		4055FE851BFFDB8C00A7D8FB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE841BFFDB8C00A7D8FB /* Date.swift */; };
+		4055FE851BFFDB8C00A7D8FB /* DateTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE841BFFDB8C00A7D8FB /* DateTime.swift */; };
 		4055FE871BFFDD4300A7D8FB /* TimeSpan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE861BFFDD4300A7D8FB /* TimeSpan.swift */; };
 		4055FE891BFFDDAC00A7D8FB /* DayOfWeeks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE881BFFDDAC00A7D8FB /* DayOfWeeks.swift */; };
 		4055FE8B1BFFDE0D00A7D8FB /* DateTimeFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE8A1BFFDE0D00A7D8FB /* DateTimeFormat.swift */; };
@@ -80,7 +80,7 @@
 		4055FE791BFFC75F00A7D8FB /* RandomTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomTests.swift; path = numerics/RandomTests.swift; sourceTree = "<group>"; };
 		4055FE7B1BFFCB7F00A7D8FB /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Random.swift; path = gsnet/numerics/Random.swift; sourceTree = "<group>"; };
 		4055FE7F1BFFDABE00A7D8FB /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Math.swift; path = gsnet/numerics/Math.swift; sourceTree = "<group>"; };
-		4055FE841BFFDB8C00A7D8FB /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Date.swift; path = gsnet/date/Date.swift; sourceTree = "<group>"; };
+		4055FE841BFFDB8C00A7D8FB /* DateTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTime.swift; path = gsnet/date/DateTime.swift; sourceTree = "<group>"; };
 		4055FE861BFFDD4300A7D8FB /* TimeSpan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSpan.swift; path = gsnet/date/TimeSpan.swift; sourceTree = "<group>"; };
 		4055FE881BFFDDAC00A7D8FB /* DayOfWeeks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DayOfWeeks.swift; path = gsnet/date/DayOfWeeks.swift; sourceTree = "<group>"; };
 		4055FE8A1BFFDE0D00A7D8FB /* DateTimeFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateTimeFormat.swift; path = gsnet/date/DateTimeFormat.swift; sourceTree = "<group>"; };
@@ -233,7 +233,7 @@
 		4055FE831BFFDB3D00A7D8FB /* date */ = {
 			isa = PBXGroup;
 			children = (
-				4055FE841BFFDB8C00A7D8FB /* Date.swift */,
+				4055FE841BFFDB8C00A7D8FB /* DateTime.swift */,
 				4055FE861BFFDD4300A7D8FB /* TimeSpan.swift */,
 				4055FE881BFFDDAC00A7D8FB /* DayOfWeeks.swift */,
 				4055FE8A1BFFDE0D00A7D8FB /* DateTimeFormat.swift */,
@@ -383,7 +383,7 @@
 				4055FE6D1BFFBC6600A7D8FB /* String_e.swift in Sources */,
 				4055FE891BFFDDAC00A7D8FB /* DayOfWeeks.swift in Sources */,
 				4055FE8B1BFFDE0D00A7D8FB /* DateTimeFormat.swift in Sources */,
-				4055FE851BFFDB8C00A7D8FB /* Date.swift in Sources */,
+				4055FE851BFFDB8C00A7D8FB /* DateTime.swift in Sources */,
 				4055FE691BFFBC6600A7D8FB /* List_e.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -576,6 +576,7 @@
 				4055FE481BFFBB6800A7D8FB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4055FE491BFFBB6800A7D8FB /* Build configuration list for PBXNativeTarget "gsnetTests" */ = {
 			isa = XCConfigurationList;
@@ -584,6 +585,7 @@
 				4055FE4B1BFFBB6800A7D8FB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
