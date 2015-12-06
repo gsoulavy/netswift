@@ -215,10 +215,12 @@ public extension DateTime {
         return _components
     }
     
-    public var DatePart: DateTime {
+    public var Date: DateTime {
         return DateTime(year: self.Year, month: self.Month, day: self.Day, kind: self._kind)
     }
 }
+
+//MARK: PUBLIC DATETIME GETTERS METHODS
 
 public extension DateTime {
     static func DaysInMonth(year year: Int? = nil, month: Int? = nil) -> Int? {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		401B9A9D1C1498B200D526C5 /* TimeSpanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401B9A9C1C1498B200D526C5 /* TimeSpanTests.swift */; };
 		4055FE361BFFBB6800A7D8FB /* gsnet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4055FE351BFFBB6800A7D8FB /* gsnet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4055FE3D1BFFBB6800A7D8FB /* gsnet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4055FE321BFFBB6800A7D8FB /* gsnet.framework */; };
 		4055FE421BFFBB6800A7D8FB /* gsnetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE411BFFBB6800A7D8FB /* gsnetTests.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		401B9A9C1C1498B200D526C5 /* TimeSpanTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TimeSpanTests.swift; path = date/TimeSpanTests.swift; sourceTree = "<group>"; };
 		4055FE321BFFBB6800A7D8FB /* gsnet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = gsnet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4055FE351BFFBB6800A7D8FB /* gsnet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = gsnet.h; sourceTree = "<group>"; };
 		4055FE371BFFBB6800A7D8FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 		4055FE8C1BFFE3DE00A7D8FB /* date */ = {
 			isa = PBXGroup;
 			children = (
+				401B9A9C1C1498B200D526C5 /* TimeSpanTests.swift */,
 				4055FE911BFFF15800A7D8FB /* DateTests.swift */,
 			);
 			name = date;
@@ -395,6 +398,7 @@
 				4055FE7A1BFFC75F00A7D8FB /* RandomTests.swift in Sources */,
 				4055FE421BFFBB6800A7D8FB /* gsnetTests.swift in Sources */,
 				4055FE741BFFBCCD00A7D8FB /* ListTests.swift in Sources */,
+				401B9A9D1C1498B200D526C5 /* TimeSpanTests.swift in Sources */,
 				4055FE921BFFF15800A7D8FB /* DateTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
