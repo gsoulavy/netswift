@@ -47,7 +47,7 @@ class TimeSpanTests: XCTestCase {
     }
     
     func test_Tick86400_Returns_1_day() {
-        let ts = TimeSpan(ticks: 86400)
+        let ts = TimeSpan(interval: 86400)
         XCTAssertEqual(ts.Days, 1)
         XCTAssertEqual(ts.Hours, 0)
         XCTAssertEqual(ts.Minutes, 0)
@@ -57,7 +57,7 @@ class TimeSpanTests: XCTestCase {
     }
     
     func test_Tick3600_Returns_1_Hour() {
-        let ts = TimeSpan(ticks: 3600)
+        let ts = TimeSpan(interval: 3600)
         XCTAssertEqual(ts.Days, 0)
         XCTAssertEqual(ts.Hours, 1)
         XCTAssertEqual(ts.Minutes, 0)
@@ -67,7 +67,7 @@ class TimeSpanTests: XCTestCase {
     }
     
     func test_Tick60_Returns_1_Minute() {
-        let ts = TimeSpan(ticks: 60)
+        let ts = TimeSpan(interval: 60)
         XCTAssertEqual(ts.Days, 0)
         XCTAssertEqual(ts.Hours, 0)
         XCTAssertEqual(ts.Minutes, 1)
@@ -77,7 +77,7 @@ class TimeSpanTests: XCTestCase {
     }
     
     func test_Tick81_Returns_1_second() {
-        let ts = TimeSpan(ticks: 1)
+        let ts = TimeSpan(interval: 1)
         XCTAssertEqual(ts.Days, 0)
         XCTAssertEqual(ts.Hours, 0)
         XCTAssertEqual(ts.Minutes, 0)
@@ -87,7 +87,7 @@ class TimeSpanTests: XCTestCase {
     }
     
     func test_Tick0DOT001_Returns_1_milli() {
-        let ts = TimeSpan(ticks: 0.001)
+        let ts = TimeSpan(interval: 0.001)
         XCTAssertEqual(ts.Days, 0)
         XCTAssertEqual(ts.Hours, 0)
         XCTAssertEqual(ts.Minutes, 0)
@@ -97,7 +97,7 @@ class TimeSpanTests: XCTestCase {
     }
     
     func test_Tick0DOT000000001_Returns_1_nano() {
-        let ts = TimeSpan(ticks: 0.000000001)
+        let ts = TimeSpan(interval: 0.000000001)
         XCTAssertEqual(ts.Days, 0)
         XCTAssertEqual(ts.Hours, 0)
         XCTAssertEqual(ts.Minutes, 0)
@@ -107,7 +107,7 @@ class TimeSpanTests: XCTestCase {
     }
     
     func test_TickCombined90060DOT001000001_ReturnsCombined() {
-        let ts = TimeSpan(ticks: 90061.001000010)
+        let ts = TimeSpan(interval: 90061.001000010)
         XCTAssertEqual(ts.Days, 1)
         XCTAssertEqual(ts.Hours, 1)
         XCTAssertEqual(ts.Minutes, 1)
@@ -145,31 +145,112 @@ class TimeSpanTests: XCTestCase {
     }
     
     func test_DurationNegative() {
-        let ts1 = TimeSpan(ticks: -3600)
+        let ts1 = TimeSpan(interval: -3600)
         XCTAssertEqual(ts1.Hours, -1)
         let ts2 = ts1.Duration()
         XCTAssertEqual(ts2.Hours, 1)
     }
     
     func test_DurationPositive() {
-        let ts1 = TimeSpan(ticks: 3600)
+        let ts1 = TimeSpan(interval: 3600)
         XCTAssertEqual(ts1.Hours, 1)
         let ts2 = ts1.Duration()
         XCTAssertEqual(ts2.Hours, 1)
     }
     
     func test_NegateNegative() {
-        let ts1 = TimeSpan(ticks: -3600)
+        let ts1 = TimeSpan(interval: -3600)
         XCTAssertEqual(ts1.Hours, -1)
         let ts2 = ts1.Negate()
         XCTAssertEqual(ts2.Hours, 1)
     }
     
     func test_NegatePositive() {
-        let ts1 = TimeSpan(ticks: 3600)
+        let ts1 = TimeSpan(interval: 3600)
         XCTAssertEqual(ts1.Hours, 1)
         let ts2 = ts1.Negate()
         XCTAssertEqual(ts2.Hours, -1)
+    }
+    
+    func test_FromDays() {
+        let ts = TimeSpan.FromDays(1.5)
+        XCTAssertEqual(ts.Days, 1)
+        XCTAssertEqual(ts.Hours, 12)
+        XCTAssertEqual(ts.Minutes, 0)
+        XCTAssertEqual(ts.Seconds, 0)
+        XCTAssertEqual(ts.Milliseconds, 0)
+        XCTAssertEqual(ts.Nanoseconds, 0)
+    }
+    
+    func test_FromHours() {
+        let ts = TimeSpan.FromHours(1.5)
+        XCTAssertEqual(ts.Days, 0)
+        XCTAssertEqual(ts.Hours, 1)
+        XCTAssertEqual(ts.Minutes, 30)
+        XCTAssertEqual(ts.Seconds, 0)
+        XCTAssertEqual(ts.Milliseconds, 0)
+        XCTAssertEqual(ts.Nanoseconds, 0)
+    }
+    
+    func test_FromMinutes() {
+        let ts = TimeSpan.FromMinutes(1.5)
+        XCTAssertEqual(ts.Days, 0)
+        XCTAssertEqual(ts.Hours, 0)
+        XCTAssertEqual(ts.Minutes, 1)
+        XCTAssertEqual(ts.Seconds, 30)
+        XCTAssertEqual(ts.Milliseconds, 0)
+        XCTAssertEqual(ts.Nanoseconds, 0)
+    }
+    
+    func test_FromSecond() {
+        let ts = TimeSpan.FromSeconds(1.5)
+        XCTAssertEqual(ts.Days, 0)
+        XCTAssertEqual(ts.Hours, 0)
+        XCTAssertEqual(ts.Minutes, 0)
+        XCTAssertEqual(ts.Seconds, 1)
+        XCTAssertEqual(ts.Milliseconds, 500)
+        XCTAssertEqual(ts.Nanoseconds, 999999)
+    }
+    
+    func test_FromTicks() {
+        let ts = TimeSpan.FromSeconds(3600)
+        XCTAssertEqual(ts.Days, 0)
+        XCTAssertEqual(ts.Hours, 1)
+        XCTAssertEqual(ts.Minutes, 0)
+        XCTAssertEqual(ts.Seconds, 0)
+        XCTAssertEqual(ts.Milliseconds, 0)
+        XCTAssertEqual(ts.Nanoseconds, 0)
+    }
+    
+    func test_Parse() {
+        let ts = TimeSpan.Parse("3600")!
+        XCTAssertEqual(ts.Days, 0)
+        XCTAssertEqual(ts.Hours, 1)
+        XCTAssertEqual(ts.Minutes, 0)
+        XCTAssertEqual(ts.Seconds, 0)
+        XCTAssertEqual(ts.Milliseconds, 0)
+        XCTAssertEqual(ts.Nanoseconds, 0)
+    }
+    
+    func test_ParseFail_returns_nil() {
+        let ts = TimeSpan.Parse("b")
+        XCTAssertNil(ts)
+    }
+    
+    func test_Add() {
+        let ts1 = TimeSpan(hours: 5)
+        let ts2 = TimeSpan(hours: 3, minutes: 30)
+        let ts3 = ts1.Add(ts2)
+        XCTAssertEqual(ts3.Hours, 8)
+        XCTAssertEqual(ts3.Minutes, 30)
+    }
+    
+    func test_Subtruct() {
+        let ts1 = TimeSpan(hours: 5)
+        let ts2 = TimeSpan(hours: 3, minutes: 30)
+        let ts3 = ts1.Subtruct(ts2)
+        XCTAssertEqual(ts3.Hours, 1)
+        XCTAssertEqual(ts3.Minutes, 30)
     }
 
     func testPerformanceExample() {
