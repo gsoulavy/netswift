@@ -7,7 +7,10 @@
 //
 
 public struct TimeSpan {
-    private var _ticks: Double
+    private var _ticks: Double {
+        get { return self.getTicksFromUnits(days: _days, hours: _hours, minutes: _minutes, seconds: _seconds, milliseconds: _milliseconds, nanoseconds: _nanoseconds)
+        }
+    }
     
     private var _days: Double = 0
     private var _hours: Double = 0
@@ -17,30 +20,16 @@ public struct TimeSpan {
     private var _nanoseconds: Double = 0
     
     public init(ticks: Double){
-        _ticks = ticks
-        let days = TimeSpan.GetUnitsAndReminder(ticks, devisionUnit: TimeSpan.TICKS_IN_DAY)
-        _days = days.whole
-        let hours = TimeSpan.GetUnitsAndReminder(days.reminder, devisionUnit: TimeSpan.TICKS_IN_HOUR)
-        _hours = hours.whole
-        let minutes = TimeSpan.GetUnitsAndReminder(hours.reminder, devisionUnit: TimeSpan.TICKS_IN_MINUTE)
-        _minutes = minutes.whole
-        let seconds = TimeSpan.GetUnitsAndReminder(minutes.reminder, devisionUnit: TimeSpan.TICKS_IN_SECOND)
-        _seconds = seconds.whole
-        let milliseconds = TimeSpan.GetUnitsAndReminder(seconds.reminder, devisionUnit: TimeSpan.TICKS_IN_MILLISECOND)
-        _milliseconds = milliseconds.whole
-        let nanoseconds = TimeSpan.GetUnitsAndReminder(milliseconds.reminder, devisionUnit: TimeSpan.TICKS_IN_NANOSECOND)
-        _nanoseconds = nanoseconds.whole
+        self.popullateUnits(ticks: ticks)
     }
     
-    public init(days: Double, hours: Double, minutes: Double, seconds: Double, milliseconds: Double, nanoseconds: Double){
-       _ticks = days * TimeSpan.TICKS_IN_DAY
-        + hours * TimeSpan.TICKS_IN_HOUR
-        + minutes * TimeSpan.TICKS_IN_MINUTE
-        + seconds * TimeSpan.TICKS_IN_SECOND
-        + milliseconds * TimeSpan.TICKS_IN_MILLISECOND
-        + nanoseconds * TimeSpan.TICKS_IN_NANOSECOND
+    public init(days: Double = 0, hours: Double = 0, minutes: Double = 0, seconds: Double = 0, milliseconds: Double = 0, nanoseconds: Double = 0){
+        self.popullateUnits(ticks: getTicksFromUnits(days: days, hours: hours, minutes: minutes, seconds: seconds, milliseconds: milliseconds, nanoseconds: nanoseconds))
     }
+    
 }
+
+//MARK: PUBLIC TIMESPAN READONLY PROPERTIES
 
 public extension TimeSpan {
     
@@ -67,6 +56,36 @@ public extension TimeSpan {
     public var Nanoseconds: Double {
         return _nanoseconds
     }
+    
+    public var Ticks: Double {
+        return _ticks
+    }
+    
+    public var TotalSeconds: Double {
+        return self.Ticks
+    }
+    
+    public var TotalMinutes: Double {
+        return self.Ticks / TimeSpan.TICKS_IN_MINUTE
+    }
+    
+    public var TotalHours: Double {
+        return self.Ticks / TimeSpan.TICKS_IN_HOUR
+    }
+    
+    public var TotalDays: Double {
+        return self.Ticks / TimeSpan.TICKS_IN_DAY
+    }
+}
+
+public extension TimeSpan {
+    public func Duration() -> TimeSpan {
+        return TimeSpan(ticks: Math.Abs(self.Ticks))
+    }
+    
+    public func Negate() -> TimeSpan {
+        return TimeSpan(ticks: self.Ticks * -1)
+    }
 }
 
 //MARK: INTERNAL TIMESPAN CONSTANTS
@@ -86,13 +105,37 @@ internal extension TimeSpan {
     internal static let TICKS_IN_NANOSECOND: Double = TimeSpan.TICKS_IN_MILLISECOND / TimeSpan.NANOSECONDS_IN_MILLISECOND
 }
 
-//MARK: INTERNAL TIMESPAN HELPER METHODS
+//MARK: PRIVATE TIMESPAN HELPER METHODS
 
 private extension TimeSpan {
     private static func GetUnitsAndReminder(value: Double, devisionUnit: Double) -> (whole:Double, reminder:Double) {
         let whole = trunc(value / devisionUnit)
         let reminder = value % devisionUnit
         return (whole, reminder)
+    }
+    
+    private mutating func popullateUnits(ticks ticks: Double) {
+        let days = TimeSpan.GetUnitsAndReminder(ticks, devisionUnit: TimeSpan.TICKS_IN_DAY)
+        _days = days.whole
+        let hours = TimeSpan.GetUnitsAndReminder(days.reminder, devisionUnit: TimeSpan.TICKS_IN_HOUR)
+        _hours = hours.whole
+        let minutes = TimeSpan.GetUnitsAndReminder(hours.reminder, devisionUnit: TimeSpan.TICKS_IN_MINUTE)
+        _minutes = minutes.whole
+        let seconds = TimeSpan.GetUnitsAndReminder(minutes.reminder, devisionUnit: TimeSpan.TICKS_IN_SECOND)
+        _seconds = seconds.whole
+        let milliseconds = TimeSpan.GetUnitsAndReminder(seconds.reminder, devisionUnit: TimeSpan.TICKS_IN_MILLISECOND)
+        _milliseconds = milliseconds.whole
+        let nanoseconds = TimeSpan.GetUnitsAndReminder(milliseconds.reminder, devisionUnit: TimeSpan.TICKS_IN_NANOSECOND)
+        _nanoseconds = nanoseconds.whole
+    }
+    
+    private func getTicksFromUnits(days days: Double = 0, hours: Double = 0, minutes: Double = 0, seconds: Double = 0, milliseconds: Double = 0, nanoseconds: Double = 0) -> Double {
+        return days * TimeSpan.TICKS_IN_DAY
+            + hours * TimeSpan.TICKS_IN_HOUR
+            + minutes * TimeSpan.TICKS_IN_MINUTE
+            + seconds * TimeSpan.TICKS_IN_SECOND
+            + milliseconds * TimeSpan.TICKS_IN_MILLISECOND
+            + nanoseconds * TimeSpan.TICKS_IN_NANOSECOND
     }
 }
     /*

@@ -115,6 +115,62 @@ class TimeSpanTests: XCTestCase {
         XCTAssertEqual(ts.Milliseconds, 1)
         XCTAssertEqual(ts.Nanoseconds, 10)
     }
+    
+    func test_TickReturns90061FOT001000010(){
+        let ts = TimeSpan(days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1, nanoseconds: 10)
+        XCTAssertEqual(ts.Ticks, 90061.001000010)
+    }
+    
+    func test_TotalSecondsReturns3661(){
+        let ts = TimeSpan(days: 0, hours: 1, minutes: 1, seconds: 1, milliseconds: 0, nanoseconds: 0)
+        XCTAssertEqual(ts.TotalSeconds, 3661)
+    }
+    
+    func test_TotalMinutesReturns84MinutesInADay() {
+        let ts = TimeSpan(days: 1)
+        XCTAssertEqual(ts.TotalMinutes, 1440)
+    }
+    
+    func test_TotalHoursReturns48HoursInADay() {
+        let ts = TimeSpan(days: 2)
+        XCTAssertEqual(ts.TotalHours, 48)
+    }
+    
+    func test_TotalDaysReturns2DaysIn48Hours() {
+        let ts = TimeSpan(hours: 48)
+        XCTAssertEqual(ts.TotalDays, 2)
+        XCTAssertEqual(ts.TotalHours, 48)
+        XCTAssertEqual(ts.Hours, 0)
+        XCTAssertEqual(ts.Days, 2)
+    }
+    
+    func test_DurationNegative() {
+        let ts1 = TimeSpan(ticks: -3600)
+        XCTAssertEqual(ts1.Hours, -1)
+        let ts2 = ts1.Duration()
+        XCTAssertEqual(ts2.Hours, 1)
+    }
+    
+    func test_DurationPositive() {
+        let ts1 = TimeSpan(ticks: 3600)
+        XCTAssertEqual(ts1.Hours, 1)
+        let ts2 = ts1.Duration()
+        XCTAssertEqual(ts2.Hours, 1)
+    }
+    
+    func test_NegateNegative() {
+        let ts1 = TimeSpan(ticks: -3600)
+        XCTAssertEqual(ts1.Hours, -1)
+        let ts2 = ts1.Negate()
+        XCTAssertEqual(ts2.Hours, 1)
+    }
+    
+    func test_NegatePositive() {
+        let ts1 = TimeSpan(ticks: 3600)
+        XCTAssertEqual(ts1.Hours, 1)
+        let ts2 = ts1.Negate()
+        XCTAssertEqual(ts2.Hours, -1)
+    }
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
