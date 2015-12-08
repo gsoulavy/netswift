@@ -212,8 +212,8 @@ class TimeSpanTests: XCTestCase {
         XCTAssertEqual(ts.Nanoseconds, 999999)
     }
     
-    func test_FromTicks() {
-        let ts = TimeSpan.FromSeconds(3600)
+    func test_FromInterval() {
+        let ts = TimeSpan.FromInterval(3600)
         XCTAssertEqual(ts.Days, 0)
         XCTAssertEqual(ts.Hours, 1)
         XCTAssertEqual(ts.Minutes, 0)

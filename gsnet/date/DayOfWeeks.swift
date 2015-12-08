@@ -6,10 +6,10 @@
 //  Copyright © 2015 Gabor Soulavy. All rights reserved.
 //
 
-enum DayOfWeeks: Int, CustomStringConvertible {
-    case Monday = 2, Tuesday = 3, Wednesday = 4, Thursday = 5, Friday = 6, Saturday = 7, Sunday = 1, None = 0
+public enum DayOfWeeks: Int, CustomStringConvertible {
+    case Sunday = 1, Monday = 2, Tuesday = 3, Wednesday = 4, Thursday = 5, Friday = 6, Saturday = 7, None = 0
 
-    var description: String {
+    public var description: String {
         get {
             switch self {
             case .Monday:

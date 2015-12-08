@@ -118,7 +118,7 @@ public extension TimeSpan {
         return TimeSpan(seconds: seconds)
     }
     
-    public static func FromTicks(interval: Double) -> TimeSpan {
+    public static func FromInterval(interval: NSTimeInterval) -> TimeSpan {
         return TimeSpan(interval: interval)
     }
     
