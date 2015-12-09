@@ -118,7 +118,7 @@ class TimeSpanTests: XCTestCase {
     
     func test_TickReturns90061FOT001000010(){
         let ts = TimeSpan(days: 1, hours: 1, minutes: 1, seconds: 1, milliseconds: 1, nanoseconds: 10)
-        XCTAssertEqual(ts.Ticks, 90061.001000010)
+        XCTAssertEqual(ts.Interval, 90061.001000010)
     }
     
     func test_TotalSecondsReturns3661(){

@@ -57,24 +57,24 @@ public extension TimeSpan {
         return _nanoseconds
     }
     
-    public var Ticks: NSTimeInterval {
+    public var Interval: NSTimeInterval {
         return _ticks
     }
     
     public var TotalSeconds: Double {
-        return self.Ticks
+        return self.Interval
     }
     
     public var TotalMinutes: Double {
-        return self.Ticks / TimeSpan.TICKS_IN_MINUTE
+        return self.Interval / TimeSpan.TICKS_IN_MINUTE
     }
     
     public var TotalHours: Double {
-        return self.Ticks / TimeSpan.TICKS_IN_HOUR
+        return self.Interval / TimeSpan.TICKS_IN_HOUR
     }
     
     public var TotalDays: Double {
-        return self.Ticks / TimeSpan.TICKS_IN_DAY
+        return self.Interval / TimeSpan.TICKS_IN_DAY
     }
 }
 
@@ -82,20 +82,20 @@ public extension TimeSpan {
 
 public extension TimeSpan {
     public func Add(timeSpan: TimeSpan) -> TimeSpan {
-        return TimeSpan(interval: self.Ticks + timeSpan.Ticks)
+        return TimeSpan(interval: self.Interval + timeSpan.Interval)
     }
     
     
     public func Duration() -> TimeSpan {
-        return TimeSpan(interval: Math.Abs(self.Ticks))
+        return TimeSpan(interval: Math.Abs(self.Interval))
     }
     
     public func Negate() -> TimeSpan {
-        return TimeSpan(interval: self.Ticks * -1)
+        return TimeSpan(interval: self.Interval * -1)
     }
     
     public func Subtruct(timeSpan: TimeSpan) -> TimeSpan {
-        return TimeSpan(interval: self.Ticks - timeSpan.Ticks)
+        return TimeSpan(interval: self.Interval - timeSpan.Interval)
     }
 }
 
@@ -191,63 +191,63 @@ private extension TimeSpan {
 //MARK: ARITHMETICS OVERLOADS
 
 public func +(left: TimeSpan, right: TimeSpan) -> TimeSpan {
-    return TimeSpan(interval: left.Ticks + right.Ticks)
+    return TimeSpan(interval: left.Interval + right.Interval)
 }
 
 public func -(left: TimeSpan, right: TimeSpan) -> TimeSpan {
-    return TimeSpan(interval: left.Ticks - right.Ticks)
+    return TimeSpan(interval: left.Interval - right.Interval)
 }
 
 public func *(left: TimeSpan, right: Double) -> TimeSpan {
-    return TimeSpan(interval: left.Ticks * right)
+    return TimeSpan(interval: left.Interval * right)
 }
 
 public func *(left: Double, right: TimeSpan) -> TimeSpan {
-    return TimeSpan(interval: left * right.Ticks)
+    return TimeSpan(interval: left * right.Interval)
 }
 
 public func /(left: TimeSpan, right: TimeSpan) -> Double {
-    return Double(left.Ticks / right.Ticks)
+    return Double(left.Interval / right.Interval)
 }
 
 public func /(left: TimeSpan, right: Double) -> TimeSpan {
-    return TimeSpan(interval: left.Ticks / right)
+    return TimeSpan(interval: left.Interval / right)
 }
 
 //MARK: EQUATABLE IMPLEMENTATION
 extension TimeSpan : Equatable {}
 
 public func ==(left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Ticks == right.Ticks)
+    return (left.Interval == right.Interval)
 }
 
 public func !=(left: TimeSpan, right: TimeSpan) -> Bool {
-    return !(left.Ticks == right.Ticks)
+    return !(left.Interval == right.Interval)
 }
 
 //MARK: COMPARABLE IMPLEMENTATION
 extension TimeSpan: Comparable {}
 
 public func <(left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Ticks < right.Ticks)
+    return (left.Interval < right.Interval)
 }
 
 public func >(left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Ticks > right.Ticks)
+    return (left.Interval > right.Interval)
 }
 
 public func <=(left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Ticks <= right.Ticks)
+    return (left.Interval <= right.Interval)
 }
 
 public func >=(left: TimeSpan, right: TimeSpan) -> Bool {
-    return (left.Ticks >= right.Ticks)
+    return (left.Interval >= right.Interval)
 }
 
 //MARK: ARITHMENTICS
 
 prefix func -(timeSpan: TimeSpan) -> TimeSpan {
-    return TimeSpan(interval: -timeSpan.Ticks)
+    return TimeSpan(interval: -timeSpan.Interval)
 }
 
 func +=(inout left: TimeSpan, right: TimeSpan) {

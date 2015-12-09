@@ -232,6 +232,28 @@ class Date_Tests: XCTestCase {
         
     }
     
+    func test_AddMutatingInterval() {
+        var dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Local)
+        let ts = TimeSpan(days: 1, hours: 1)
+        dt.AddMutatingInterval(ts)
+        XCTAssertEqual(dt.Year, 2001)
+        XCTAssertEqual(dt.Month, 12)
+        XCTAssertEqual(dt.Day, 6)
+        XCTAssertEqual(dt.Hour, 17)
+    }
+    
+    func test_AddInterval() {
+        let dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Local)
+        let ts = TimeSpan(days: 1, hours: 1)
+        let dt2 = dt.AddInterval(ts)
+        XCTAssertEqual(dt2.Year, 2001)
+        XCTAssertEqual(dt2.Month, 12)
+        XCTAssertEqual(dt2.Day, 6)
+        XCTAssertEqual(dt.Day, 5)
+        XCTAssertEqual(dt2.Hour, 17)
+        XCTAssertEqual(dt.Hour, 16)
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measureBlock {

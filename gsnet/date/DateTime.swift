@@ -8,10 +8,10 @@
 
 import Foundation
 
+//MARK: INITIALISERS AND PRIVATE MEMBERS
 
 public struct DateTime {
     private var _date: NSDate
-    private var _components: NSDateComponents
     private var _kind: DateTimeKind = .Unspecified
     private var _weekStarts: DayOfWeeks = .Sunday
 
@@ -22,8 +22,8 @@ public struct DateTime {
         let dayRanged = Math.MoveToRange(x: day, min: 1, max: DateTime.DaysInMonth(year: yearRanged, month: monthRanged)!)
         let nanosecond = (millisecond * DateTime.NANOSECONDS_IN_MILLISECOND)
         
-        _components = NSDateComponents()
-        _date = _components.nSDateFromComponents(
+        let components = NSDateComponents()
+        _date = components.nSDateFromComponents(
         year: yearRanged,
                 month: monthRanged,
                 day: dayRanged,
@@ -42,7 +42,6 @@ public struct DateTime {
         calendar.timeZone = timeZone
         _date = nsdate
         _kind = kind
-        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
 
     public init(interval: Double, kind: DateTimeKind = .Local, weekStarts: DayOfWeeks = .Sunday) {
@@ -68,7 +67,6 @@ public struct DateTime {
         calendar.timeZone = timeZone
         _date = NSDate(timeIntervalSinceReferenceDate: interval + intervalSince)
         _kind = kind
-        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
 
     private init(ticks: Int, kind: DateTimeKind, interval: Double, weekStarts: DayOfWeeks) {
@@ -78,7 +76,6 @@ public struct DateTime {
         calendar.timeZone = timeZone
         _date = NSDate(timeIntervalSinceReferenceDate: Double(ticks) / DateTime.LDAP_TICKS_IN_SECOND - interval)
         _kind = kind
-        _components = calendar.componentsInTimeZone(timeZone, fromDate: _date)
     }
 }
 
@@ -242,12 +239,17 @@ public extension DateTime {
     public var TimeOfDay: TimeSpan {
         return TimeSpan(hours: Double(self.Hour), minutes: Double(self.Minute), seconds: Double(self.Second), milliseconds: Double(self.Millisecond))
     }
+    
+    public var WeekStarts: DayOfWeeks {
+        get { return _weekStarts }
+        set { _weekStarts = newValue }
+    }
 }
 
-//MARK: PUBLIC DATETIME GETTERS METHODS
+//MARK: PUBLIC DATETIME METHODS
 
 public extension DateTime {
-    static func DaysInMonth(year year: Int? = nil, month: Int? = nil) -> Int? {
+    public static func DaysInMonth(year year: Int? = nil, month: Int? = nil) -> Int? {
         if year == nil || month == nil {
             return nil
         }
@@ -259,15 +261,22 @@ public extension DateTime {
         let days = cal.rangeOfUnit(.Day, inUnit: .Month, forDate: nsdate!)
         return days.length
     }
-}
-
-//MARK: PUBLIC DATETIME GET/SET PROPERTIES
-
-public extension DateTime {
-    public var WeekStarts: DayOfWeeks {
-        get { return _weekStarts }
-        set { _weekStarts = newValue }
+    
+    public func copy() -> DateTime {
+        let nsDate: NSDate = self._date.copy() as! NSDate
+        return DateTime(nsdate: nsDate, kind: self._kind, weekStarts: self._weekStarts)
     }
+    
+    public mutating func AddMutatingInterval(timeSpan: TimeSpan) {
+        self._date = self._date.dateByAddingTimeInterval(timeSpan.Interval)
+    }
+    
+    public func AddInterval(timeSpan: TimeSpan) -> DateTime {
+        var date = self.copy()
+        date.AddMutatingInterval(timeSpan)
+        return date
+    }
+    
 }
 
 //MARK: INTERNAL DATETIME CONSTANTS
@@ -280,10 +289,6 @@ internal extension DateTime {
     internal static let TICKS_BETWEEN_REFERENCEZERO_AND_DTZERO_IN_SECONDS: Double = 63113904000
     internal static let TICKS_BETWEEN_REFERENCEZERO_AND_EPOCHZERO_IN_SECONDS: Double = 978307200
     internal static let TICKS_BETWEEN_REFERENCEZERO_AND_LDAPZERO_IN_SECONDS: Double = 12622780800
-}
-
-internal extension DateTime {
-
 }
 
 //MARK: PRIVATE DATETIME MEMBERS
