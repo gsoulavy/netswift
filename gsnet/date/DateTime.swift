@@ -267,16 +267,154 @@ public extension DateTime {
         return DateTime(nsdate: nsDate, kind: self._kind, weekStarts: self._weekStarts)
     }
     
-    public mutating func AddMutatingInterval(timeSpan: TimeSpan) {
-        self._date = self._date.dateByAddingTimeInterval(timeSpan.Interval)
+    public mutating func AddMutatingTimeSpan(timeSpan: TimeSpan) {
+        self.AddMutatingInterval(timeSpan.Interval)
     }
     
-    public func AddInterval(timeSpan: TimeSpan) -> DateTime {
+    public func AddTimeSpan(timeSpan: TimeSpan) -> DateTime {
         var date = self.copy()
-        date.AddMutatingInterval(timeSpan)
+        date.AddMutatingInterval(timeSpan.Interval)
         return date
     }
     
+    public mutating func AddMutatingDays(days: Int) {
+        let component = NSDateComponents()
+        component.day = days
+        _date = (Components.calendar?.dateByAddingComponents(component, toDate: _date, options: []))!
+    }
+    
+    public func AddDays(days: Int) -> DateTime {
+        var date = self.copy()
+        date.AddMutatingDays(days)
+        return date
+    }
+    
+    public mutating func AddMutatingHours(hours: Int) {
+        let component = NSDateComponents()
+        component.hour = hours
+        _date = (Components.calendar?.dateByAddingComponents(component, toDate: _date, options: []))!
+    }
+    
+    public func AddHours(hours: Int) -> DateTime {
+        var date = self.copy()
+        date.AddMutatingHours(hours)
+        return date
+    }
+    
+    public mutating func AddMutatingMinutes(minutes: Int) {
+        let component = NSDateComponents()
+        component.minute = minutes
+        _date = (Components.calendar?.dateByAddingComponents(component, toDate: _date, options: []))!
+    }
+    
+    public func AddMinutes(minutes: Int) -> DateTime {
+        var date = self.copy()
+        date.AddMutatingMinutes(minutes)
+        return date
+    }
+    
+    public mutating func AddMutatingSeconds(seconds: Int) {
+        let component = NSDateComponents()
+        component.second = seconds
+        _date = (Components.calendar?.dateByAddingComponents(component, toDate: _date, options: []))!
+    }
+    
+    public func AddSeconds(seconds: Int) -> DateTime {
+        var date = self.copy()
+        date.AddMutatingSeconds(seconds)
+        return date
+    }
+    
+    public mutating func AddMutatingMilliseconds(milliseconds: Int) {
+        let component = NSDateComponents()
+        component.nanosecond = milliseconds * DateTime.NANOSECONDS_IN_MILLISECOND
+        _date = (Components.calendar?.dateByAddingComponents(component, toDate: _date, options: []))!
+    }
+    
+    public func AddMilliseconds(milliseconds: Int) -> DateTime {
+        var date = self.copy()
+        date.AddMutatingMilliseconds(milliseconds)
+        return date
+    }
+    
+    public mutating func AddMutatingInterval(interval: NSTimeInterval) {
+        self._date = self._date.dateByAddingTimeInterval(interval)
+    }
+    
+    public func AddInterval(interval: NSTimeInterval) -> DateTime {
+        var date = self.copy()
+        date.AddMutatingInterval(interval)
+        return date
+    }
+    
+    public func IsLeapYear() -> Bool {
+        let year = self.Year
+        return (( year % 100 != 0)) && (year % 4 == 0) || year % 400 == 0
+    }
+    
+    public func IsDaylightSavingTime() -> Bool {
+        let timeZone = DateTime.dateTimeKindToNSTimeZone(_kind)
+        return timeZone.isDaylightSavingTimeForDate(_date)
+    }
+    
+    public func Equals(dateTime: DateTime) -> Bool {
+        if (self.Interval == dateTime.Interval) {
+            return true
+        }
+        return false
+    }
+    
+    public static func Parse(dateString: String, format: String, kind: DateTimeKind = .Local, weekStarts: DayOfWeeks = .Sunday) -> DateTime? {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = format
+        if let nsDate = dateFormatter.dateFromString(dateString) {
+            return DateTime(nsdate: nsDate, kind: kind, weekStarts: weekStarts)
+        }
+        return nil
+    }
+    
+    public static func Parse(dateString: String, format: DateTimeFormat, kind: DateTimeKind = .Local, weekStarts: DayOfWeeks = .Sunday) -> DateTime? {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = format.rawValue
+        if let nsDate = dateFormatter.dateFromString(dateString) {
+            return DateTime(nsdate: nsDate, kind: kind, weekStarts: weekStarts)
+        }
+        return nil
+    }
+    
+    public func ToString(format: DateTimeFormat = .FULL) -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = format.rawValue
+        return dateFormatter.stringFromDate(_date)
+    }
+    
+    public func ToString(format: NSDateFormatterStyle) -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateStyle = format
+        return dateFormatter.stringFromDate(_date)
+    }
+    
+    public func ToString(format: String) -> String {
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.stringFromDate(_date)
+    }
+    
+    public func ToUtc() -> DateTime {
+        if self._kind == .Utc {
+            return self.copy()
+        } else {
+            return DateTime(nsdate: _date, kind: .Utc, weekStarts: _weekStarts)
+        }
+    }
+    
+    public func ToLocal() -> DateTime {
+        if self._kind == .Local {
+            return self.copy()
+        } else {
+            return DateTime(nsdate: _date, kind: .Local, weekStarts: _weekStarts)
+        }
+    }
 }
 
 //MARK: INTERNAL DATETIME CONSTANTS
@@ -407,3 +545,46 @@ internal extension NSDateComponents {
         return calendar.dateFromComponents(self)
     }
 }
+
+//MARK: ARITHMETICS OVERLOADS
+
+public func +(left: DateTime, right: TimeSpan) -> DateTime {
+    return DateTime(interval: left.Interval + right.Interval, kind: left.Kind, weekStarts: left.WeekStarts)
+}
+
+public func -(left: DateTime, right: TimeSpan) -> DateTime {
+    return DateTime(interval: left.Interval - right.Interval, kind: left.Kind, weekStarts: left.WeekStarts)
+}
+
+//MARK: EQUATABLE IMPLEMENTATION
+
+extension DateTime : Equatable {}
+
+public func ==(left: DateTime, right: DateTime) -> Bool {
+    return left.Equals(right)
+}
+
+public func !=(left: DateTime, right: DateTime) -> Bool {
+    return !left.Equals(right)
+}
+
+//MARK: COMPARABLE IMPLEMENTATION
+
+extension DateTime: Comparable {}
+
+public func <(left: DateTime, right: DateTime) -> Bool {
+    return (left.Interval < right.Interval)
+}
+
+public func >(left: DateTime, right: DateTime) -> Bool {
+    return (left.Interval > right.Interval)
+}
+
+public func <=(left: DateTime, right: DateTime) -> Bool {
+    return (left.Interval <= right.Interval)
+}
+
+public func >=(left: DateTime, right: DateTime) -> Bool {
+    return (left.Interval >= right.Interval)
+}
+

@@ -232,10 +232,180 @@ class Date_Tests: XCTestCase {
         
     }
     
+    func test_AddMutatingTimeSpan() {
+        var dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Local)
+        let ts = TimeSpan(days: 1, hours: 1)
+        dt.AddMutatingTimeSpan(ts)
+        XCTAssertEqual(dt.Year, 2001)
+        XCTAssertEqual(dt.Month, 12)
+        XCTAssertEqual(dt.Day, 6)
+        XCTAssertEqual(dt.Hour, 17)
+    }
+    
+    func test_AddTimeSpan() {
+        let dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Local)
+        let ts = TimeSpan(days: 1, hours: 1)
+        let dt2 = dt.AddTimeSpan(ts)
+        XCTAssertEqual(dt2.Year, 2001)
+        XCTAssertEqual(dt2.Month, 12)
+        XCTAssertEqual(dt2.Day, 6)
+        XCTAssertEqual(dt.Day, 5)
+        XCTAssertEqual(dt2.Hour, 17)
+        XCTAssertEqual(dt.Hour, 16)
+    }
+    
+    func test_AddMutatingDays() {
+        let interval = TimeSpan(days: 1).Interval
+        var dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        dt.AddMutatingDays(1)
+        XCTAssertEqual(originalInterval, dt.Interval - interval)
+        XCTAssertEqual(dt.Year, 2001)
+        XCTAssertEqual(dt.Month, 12)
+        XCTAssertEqual(dt.Day, 6)
+        XCTAssertEqual(dt.Hour, 16)
+        XCTAssertEqual(dt.Minute, 42)
+        XCTAssertEqual(dt.Second, 11)
+        XCTAssertEqual(dt.Millisecond, 500)
+    }
+    
+    func test_AddDays() {
+        let interval = TimeSpan(days: 1).Interval
+        let dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        let dt2 = dt.AddDays(1)
+        XCTAssertEqual(originalInterval, dt2.Interval - interval)
+        XCTAssertEqual(dt2.Year, 2001)
+        XCTAssertEqual(dt2.Month, 12)
+        XCTAssertEqual(dt2.Day, 6)
+        XCTAssertEqual(dt2.Hour, 16)
+        XCTAssertEqual(dt2.Minute, 42)
+        XCTAssertEqual(dt2.Second, 11)
+        XCTAssertEqual(dt2.Millisecond, 500)
+    }
+    
+    func test_AddMutatingHours() {
+        let interval = TimeSpan(hours: 1).Interval
+        var dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        dt.AddMutatingHours(1)
+        XCTAssertEqual(originalInterval, dt.Interval - interval)
+        XCTAssertEqual(dt.Year, 2001)
+        XCTAssertEqual(dt.Month, 12)
+        XCTAssertEqual(dt.Day, 5)
+        XCTAssertEqual(dt.Hour, 17)
+        XCTAssertEqual(dt.Minute, 42)
+        XCTAssertEqual(dt.Second, 11)
+        XCTAssertEqual(dt.Millisecond, 500)
+    }
+    
+    func test_AddHours() {
+        let interval = TimeSpan(hours: 1).Interval
+        let dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        let dt2 = dt.AddHours(1)
+        XCTAssertEqual(originalInterval, dt2.Interval - interval)
+        XCTAssertEqual(dt2.Year, 2001)
+        XCTAssertEqual(dt2.Month, 12)
+        XCTAssertEqual(dt2.Day, 5)
+        XCTAssertEqual(dt2.Hour, 17)
+        XCTAssertEqual(dt2.Minute, 42)
+        XCTAssertEqual(dt2.Second, 11)
+        XCTAssertEqual(dt2.Millisecond, 500)
+    }
+    
+    func test_AddMutatingMinutes() {
+        let interval = TimeSpan(minutes: 1).Interval
+        var dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        dt.AddMutatingMinutes(1)
+        XCTAssertEqual(originalInterval, dt.Interval - interval)
+        XCTAssertEqual(dt.Year, 2001)
+        XCTAssertEqual(dt.Month, 12)
+        XCTAssertEqual(dt.Day, 5)
+        XCTAssertEqual(dt.Hour, 16)
+        XCTAssertEqual(dt.Minute, 43)
+        XCTAssertEqual(dt.Second, 11)
+        XCTAssertEqual(dt.Millisecond, 500)
+    }
+    
+    func test_AddMinutes() {
+        let interval = TimeSpan(minutes: 1).Interval
+        let dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        let dt2 = dt.AddMinutes(1)
+        XCTAssertEqual(originalInterval, dt2.Interval - interval)
+        XCTAssertEqual(dt2.Year, 2001)
+        XCTAssertEqual(dt2.Month, 12)
+        XCTAssertEqual(dt2.Day, 5)
+        XCTAssertEqual(dt2.Hour, 16)
+        XCTAssertEqual(dt2.Minute, 43)
+        XCTAssertEqual(dt2.Second, 11)
+        XCTAssertEqual(dt2.Millisecond, 500)
+    }
+    
+    func test_AddMutatingSeconds() {
+        let interval = TimeSpan(seconds: 47).Interval
+        var dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        dt.AddMutatingSeconds(47)
+        XCTAssertEqual(originalInterval, dt.Interval - interval)
+        XCTAssertEqual(dt.Year, 2001)
+        XCTAssertEqual(dt.Month, 12)
+        XCTAssertEqual(dt.Day, 5)
+        XCTAssertEqual(dt.Hour, 16)
+        XCTAssertEqual(dt.Minute, 42)
+        XCTAssertEqual(dt.Second, 58)
+        XCTAssertEqual(dt.Millisecond, 500)
+    }
+    
+    func test_AddSeconds() {
+        let interval = TimeSpan(seconds: 47).Interval
+        let dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        let dt2 = dt.AddSeconds(47)
+        XCTAssertEqual(originalInterval, dt2.Interval - interval)
+        XCTAssertEqual(dt2.Year, 2001)
+        XCTAssertEqual(dt2.Month, 12)
+        XCTAssertEqual(dt2.Day, 5)
+        XCTAssertEqual(dt2.Hour, 16)
+        XCTAssertEqual(dt2.Minute, 42)
+        XCTAssertEqual(dt2.Second, 58)
+        XCTAssertEqual(dt2.Millisecond, 500)
+    }
+    
+    func test_AddMutatingMilliseconds() {
+        var dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        dt.AddMutatingMilliseconds(500)
+        XCTAssertEqual(originalInterval, dt.Interval - 0.5)
+        XCTAssertEqual(dt.Year, 2001)
+        XCTAssertEqual(dt.Month, 12)
+        XCTAssertEqual(dt.Day, 5)
+        XCTAssertEqual(dt.Hour, 16)
+        XCTAssertEqual(dt.Minute, 42)
+        XCTAssertEqual(dt.Second, 12)
+        XCTAssertEqual(dt.Millisecond, 0)
+    }
+    
+    func test_AddMilliseconds() {
+        let dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Utc)
+        let originalInterval = dt.Interval
+        let dt2 = dt.AddMilliseconds(500)
+        XCTAssertEqual(originalInterval, dt2.Interval - 0.5)
+        XCTAssertEqual(dt2.Year, 2001)
+        XCTAssertEqual(dt2.Month, 12)
+        XCTAssertEqual(dt2.Day, 5)
+        XCTAssertEqual(dt2.Hour, 16)
+        XCTAssertEqual(dt2.Minute, 42)
+        XCTAssertEqual(dt2.Second, 12)
+        XCTAssertEqual(dt2.Millisecond, 0)
+    }
+    
     func test_AddMutatingInterval() {
         var dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Local)
         let ts = TimeSpan(days: 1, hours: 1)
-        dt.AddMutatingInterval(ts)
+        dt.AddMutatingInterval(ts.Interval)
         XCTAssertEqual(dt.Year, 2001)
         XCTAssertEqual(dt.Month, 12)
         XCTAssertEqual(dt.Day, 6)
@@ -245,13 +415,135 @@ class Date_Tests: XCTestCase {
     func test_AddInterval() {
         let dt = DateTime(year: 2001, month: 12, day: 5, hour: 16, minute: 42, second: 11, millisecond: 500, kind: .Local)
         let ts = TimeSpan(days: 1, hours: 1)
-        let dt2 = dt.AddInterval(ts)
+        let dt2 = dt.AddInterval(ts.Interval)
+        XCTAssertEqual(dt.Interval, dt2.Interval - ts.Interval)
         XCTAssertEqual(dt2.Year, 2001)
         XCTAssertEqual(dt2.Month, 12)
         XCTAssertEqual(dt2.Day, 6)
         XCTAssertEqual(dt.Day, 5)
         XCTAssertEqual(dt2.Hour, 17)
         XCTAssertEqual(dt.Hour, 16)
+    }
+    
+    func test_IsLeapYear() {
+        let dt = DateTime(year: 2001, kind: .Utc)
+        XCTAssertEqual(dt.IsLeapYear(), false)
+        let dt2 = DateTime(year: 2008, kind: .Utc)
+        XCTAssertEqual(dt2.IsLeapYear(), true)
+    }
+    
+    func test_IsDaylightSavingTime() {
+        let dt = DateTime(year: 2015, month: 6, day: 12, kind: .Local)
+        XCTAssertEqual(dt.IsDaylightSavingTime(), true)
+        let dt2 = DateTime(year: 2015, month: 2, day: 12, kind: .Local)
+        XCTAssertEqual(dt2.IsDaylightSavingTime(), false)
+        let dt3 = DateTime(year: 2015, month: 6, day: 12, kind: .Utc)
+        XCTAssertEqual(dt3.IsDaylightSavingTime(), false)
+    }
+    
+    func test_Equals() {
+        let dt1 = DateTime(year: 2015, month: 6, day: 12, hour: 14, minute: 22, kind: .Local, weekStarts: .Monday)
+        let dt2 = DateTime(year: 2015, month: 6, day: 12, hour: 14, minute: 22, kind: .Local, weekStarts: .Monday)
+        let dt3 = DateTime(year: 2015, month: 6, day: 12, hour: 14, minute: 21, kind: .Local, weekStarts: .Monday)
+        let dt4 = DateTime(year: 2015, month: 6, day: 12, hour: 14, minute: 22, kind: .Utc, weekStarts: .Monday)
+        let dt5 = DateTime(year: 2015, month: 6, day: 12, hour: 13, minute: 22, kind: .Utc, weekStarts: .Monday)
+        XCTAssertTrue(dt1.Equals(dt2))
+        XCTAssertFalse(dt1.Equals(dt3))
+        XCTAssertTrue(dt1.Equals(dt5))
+        XCTAssertFalse(dt1.Equals(dt4))
+    }
+    
+    func test_ParseValid() {
+        let dt = DateTime.Parse("2015-12-08", format: "yyyy-MM-dd")
+        XCTAssertEqual(dt?.Year, 2015)
+        XCTAssertEqual(dt?.Month, 12)
+        XCTAssertEqual(dt?.Day, 8)
+    }
+    
+    func test_ParseInvalid() {
+        let dt = DateTime.Parse("sd", format: "yyyy-MM-dd")
+        XCTAssertNil(dt)
+    }
+    
+    func test_ParseValidUtc() {
+        let dt = DateTime.Parse("2015-12-08", format: "yyyy-MM-dd", kind: .Utc)
+        XCTAssertEqual(dt?.Year, 2015)
+        XCTAssertEqual(dt?.Month, 12)
+        XCTAssertEqual(dt?.Day, 8)
+        XCTAssertEqual(dt?.Kind, .Utc)
+    }
+    
+    func test_ParseValidLocal() {
+        let dt = DateTime.Parse("2015-12-08", format: "yyyy-MM-dd", kind: .Local)
+        XCTAssertEqual(dt?.Year, 2015)
+        XCTAssertEqual(dt?.Month, 12)
+        XCTAssertEqual(dt?.Day, 8)
+        XCTAssertEqual(dt?.Kind, .Local)
+    }
+    
+    func test_ParseValidSummerLocal() {
+        let dt = DateTime.Parse("2015-05-08", format: "yyyy-MM-dd", kind: .Local)
+        XCTAssertEqual(dt?.Year, 2015)
+        XCTAssertEqual(dt?.Month, 05)
+        XCTAssertEqual(dt?.Day, 8)
+        XCTAssertEqual(dt?.Kind, .Local)
+    }
+    
+    func test_ToString() {
+        let dt = DateTime(year: 1999, month: 12, day: 1, hour: 15, minute: 44, second: 23, millisecond: 500, kind: .Local, weekStarts: .Monday)
+        XCTAssertEqual(dt.ToString(.FULL), "1999-12-01 15:44:23.500")
+        XCTAssertEqual(dt.ToString(.LONG), "1999-12-01 15:44:23")
+        XCTAssertEqual(dt.ToString(.LongDate), "01. December, 1999.")
+        XCTAssertEqual(dt.ToString(.MediumDate), "01. Dec, 1999.")
+        XCTAssertEqual(dt.ToString(.MediumDateA), "Dec 01, 1999.")
+        XCTAssertEqual(dt.ToString(.MediumTime), "3:44:23p.m.")
+        XCTAssertEqual(dt.ToString(.MediumTimeM), "15:44:23")
+        XCTAssertEqual(dt.ToString(.ShortDate), "01/12/99")
+        XCTAssertEqual(dt.ToString(.ShortTime), "3:44p.m.")
+        XCTAssertEqual(dt.ToString(.ShortTimeM), "15:44")
+    }
+    
+    func test_ToStringDefault() {
+        let dt = DateTime(year: 1999, month: 12, day: 1, hour: 15, minute: 44, second: 23, millisecond: 500, kind: .Local, weekStarts: .Monday)
+        XCTAssertEqual(dt.ToString(), "1999-12-01 15:44:23.500")
+    }
+    
+    func test_ToStringCustom() {
+        let dt = DateTime(year: 1999, month: 12, day: 1, hour: 15, minute: 44, second: 23, millisecond: 500, kind: .Local, weekStarts: .Monday)
+        XCTAssertEqual(dt.ToString("EEE, yyyy/MM/dd hh:mm:ss zzz"), "Wed, 1999/12/01 03:44:23 GMT")
+    }
+    
+    func test_ToUtc() {
+        let local = DateTime(year: 2001, month: 05, day: 7, hour: 14, minute: 44, second: 23, kind: .Local, weekStarts: .Monday)
+        let utc = local.ToUtc()
+        XCTAssertEqual(local.Hour, utc.Hour + 1)
+    }
+    
+    func test_ToLocal() {
+        let utc = DateTime(year: 2001, month: 05, day: 7, hour: 14, minute: 44, second: 23, kind: .Utc, weekStarts: .Monday)
+        let local = utc.ToLocal()
+        XCTAssertEqual(utc.Hour, local.Hour - 1)
+    }
+    
+    func test_LocalToLocal() {
+        let local1 = DateTime(year: 2001, month: 05, day: 7, hour: 14, minute: 44, second: 23, kind: .Local, weekStarts: .Monday)
+        let local2 = local1.ToLocal()
+        XCTAssertEqual(local1.Hour, local2.Hour)
+    }
+    
+    func test_UtcTOUtc() {
+        let utc1 = DateTime(year: 2001, month: 05, day: 7, hour: 14, minute: 44, second: 23, kind: .Utc, weekStarts: .Monday)
+        let utc2 = utc1.ToUtc()
+        XCTAssertEqual(utc1.Hour, utc2.Hour)
+    }
+    
+    func test_Equatable() {
+        let utc = DateTime(year: 2001, month: 05, day: 7, hour: 14, minute: 44, second: 23, kind: .Utc, weekStarts: .Monday)
+        let local = DateTime(year: 2001, month: 05, day: 7, hour: 15, minute: 44, second: 23, kind: .Local, weekStarts: .Monday)
+        let local2 = DateTime(year: 2001, month: 05, day: 7, hour: 16, minute: 44, second: 23, kind: .Local, weekStarts: .Monday)
+        XCTAssertTrue(utc == local)
+        XCTAssertTrue(local != local2)
+        XCTAssertTrue(local2 > local)
     }
     
     func testPerformanceExample() {
