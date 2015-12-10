@@ -7,5 +7,5 @@
 //
 
 public enum DateTimeFormat: String {
-    case FULL = "yyyy-MM-dd HH:mm:ss.SSS", LONG = "yyyy-MM-dd HH:mm:ss", ShortDate = "dd/MM/yy", ShortTime = "h:mma", ShortTimeM = "HH:mm", MediumDate = "dd. MMM, yyyy.", MediumDateA = "MMM dd, yyyy.", MediumTime = "h:mm:ssa", MediumTimeM = "HH:mm:ss", LongDate = "dd. MMMM, yyyy."
+    case FULL = "yyyy-MM-dd HH:mm:ss.SSS", LONG = "yyyy-MM-dd HH:mm:ss", ShortDate = "dd/MM/yy", ShortTime = "h:mma", ShortTimeM = "HH:mm", MediumDate = "dd. MMM, yyyy.", MediumDateA = "MMM dd, yyyy.", MediumTime = "h:mm:ssa", MediumTimeM = "HH:mm:ss", LongDate = "dd. MMMM, yyyy.", ISO = "yyyy-MM-ddTHH:mm:ssZ"
 }
