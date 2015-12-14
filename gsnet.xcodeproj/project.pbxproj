@@ -41,6 +41,7 @@
 		4055FE941C006F1500A7D8FB /* DateTimeKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE931C006F1500A7D8FB /* DateTimeKind.swift */; };
 		4055FE961C00781000A7D8FB /* AritmOverloads.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE951C00781000A7D8FB /* AritmOverloads.swift */; };
 		4055FE991C050DE100A7D8FB /* NSDate_e.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4055FE981C050DE100A7D8FB /* NSDate_e.swift */; };
+		40A0C3A01C1F695B00FE5E0D /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40A0C39F1C1F695B00FE5E0D /* Timer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		4055FE951C00781000A7D8FB /* AritmOverloads.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AritmOverloads.swift; path = gsnet/aliases/AritmOverloads.swift; sourceTree = "<group>"; };
 		4055FE971C01FD1100A7D8FB /* gsnet.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = gsnet.playground; sourceTree = "<group>"; };
 		4055FE981C050DE100A7D8FB /* NSDate_e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSDate_e.swift; path = gsnet/extensions/NSDate_e.swift; sourceTree = "<group>"; };
+		40A0C39F1C1F695B00FE5E0D /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Timer.swift; path = gsnet/core/Timer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 		4055FE281BFFBB6800A7D8FB = {
 			isa = PBXGroup;
 			children = (
+				40A0C39E1C1F690300FE5E0D /* core */,
 				4055FE971C01FD1100A7D8FB /* gsnet.playground */,
 				4055FE831BFFDB3D00A7D8FB /* date */,
 				4055FE751BFFC6DD00A7D8FB /* numerics */,
@@ -253,6 +256,14 @@
 			name = date;
 			sourceTree = "<group>";
 		};
+		40A0C39E1C1F690300FE5E0D /* core */ = {
+			isa = PBXGroup;
+			children = (
+				40A0C39F1C1F695B00FE5E0D /* Timer.swift */,
+			);
+			name = core;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -384,6 +395,7 @@
 				4055FE5A1BFFBC5100A7D8FB /* ReadOnlyList.swift in Sources */,
 				4055FE681BFFBC6600A7D8FB /* int_e.swift in Sources */,
 				4055FE6D1BFFBC6600A7D8FB /* String_e.swift in Sources */,
+				40A0C3A01C1F695B00FE5E0D /* Timer.swift in Sources */,
 				4055FE891BFFDDAC00A7D8FB /* DayOfWeeks.swift in Sources */,
 				4055FE8B1BFFDE0D00A7D8FB /* DateTimeFormat.swift in Sources */,
 				4055FE851BFFDB8C00A7D8FB /* DateTime.swift in Sources */,
